@@ -169,7 +169,7 @@ export default function Interview() {
             <div className="flex items-center gap-4">
               <span className="font-bold text-lg text-slate-900 tracking-tight">Smart<span className="text-indigo-600">Interview</span></span>
               <span className="badge bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm hidden sm:inline-flex">
-                Open-Ended Adaptive Session
+                {session?.mode === 'syllabus' ? 'Syllabus Mode' : 'Open-Ended Adaptive Session'}
               </span>
             </div>
             <div className="flex items-center gap-6">
