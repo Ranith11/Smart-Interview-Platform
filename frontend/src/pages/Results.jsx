@@ -104,7 +104,7 @@ export default function Results() {
       {hasEvaluations && Object.keys(skill_performance).length > 0 && (
         <div className="card p-6 shadow-sm">
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-6">
-            <Target size={20} className="text-indigo-600" /> Skill Performance
+            <Target size={20} className="text-indigo-600" /> {session.mode === 'syllabus' ? 'Topic Performance' : 'Skill Performance'}
           </h2>
           <div className="space-y-4">
             {Object.entries(skill_performance).map(([skill, data]) => (

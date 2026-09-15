@@ -18,6 +18,10 @@ env/
 
 # OS
 .DS_Store
+
+# Syllabus RAG Database and Uploads
+backend/chroma_db/
+uploads/
 Thumbs.db
 
 # Environment / secrets

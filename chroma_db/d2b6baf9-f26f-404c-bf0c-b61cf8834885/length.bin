@@ -1,0 +1,5 @@
+
+allocation methods include contiguous, linked, and indexed allocation. Directory structures can be
+single-level, two-level, tree-structured, or acyclic graph. File permissions define read, write, and
+execute access for owner, group, and others. I/O management involves controlling hardware devices
+through device drivers. Disk scheduling algorithms include FCFS, SSTF (Shortest Seek Time First),ÿÿÿÿ
