@@ -1,0 +1,296 @@
+Difference Between Abstract Class and Interface in Java - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+Java Tutorial
+Advanced Java
+Interview Questions
+Exercises
+Examples
+Quizzes
+Projects
+Cheatsheet
+DSA in Java
+Java Collection
+Share Your Experiences
+Basics
+Introduction
+Variables
+Data Types
+Operators
+Decision Making
+Methods
+Arrays
+Strings
+OOP & Interface
+Introduction
+Constructors
+Encapsulation
+Inheritance
+Polymorphism
+Abstraction
+Interfaces
+Collections
+Collection class
+Collection Interface
+List Interface
+Set Interface
+Queue Interface
+Map Interface in Java
+Iterator
+Advance Java Concepts
+Exception handling
+Java Multithreading Tutorial
+Synchronization in Java
+File handling
+Method References
+Java 8 Stream Tutorial
+Memory Management
+Garbage Collection in Java
+Networking
+JDBC
+Practice Java
+Interview Questions
+Programs
+Practice Problems
+Quiz
+Project Ideas
+Courses
+Java Backend Development Course
+Placement 360 Course
+Summer SkillUp
+Explore
+Difference Between Abstract Class and Interface in Java
+Last Updated :
+16 May, 2026
+Abstract classes and interfaces are used in Java to achieve abstraction and design flexible applications. They define a structure that other classes must follow, helping in code reusability and maintainability. While both serve similar purposes, they differ in implementation and usage.
+Abstract class can have both abstract and normal methods, while interface mainly contains abstract methods.
+A class can extend only one abstract class, but can implement multiple interfaces.
+Abstract class can have constructors and variables, whereas interface contains only constants and no constructors.
+Depiction of Abstract class and  Interface
+Abstract Class
+An
+abstract class
+is a class that cannot be instantiated and is used as a base for other classes. It can contain both abstract (unimplemented) and concrete (implemented) methods.
+Supports both abstract and non-abstract methods.
+Allows constructors and instance variables.
+Java
+abstract
+class
+Shape
+{
+// Abstract method
+abstract
+double
+area
+();
+// Concrete method
+void
+display
+()
+{
+System
+.
+out
+.
+println
+(
+"This is a shape"
+);
+}
+}
+class
+Circle
+extends
+Shape
+{
+int
+radius
+=
+5
+;
+// Implementing abstract method
+@Override
+double
+area
+()
+{
+return
+3.14
+*
+radius
+*
+radius
+;
+}
+}
+public
+class
+Main
+{
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+{
+Shape
+shape
+=
+new
+Circle
+();
+// Upcasting
+shape
+.
+display
+();
+System
+.
+out
+.
+println
+(
+"Area of Circle: "
++
+shape
+.
+area
+());
+}
+}
+Output
+This is a shape
+Area of Circle: 78.5
+Explanation:
+Shape is an abstract class with an abstract method area() and a concrete method display(). Circle extends it and implements area(). Using Shape shape = new Circle(); shows upcasting, and calling shape.area() demonstrates runtime polymorphism.
+Interface
+An
+interface
+is a blueprint that defines a set of methods a class must implement. It focuses on behavior rather than implementation.
+All methods are abstract by default (except default/static methods in Java 8+).
+Supports multiple inheritance.
+Java
+// Interface
+interface
+Drawable
+{
+void
+draw
+();
+}
+// Implementation class
+class
+Rectangle
+implements
+Drawable
+{
+@Override
+public
+void
+draw
+()
+{
+System
+.
+out
+.
+println
+(
+"Drawing Rectangle"
+);
+}
+}
+// Main class
+public
+class
+Main
+{
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+{
+// Interface reference pointing to implementation object
+Drawable
+d
+=
+new
+Rectangle
+();
+d
+.
+draw
+();
+}
+}
+Output
+Drawing Rectangle
+Explanation:
+Drawable is an interface with method draw(). Rectangle implements it and defines the method. Drawable d = new Rectangle(); shows polymorphism, and d.draw() executes the Rectangle method at runtime.
+Abstract Class vs Interface
+Feature
+Abstract Class
+Interface
+Default Method Implementation
+Can have any number of fully defined methods
+Only default/static methods (Java 8+)
+Method Access Level
+Methods can be private, protected, or public
+Methods are public by default (private allowed from Java 9)
+Variable Initialization
+Variables can be initialized or uninitialized
+Variables must be initialized at declaration
+Object Behavior
+Can maintain state (instance variables)
+Cannot maintain state (only constants)
+Inheritance Type
+Supports single inheritance
+Supports multiple inheritance
+Implementation Keyword
+Extended using
+extends
+Implemented using
+implements
+Static Methods
+Can have static methods
+Can have static methods (Java 8+)
+Final Methods
+Can have final methods (cannot be overridden)
+Cannot have final methods
+Main Method
+Can have main method
+Can also have main method (Java 8+)
+Design Purpose
+For code reuse and base class design
+For defining contracts/behaviors
+Tight vs Loose Coupling
+Leads to tighter coupling
+Promotes loose coupling
+When to Use
+When classes are closely related
+When classes are unrelated but share behavior
+Method Overriding
+Optional (only abstract methods must be overridden)
+Mandatory to implement all abstract methods
+Performance
+Slightly better (less abstraction)
+Slightly more overhead
+Keywords Used
+abstract
+,
+extends
+interface
+,
+implements
+Comment

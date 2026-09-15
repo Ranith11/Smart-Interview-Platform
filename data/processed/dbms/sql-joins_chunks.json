@@ -1,0 +1,56 @@
+[
+  {
+    "chunk_id": "dbms_sql-joins_001",
+    "domain": "dbms",
+    "concept": "sql-joins",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/",
+    "text": "SQL Joins are used to combine data from two or more tables based on a related column. They help in:\nRetrieving connected data stored across multiple tables.\nMatching records using common columns.\nImproving data analysis by combining related information.\nCreating meaningful result sets from separate tables.\nTypes of SQL Joins\nSQL joins are categorized into different types based on how rows from two tables are matched and combined.\n1. INNER JOIN\nINNER JOIN\nis used to retrieve rows where matching values exist in both tables. It helps in:\nCombining records based on a related column.\nReturning only matching rows from both tables.\nExcluding non-matching data from the result set.\nEnsuring accurate data relationships between tables.\nSyntax:\nSELECT table1.column1,table1.column2,table2.column1,.... FROM table1 INNER JOIN\ntable2 ON table1.matching_column = table2.matching_column;\nInner join\nNote\n: We can also write JOIN instead of INNER JOIN. JOIN is same as INNER JOIN.\nExample of INNER JOIN:",
+    "token_count": 209
+  },
+  {
+    "chunk_id": "dbms_sql-joins_002",
+    "domain": "dbms",
+    "concept": "sql-joins",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/",
+    "text": "table2 ON table1.matching_column = table2.matching_column;\nInner join\nNote\n: We can also write JOIN instead of INNER JOIN. JOIN is same as INNER JOIN.\nExample of INNER JOIN:\nConsider the two tables, Student and StudentCourse, which share a common column ROLL_NO. Using SQL JOINS, we can combine data from these tables based on their relationship, allowing us to retrieve meaningful information like student details along with their enrolled courses.\nStudent Table:\nStudentCourse Table:\nThe following example demonstrates the working of the INNER JOIN clause. This query displays the names and ages of students enrolled in different courses.\nQuery:\nSELECT StudentCourse.COURSE_ID, Student.NAME, Student.AGE\nFROM Student\nINNER JOIN StudentCourse\nON Student.ROLL_NO = StudentCourse.ROLL_NO;\nOutput:\n2. LEFT JOIN\nLEFT JOIN\nis used to retrieve all rows from the left table and matching rows from the right table. It helps in:\nReturning all records from the left table.\nShowing matching data from the right table.",
+    "token_count": 211
+  },
+  {
+    "chunk_id": "dbms_sql-joins_003",
+    "domain": "dbms",
+    "concept": "sql-joins",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/",
+    "text": "LEFT JOIN\nis used to retrieve all rows from the left table and matching rows from the right table. It helps in:\nReturning all records from the left table.\nShowing matching data from the right table.\nDisplaying NULL values where no match exists in the right table.\nPerforming outer joins, also known as LEFT OUTER JOIN.\nSyntax:\nSELECT table1.column1,table1.column2,table2.column1,....\nFROM table1\nLEFT JOIN table2\nON table1.matching_column = table2.matching_column;\nLeft Join\nNote\n: We can also use LEFT OUTER JOIN instead of LEFT JOIN, both are the same.\nExample:\nIn this example, the LEFT JOIN retrieves all rows from the Student table and the matching rows from the StudentCourse table based on the ROLL_NO column.\nQuery:\nSELECT Student.NAME,StudentCourse.COURSE_ID\nFROM Student\nLEFT JOIN StudentCourse\nON StudentCourse.ROLL_NO = Student.ROLL_NO;\nOutput:\n3. RIGHT JOIN\nRIGHT JOIN\nis used to retrieve all rows from the right table and the matching rows from the left table. It helps in:",
+    "token_count": 229
+  },
+  {
+    "chunk_id": "dbms_sql-joins_004",
+    "domain": "dbms",
+    "concept": "sql-joins",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/",
+    "text": "ON StudentCourse.ROLL_NO = Student.ROLL_NO;\nOutput:\n3. RIGHT JOIN\nRIGHT JOIN\nis used to retrieve all rows from the right table and the matching rows from the left table. It helps in:\nReturning all records from the right-side table.\nShowing matching data from the left-side table.\nDisplaying NULL values where no match exists in the left table.\nPerforming outer joins, also known as RIGHT OUTER JOIN.\nSyntax:\nSELECT table1.column1,table1.column2,table2.column1,....\nFROM table1\nRIGHT JOIN table2\nON table1.matching_column = table2.matching_column;\nRight Join\nNote\n: We can also use RIGHT OUTER JOIN instead of RIGHT JOIN, both are the same\nExample:\nIn this example, the RIGHT JOIN retrieves all rows from the StudentCourse table and the matching rows from the Student table based on the ROLL_NO column.\nQuery:\nSELECT Student.NAME,StudentCourse.COURSE_ID\nFROM Student\nRIGHT JOIN StudentCourse\nON StudentCourse.ROLL_NO = Student.ROLL_NO;\nOutput:\n4. FULL JOIN\nFULL JOIN",
+    "token_count": 226
+  },
+  {
+    "chunk_id": "dbms_sql-joins_005",
+    "domain": "dbms",
+    "concept": "sql-joins",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/",
+    "text": "Query:\nSELECT Student.NAME,StudentCourse.COURSE_ID\nFROM Student\nRIGHT JOIN StudentCourse\nON StudentCourse.ROLL_NO = Student.ROLL_NO;\nOutput:\n4. FULL JOIN\nFULL JOIN\nis used to combine the results of both LEFT JOIN and RIGHT JOIN. It helps in:\nReturning all rows from both tables.\nShowing matching records from each table.\nDisplaying NULL values where no match exists in either table.\nProviding complete data from both sides of the join.\nSyntax:\nSELECT table1.column1,table1.column2,table2.column1,....\nFROM table1\nFULL JOIN table2\nON table1.matching_column = table2.matching_column;\nFull Join\nExample:\nThis example uses a FULL JOIN to return all rows from both tables. Matching records appear together, while non-matching records still show up with NULL values for the missing fields.\nQuery:\nSELECT Student.NAME,StudentCourse.COURSE_ID\nFROM Student\nFULL JOIN StudentCourse\nON StudentCourse.ROLL_NO = Student.ROLL_NO;\nOutput\n:\nNote:\nMySQL does not support\nFULL OUTER JOIN directly.",
+    "token_count": 225
+  },
+  {
+    "chunk_id": "dbms_sql-joins_006",
+    "domain": "dbms",
+    "concept": "sql-joins",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/",
+    "text": "Query:\nSELECT Student.NAME,StudentCourse.COURSE_ID\nFROM Student\nFULL JOIN StudentCourse\nON StudentCourse.ROLL_NO = Student.ROLL_NO;\nOutput\n:\nNote:\nMySQL does not support\nFULL OUTER JOIN directly.\nIt cab be simulated using UNION of LEFT JOIN and RIGHT JOIN.\n5. Natural Join\nA\nNatural Join\nis a type of INNER JOIN that automatically joins two tables based on columns with the same name and data type. It returns only the rows where the values in the common columns match.\nIt joins tables using common columns with the same name.\nIt returns only rows where values in those columns match.\nThe common column appears only once in the result.\nExample:\nEmployee Table\nDepartment Table\nExample:\nFind all Employees and their respective departments.\nSELECT\nEmp_name,\nDept_name\nFROM Employee\nNATURAL JOIN Department;\nOutput:",
+    "token_count": 175
+  }
+]

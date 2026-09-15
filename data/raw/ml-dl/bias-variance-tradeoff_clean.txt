@@ -1,0 +1,56 @@
+Bias and variance
+are two key concepts that explain the errors a machine learning model can make during prediction. A good model should not only perform well on training data but also generalize well to unseen data. Understanding these concepts helps determine whether a model is too simple or too complex.
+Bias:
+Error caused by overly simple assumptions in the model, which may lead to underfitting.
+Variance:
+Error caused by the model being too sensitive to training data, which may lead to overfitting.
+Goal:
+Balance bias and variance so the model captures patterns while still generalizing well to new data.
+Bias Variance Tradeoff
+The bias variance tradeoff describes the balance between a model being too simple and too complex. A simple model may miss important patterns (high bias), while a very complex model may learn noise from training data (high variance). The aim is to balance both so the model performs well on new data.
+Simple models usually have high bias and low variance, which may cause underfitting.
+Complex models usually have low bias but high variance, which may cause overfitting.
+Balanced model achieves an optimal point where both bias and variance are reasonably low.
+Goal of machine learning is to minimize the total prediction error on unseen data.
+The total prediction error can be expressed as:
+\rm{Total \;Error} = Bias^2 + Variance + \rm{Irreducible\; Error}
+Here:
+Bias²:
+Error caused by incorrect assumptions in the model.
+Variance:
+Error caused by sensitivity to training data.
+Irreducible Error:
+Random noise in the data that cannot be eliminated.
+Importance of Bias Variance Tradeoff
+Understanding the bias variance tradeoff helps in building better machine learning models.
+Helps models perform well on unseen data.
+Helps choose appropriate algorithms and complexity.
+Helps achieve better model performance.
+Methods to Manage Bias Variance Tradeoff
+Several techniques can help balance bias and variance in machine learning models so that the model performs well on unseen data.
+Cross Validation
+Cross validation
+is used to evaluate how well a model performs on different subsets of the dataset. It divides the dataset into multiple parts and trains the model on different combinations of these parts to ensure the model generalizes well. Some important aspects of cross validation include:
+Dataset is divided into multiple parts (folds).
+Model is trained and tested on different combinations of these folds.
+Helps select a model that performs consistently across different data subsets.
+Reduces the risk of the model performing well only on training data.
+Regularization
+Regularization
+controls model complexity by adding a penalty to the loss function. This prevents the model from fitting noise in the training data and helps improve generalization.
+Controls complexity by penalizING overly large model parameters
+Common methods include L1 (Lasso) and L2 (Ridge) regularization.
+Feature Selection
+Feature selection
+involves choosing the most relevant features for training the model. Removing unnecessary features simplifies the model and reduces variance.
+Removes irrelevant features.
+Improves performance by reducing overfitting and improves prediction accuracy.
+Ensemble Methods
+Ensemble methods
+combine predictions from multiple models to produce more stable and accurate results.
+Combines multiple models together to improve predictions.
+Examples are Bagging, Random Forest and Boosting.
+Adjusting Model Complexity
+Balancing model complexity is important to manage bias and variance. A model that is too simple may underfit, while a very complex model may overfit.
+Simpler models may lead to high bias.
+Complex models may lead to high variance.

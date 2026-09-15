@@ -1,0 +1,20 @@
+[
+  {
+    "chunk_id": "dsa_trie_001",
+    "domain": "dsa",
+    "concept": "trie",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/trie/",
+    "text": "Introduction\n\nTries are special trees (prefix trees) that make searching and storing strings more efficient. Tries have many practical applications, such as conducting searches and providing autocomplete. It is helpful to know these common applications so that you can easily identify when a problem can be efficiently solved using a trie.\nBe familiar with implementing from scratch, a\nTrie\nclass and its\nadd\n,\nremove\nand\nsearch\nmethods.\nTime complexity\n\nm\nis the length of the string used in the operation.\nOperation\nBig-O\nSearch\nO(m)\nInsert\nO(m)\nRemove\nO(m)\nCorner cases\n\nSearching for a string in an empty trie\nInserting empty strings into a trie\nTechniques\n\nSometimes preprocessing a dictionary of words (given in a list) into a trie, will improve the efficiency of searching for a word of length k, among n words. Searching becomes O(k) instead of O(n).\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nImplement Trie (Prefix Tree)\nRecommended practice questions",
+    "token_count": 216
+  },
+  {
+    "chunk_id": "dsa_trie_002",
+    "domain": "dsa",
+    "concept": "trie",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/trie/",
+    "text": "These are essential questions to practice if you're studying for this topic.\nImplement Trie (Prefix Tree)\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nAdd and Search Word\nWord Break\nWord Search II",
+    "token_count": 55
+  }
+]

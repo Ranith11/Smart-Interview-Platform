@@ -1,0 +1,56 @@
+[
+  {
+    "chunk_id": "oop_interfaces-abstract-classes_001",
+    "domain": "oop",
+    "concept": "interfaces-abstract-classes",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/",
+    "text": "Abstract classes and interfaces are used in Java to achieve abstraction and design flexible applications. They define a structure that other classes must follow, helping in code reusability and maintainability. While both serve similar purposes, they differ in implementation and usage.\nAbstract class can have both abstract and normal methods, while interface mainly contains abstract methods.\nA class can extend only one abstract class, but can implement multiple interfaces.\nAbstract class can have constructors and variables, whereas interface contains only constants and no constructors.\nDepiction of Abstract class and Interface\nAbstract Class\nAn\nabstract class\nis a class that cannot be instantiated and is used as a base for other classes. It can contain both abstract (unimplemented) and concrete (implemented) methods.\nSupports both abstract and non-abstract methods.\nAllows constructors and instance variables.\nJava\nabstract\nclass\nShape",
+    "token_count": 170
+  },
+  {
+    "chunk_id": "oop_interfaces-abstract-classes_002",
+    "domain": "oop",
+    "concept": "interfaces-abstract-classes",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/",
+    "text": "// Abstract method\nabstract\ndouble\narea\n();\n// Concrete method\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"This is a shape\"\n);\n\nclass\nCircle\nextends\nShape\n\nint\nradius\n=\n5\n;\n// Implementing abstract method\n@Override\ndouble\narea\n()\n\nreturn\n3.14\n*\nradius\n*\nradius\n;\n\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nShape\nshape\n=\nnew\nCircle\n();\n// Upcasting\nshape\n.\ndisplay\n();\nSystem\n.\nout\n.\nprintln\n(\n\"Area of Circle: \"\n+\nshape\n.\narea\n());",
+    "token_count": 140
+  },
+  {
+    "chunk_id": "oop_interfaces-abstract-classes_003",
+    "domain": "oop",
+    "concept": "interfaces-abstract-classes",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/",
+    "text": "public\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nShape\nshape\n=\nnew\nCircle\n();\n// Upcasting\nshape\n.\ndisplay\n();\nSystem\n.\nout\n.\nprintln\n(\n\"Area of Circle: \"\n+\nshape\n.\narea\n());\n\nOutput\nThis is a shape\nArea of Circle: 78.5\nExplanation:\nShape is an abstract class with an abstract method area() and a concrete method display(). Circle extends it and implements area(). Using Shape shape = new Circle(); shows upcasting, and calling shape.area() demonstrates runtime polymorphism.\nInterface\nAn\ninterface\nis a blueprint that defines a set of methods a class must implement. It focuses on behavior rather than implementation.\nAll methods are abstract by default (except default/static methods in Java 8+).\nSupports multiple inheritance.\nJava\n// Interface\ninterface\nDrawable\n\nvoid\ndraw\n();\n\n// Implementation class\nclass\nRectangle\nimplements\nDrawable\n\n@Override\npublic\nvoid\ndraw\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Drawing Rectangle\"\n);\n\n// Main class\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)",
+    "token_count": 250
+  },
+  {
+    "chunk_id": "oop_interfaces-abstract-classes_004",
+    "domain": "oop",
+    "concept": "interfaces-abstract-classes",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/",
+    "text": "@Override\npublic\nvoid\ndraw\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Drawing Rectangle\"\n);\n\n// Main class\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\n// Interface reference pointing to implementation object\nDrawable\nd\n=\nnew\nRectangle\n();\nd\n.\ndraw\n();",
+    "token_count": 72
+  },
+  {
+    "chunk_id": "oop_interfaces-abstract-classes_005",
+    "domain": "oop",
+    "concept": "interfaces-abstract-classes",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/",
+    "text": "Output\nDrawing Rectangle\nExplanation:\nDrawable is an interface with method draw(). Rectangle implements it and defines the method. Drawable d = new Rectangle(); shows polymorphism, and d.draw() executes the Rectangle method at runtime.\nAbstract Class vs Interface\nFeature\nAbstract Class\nInterface\nDefault Method Implementation\nCan have any number of fully defined methods\nOnly default/static methods (Java 8+)\nMethod Access Level\nMethods can be private, protected, or public\nMethods are public by default (private allowed from Java 9)\nVariable Initialization\nVariables can be initialized or uninitialized\nVariables must be initialized at declaration\nObject Behavior\nCan maintain state (instance variables)\nCannot maintain state (only constants)\nInheritance Type\nSupports single inheritance\nSupports multiple inheritance\nImplementation Keyword\nExtended using\nextends\nImplemented using\nimplements\nStatic Methods\nCan have static methods\nCan have static methods (Java 8+)\nFinal Methods",
+    "token_count": 187
+  },
+  {
+    "chunk_id": "oop_interfaces-abstract-classes_006",
+    "domain": "oop",
+    "concept": "interfaces-abstract-classes",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/",
+    "text": "Supports multiple inheritance\nImplementation Keyword\nExtended using\nextends\nImplemented using\nimplements\nStatic Methods\nCan have static methods\nCan have static methods (Java 8+)\nFinal Methods\nCan have final methods (cannot be overridden)\nCannot have final methods\nMain Method\nCan have main method\nCan also have main method (Java 8+)\nDesign Purpose\nFor code reuse and base class design\nFor defining contracts/behaviors\nTight vs Loose Coupling\nLeads to tighter coupling\nPromotes loose coupling\nWhen to Use\nWhen classes are closely related\nWhen classes are unrelated but share behavior\nMethod Overriding\nOptional (only abstract methods must be overridden)\nMandatory to implement all abstract methods\nPerformance\nSlightly better (less abstraction)\nSlightly more overhead\nKeywords Used\nabstract\n,\nextends\ninterface\n,\nimplements",
+    "token_count": 173
+  }
+]

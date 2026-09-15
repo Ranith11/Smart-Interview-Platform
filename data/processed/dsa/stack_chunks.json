@@ -1,0 +1,20 @@
+[
+  {
+    "chunk_id": "dsa_stack_001",
+    "domain": "dsa",
+    "concept": "stack",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/stack/",
+    "text": "Introduction\n\nA stack is an abstract data type that supports the operations\npush\n(insert a new element on the top of the stack) and\npop\n(remove and return the most recently added element, the element at the top of the stack). As an abstract data type, stacks can be implemented using arrays or singly linked lists.\nThis behavior is commonly called LIFO (last in, first out). The name \"stack\" for this type of structure comes from the analogy to a set of physical items stacked on top of each other.\nStacks are an important way of supporting nested or recursive function calls and is used to implement depth-first search. Depth-first search can be implemented using recursion or a manual stack.\nImplementations\n\nLanguage\nAPI\nC++\nstd::stack\nJava\njava.util.Stack\nPython\nSimulated using\nList\nJavaScript\nSimulated using\nArray\nTime complexity\n\nOperation\nBig-O\nTop/Peek\nO(1)\nPush\nO(1)\nPop\nO(1)\nisEmpty\nO(1)\nSearch\nO(n)\nCorner cases",
+    "token_count": 219
+  },
+  {
+    "chunk_id": "dsa_stack_002",
+    "domain": "dsa",
+    "concept": "stack",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/stack/",
+    "text": "Operation\nBig-O\nTop/Peek\nO(1)\nPush\nO(1)\nPop\nO(1)\nisEmpty\nO(1)\nSearch\nO(n)\nCorner cases\n\nEmpty stack. Popping from an empty stack\nStack with one item\nStack with two items\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nValid Parentheses\nImplement Queue using Stacks\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nImplement Stack using Queues\nMin Stack\nAsteroid Collision\nEvaluate Reverse Polish Notation\nBasic Calculator\nBasic Calculator II\nDaily Temperatures\nTrapping Rain Water\nLargest Rectangle in Histogram",
+    "token_count": 153
+  }
+]

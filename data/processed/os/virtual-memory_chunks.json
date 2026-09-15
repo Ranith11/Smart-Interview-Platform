@@ -1,0 +1,92 @@
+[
+  {
+    "chunk_id": "os_virtual-memory_001",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "Virtual memory is a memory management technique used by operating systems to give the appearance of a large, continuous block of memory to applications, even if the physical memory (RAM) is limited and not necessarily allocated in contiguous manner.\nA program doesn’t need to be fully loaded in memory to run. Only the needed parts are loaded.\nPrograms can be bigger than the physical memory available in the system.\nVirtual memory creates the illusion of a large memory, even if the actual memory (RAM) is small.\nIt uses both RAM and disk storage to manage memory, loading only parts of programs into RAM as needed.\nThis allows the system to run more programs at once and manage memory more efficiently.\nVirtual Memory\nHow Virtual Memory Works\nVirtual memory uses both hardware and software to manage memory.\nWhen a program runs, it uses virtual addresses (not real memory locations).\nThe computer system converts these virtual addresses into physical addresses (actual locations in RAM) while the program runs.",
+    "token_count": 192
+  },
+  {
+    "chunk_id": "os_virtual-memory_002",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "The computer system converts these virtual addresses into physical addresses (actual locations in RAM) while the program runs.\nTypes of Virtual Memory\nVirtual memory is managed by the Memory Management Unit (MMU), which is often built into the CPU. The CPU generates virtual addresses that the MMU translates into physical addresses. There are two main types of virtual memory:\nPaging\nSegmentation\n1. Paging\nPaging divides memory into small fixed-size blocks called pages. When the computer runs out of RAM, pages that aren't currently in use are moved to the hard drive, into an area called a swap file. Here,\nThe swap file acts as an extension of RAM.\nWhen a page is needed again, it is swapped back into RAM, a process known as page swapping.\nThis ensures that the operating system (OS) and applications have enough memory to run.\nPage Fault Service Time:\nThe time taken to service the page fault is called page fault service time. The page fault service time includes the time taken to perform all the above steps.",
+    "token_count": 208
+  },
+  {
+    "chunk_id": "os_virtual-memory_003",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "Page Fault Service Time:\nThe time taken to service the page fault is called page fault service time. The page fault service time includes the time taken to perform all the above steps.\nLet Main memory access time is:\nm\nPage fault service time is:\ns\nPage fault rate is :\np\nThen, Effective memory access time =\n(p*s) + (1-p)*m\nPage and Frame:\nPage is a fixed size block of data in virtual memory and a frame is a fixed size block of physical memory in RAM where these pages are loaded.\nThink of a page as a piece of a puzzle (virtual memory) While, a frame as the spot where it fits on the board (physical memory).\nWhen a program runs its pages are mapped to available frames so the program can run even if the program size is larger than physical memory.\n2. Segmentation\nSegmentation\ndivides virtual memory into segments of different sizes. Segments that aren't currently needed can be moved to the hard drive. Here,",
+    "token_count": 204
+  },
+  {
+    "chunk_id": "os_virtual-memory_004",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "2. Segmentation\nSegmentation\ndivides virtual memory into segments of different sizes. Segments that aren't currently needed can be moved to the hard drive. Here,\nThe system uses a segment table to keep track of each segment's status, including whether it's in memory, if it's been modified and its physical address.\nSegments are mapped into a process's address space only when needed.\nApplications of Virtual memory\nIncreased Effective Memory:\nIt enables a computer to have more memory than the physical memory using the disk space. This allows for the running of larger applications.\nMemory Isolation:\nVirtual memory allocates a unique address space to each process, such separation increases safety and reliability based on the fact that one process cannot interact with another.\nEfficient Memory Management:\nVirtual memory also helps in better utilization of the physical memories through methods that include paging and segmentation.\nSimplified Program Development:",
+    "token_count": 178
+  },
+  {
+    "chunk_id": "os_virtual-memory_005",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "Efficient Memory Management:\nVirtual memory also helps in better utilization of the physical memories through methods that include paging and segmentation.\nSimplified Program Development:\nFor case of programmers, they can program ‘as if’ there is one big block of memory and this makes the programming easier and more efficient in delivering more complex applications.\nManagement of Virtual Memory\nHere are 5 key points on how to manage virtual memory:\n1. Adjust the Page File Size\nAutomatic Management\n: All contemporary OS including Windows contain the auto-configuration option for the size of the empirical page file. But depending on the size of the RAM, they are set automatically, although the user can manually adjust the page file size if required.\nManual Configuration:\nFor tuned up users, the setting of the custom size can sometimes boost up the performance of the system. The initial size is usually advised to be set to the minimum value of 1.\n2. Place the Page File on a Fast Drive\nSSD Placement:",
+    "token_count": 196
+  },
+  {
+    "chunk_id": "os_virtual-memory_006",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "2. Place the Page File on a Fast Drive\nSSD Placement:\nIf this is feasible, the page file should be stored in the SSD instead of the HDD as a storage device. It has better read and write times and the virtual memory may prove beneficial in an SSD.\nSeparate Drive:\nRegarding systems having multiple drives involved, the page file needs to be placed on a different drive than the OS and that shall in turn improve its performance.\n3. Monitor and Optimize Usage\nPerformance Monitoring:\nEmploy the software tools used in monitoring the performance of the system in tracking the amounts of virtual memory.\nRegular Maintenance:\nMake sure there is no toolbar or other application running in the background, take time and uninstall all the tool bars to free virtual memory.\n4.\nKeep Virtual Memory Enabled\nEven with large RAM (e.g., 16GB+), virtual memory should generally remain enabled, as the OS relies on it for efficient memory management and system stability.\n5. Optimize System Settings\nSystem Configuration:",
+    "token_count": 202
+  },
+  {
+    "chunk_id": "os_virtual-memory_007",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "5. Optimize System Settings\nSystem Configuration:\nChange some general properties of the system concerning virtual memory efficiency. This also involves enabling additional control options in Windows.\nRegular Updates:\nEnsure that your drivers are run in their newest version because new releases contain some enhancements and issues regarding memory management.\nBenefits of Using Virtual Memory\nSupports Multiprogramming & Larger Programs :\nVirtual memory\nallows multiple processes to reside in memory at once by using demand paging. Even programs larger than physical memory can be executed efficiently.\nMaximizes Application Capacity :\nWith virtual memory, systems can run more applications simultaneously, including multiple large ones. It also allows only portions of programs to be loaded at a time, improving speed and reducing memory overhead.\nEliminates Physical Memory Limitations :\nThere's no immediate need to upgrade RAM as virtual memory compensates using disk space.\nBoosts Security & Isolation :",
+    "token_count": 185
+  },
+  {
+    "chunk_id": "os_virtual-memory_008",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "Eliminates Physical Memory Limitations :\nThere's no immediate need to upgrade RAM as virtual memory compensates using disk space.\nBoosts Security & Isolation :\nBy isolating the memory space for each process, virtual memory enhances system security. This prevents interference between applications and reduces the risk of data corruption or unauthorized access.\nImproves CPU & System Performance:\nVirtual memory helps the CPU by managing logical partitions and memory usage more effectively. It allows for cost-effective, flexible resource allocation, keeping CPU workloads optimized and ensuring smoother multitasking.\nEnhances Memory Management Efficiency :\nVirtual memory automates memory allocation, including moving data between RAM and disk without user intervention. It also avoids external fragmentation, using more of the available memory effectively and simplifying OS-level memory management.\nLimitation of Virtual Memory\nSlower Performance:",
+    "token_count": 178
+  },
+  {
+    "chunk_id": "os_virtual-memory_009",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "Limitation of Virtual Memory\nSlower Performance:\nVirtual memory can slow down the system, because it often needs to move data between RAM and the hard drive.\nRisk of Data Loss:\nThere is a higher risk of losing data if something goes wrong, like a power failure or hard disk crash, while the system is moving data between RAM and the disk.\nMore Complex System:\nManaging virtual memory makes the operating system more complex. It has to keep track of both real memory (RAM) and virtual memory and make sure everything is in the right place.\nRead more about -\nVirtual Memory Questions\nVirtual Memory vs Physical Memory\nFeature\nVirtual Memory\nPhysical Memory (RAM)\nDefinition\nAn abstraction that extends the available memory by using disk storage\nThe actual hardware (RAM) that stores data and instructions currently being used by the CPU\nLocation\nOn the hard drive or SSD\nOn the computer's motherboard\nSpeed\nSlower (due to disk I/O operations)\nFaster (accessed directly by the CPU)\nCapacity\nLarger, limited by disk space",
+    "token_count": 212
+  },
+  {
+    "chunk_id": "os_virtual-memory_010",
+    "domain": "os",
+    "concept": "virtual-memory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+    "text": "Location\nOn the hard drive or SSD\nOn the computer's motherboard\nSpeed\nSlower (due to disk I/O operations)\nFaster (accessed directly by the CPU)\nCapacity\nLarger, limited by disk space\nSmaller, limited by the amount of RAM installed\nCost\nLower (cost of additional disk storage)\nHigher (cost of RAM modules)\nData Access\nIndirect (via paging and swapping)\nDirect (CPU can access data directly)\nVolatility\nDepends on storage (disk is non-volatile, but data is managed temporarily)\nVolatile (data is lost when power is off)",
+    "token_count": 125
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "chunk_id": "system-design_consistent-hashing_001",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Consistent hashing is a technique used in distributed systems and load balancing to distribute data or requests across multiple servers efficiently. It reduces the amount of re-mapping (rehashing) needed when servers are added or removed, improving scalability and stability.\nServers and requests are mapped onto a virtual hash ring, where each request is assigned to the nearest server in the clockwise direction.\nWhen servers are added or removed, only a small portion of requests are redistributed, improving scalability and stability.\nExample:\nIn a caching system (like Redis cluster), if a new server is added, only some keys move to the new server instead of reassigning all keys, which improves performance and reduces downtime.\nConsistent Hashing\nNote:\nIn consistent hashing, a request is mapped to the first server encountered in the clockwise direction on the hash ring after hashing the request key.\nHow Requests Are Assigned to Servers",
+    "token_count": 176
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_002",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Note:\nIn consistent hashing, a request is mapped to the first server encountered in the clockwise direction on the hash ring after hashing the request key.\nHow Requests Are Assigned to Servers\nIn consistent hashing, both servers and requests are placed on a virtual ring using a hash function. For any incoming request, the system moves clockwise on the ring and assigns the request to the first server it encounters. This ensures a balanced and predictable distribution of requests.\nExample:\nImagine a hash ring with three servers placed at different positions: Node 1, Node 2, and Node 5. If a request is hashed to a position between Node 1 and Node 2, it will be handled by Node 2 (the next server in the clockwise direction). If Node 2 goes down, the same request will now be handled by Node 5, minimizing redistribution of other requests.\nMapping in the Hashing\nIssues with Traditional Hashing Methods\nHere are some key issues with traditional hashing methods explained in easy language:\nUneven Distribution of Data",
+    "token_count": 206
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_003",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Mapping in the Hashing\nIssues with Traditional Hashing Methods\nHere are some key issues with traditional hashing methods explained in easy language:\nUneven Distribution of Data\n: Data is not evenly spread across servers, causing some servers to be overloaded while others remain underutilized.\nScalability Problems\n: When servers are added or removed, most of the data needs to be rehashed and redistributed, leading to delays and inefficiency.\nInflexibility with Changing Servers\n: Traditional hashing does not adapt well to scaling up or down, requiring large-scale data movement.\nPoor Node Failure Handling\n: If a server fails, its data becomes unavailable until it is reassigned or the server recovers.\nHigh Rehashing Overhead\n: System changes require rehashing of most keys, increasing computational cost and system load.\nUses\nConsistent hashing is used to efficiently distribute data across servers with minimal re-mapping during changes.\nUsed in distributed caching systems to store and retrieve data efficiently.",
+    "token_count": 197
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_004",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Uses\nConsistent hashing is used to efficiently distribute data across servers with minimal re-mapping during changes.\nUsed in distributed caching systems to store and retrieve data efficiently.\nHelps in load balancing by evenly distributing requests across servers.\nSupports database sharding for better scalability and performance.\nImproves fault tolerance by limiting impact when a node fails.\nEnables easy scaling by adding or removing servers with minimal data movement.\nPhases/Working of Consistent Hashing\nThe following are the phases involved in the process of consistent hashing:\nPhase 1: Hash Function Selection\n: A deterministic hash function is chosen to map both keys and servers to positions on the ring.\nPhase 2: Node Assignment:\nServers are placed on a virtual ring, and each key is assigned to the nearest server in the clockwise direction.\nPhase 3: Key Replication",
+    "token_count": 168
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_005",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Phase 2: Node Assignment:\nServers are placed on a virtual ring, and each key is assigned to the nearest server in the clockwise direction.\nPhase 3: Key Replication\n: Data is replicated across multiple nodes to ensure availability in distributed systems. If one node fails, other nodes can still serve the data without interruption.\nPhase 4: Node Addition/Removal\n: When nodes are added or removed, some keys need to be reassigned to maintain balance. Consistent hashing ensures that only a small subset of keys are remapped. This minimizes disruption and improves system stability.\nPhase 5: Load balancing\n: Consistent hashing helps in distributing the load among the network's nodes. To keep the system balanced and effective when a node is overloaded, portions of its keys can be remapped to other nodes.\nPhase 6: Failure Recovery",
+    "token_count": 172
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_006",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Phase 6: Failure Recovery\n: If a node fails, the keys that are assigned to it can be remapped to other nodes in the network. This enables data to remain accurate and always available, even in the case of a node failure.\nExample\n: Let's say we have 5 nodes in the ring and say node 3 fails, then the range of the next server node widens and any request coming in all of this range, goes to the new server node. This shows that due to use of consistent hashing only a small portion of keys are affected.\nNode failure\nVirtual Nodes\nTo improve load distribution, each physical server is represented by multiple virtual nodes on the hash ring.\nPrevents uneven data distribution.\nImproves balancing when servers are limited.\nCommonly used in real-world systems. (e.g., distributed caches)\nImplementation of Consistent Hashing algorithm\nConsistent hashing distributes data across servers efficiently while minimizing data movement when nodes are added or removed.\nStep 1: Choose a Hash Function",
+    "token_count": 205
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_007",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Consistent hashing distributes data across servers efficiently while minimizing data movement when nodes are added or removed.\nStep 1: Choose a Hash Function\n: Select a hash function that produces a uniformly distributed range of hash values. Common choices include MD5, SHA-1, or SHA-256.\nStep 2: Define the Hash Ring\n: Represent the range of hash values as a ring. This ring should cover the entire possible range of hash values and be evenly distributed.\nStep 3: Assign Nodes to the Ring\n: Each server is hashed and placed on the ring at a specific position based on its hash value.\nStep 4: Key Mapping:\nEach key is hashed and mapped onto the ring, then assigned to the nearest server in the clockwise direction.\nStep 5: Node Addition\n: When a new node is added, it is placed on the ring, and only a small set of nearby keys are reassigned to it.\nStep 6: Node Removal\n: When a node is removed, its keys are reassigned to the next available node on the ring, ensuring minimal disruption.\nStep 7: Load Balancing",
+    "token_count": 227
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_008",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Step 6: Node Removal\n: When a node is removed, its keys are reassigned to the next available node on the ring, ensuring minimal disruption.\nStep 7: Load Balancing\n: The system monitors node load and redistributes keys if needed to maintain an even distribution.\nImplementation\nC++\n#include\n<bits/stdc++.h>\nusing\nnamespace\nstd\n;\nclass\nConsistentHashRing",
+    "token_count": 82
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_009",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "private\n:\nmap\n<\nint\n,\nstring\n>\nring\n;\nset\n<\nint\n>\nsorted_keys\n;\nint\nreplicas\n;\nint\nget_hash\n(\nconst\nstring\n\nvalue\n)\n\nhash\n<\nstring\n>\nhash_function\n;\nreturn\nhash_function\n(\nvalue\n);\n\npublic\n:\nConsistentHashRing\n(\nint\nreplicas\n=\n3\n)\n:\nreplicas\n(\nreplicas\n)\n{}\n// Function to add Node in the ring\nvoid\nadd_node\n(\nconst\nstring\n\nnode\n)\n\nfor\n(\nint\ni\n=\n0\n;\ni\n<\nreplicas\n;\n++\ni\n)\n\nint\nreplica_key\n=\nget_hash\n(\nnode\n+\n\"_\"\n+\nto_string\n(\ni\n));\nring\n[\nreplica_key\n]\n=\nnode\n;\nsorted_keys\n.\ninsert\n(\nreplica_key\n);\n\n// Function to remove Node from the ring\nvoid\nremove_node\n(\nconst\nstring\n\nnode\n)\n\nfor\n(\nint\ni\n=\n0\n;\ni\n<\nreplicas\n;\n++\ni\n)\n\nint\nreplica_key\n=\nget_hash\n(\nnode\n+\n\"_\"\n+\nto_string\n(\ni\n));\nring\n.\nerase\n(\nreplica_key\n);\nsorted_keys\n.\nerase\n(\nreplica_key\n);\n\nstring\nget_node\n(\nconst\nstring\n\nkey\n)\n\nif\n(\nring\n.\nempty\n())\n\nreturn\n\"\"\n;\n\nint\nhash_value\n=\nget_hash\n(\nkey\n);\nauto\nit\n=\nsorted_keys\n.\nlower_bound\n(\nhash_value\n);\nif\n(\nit\n==\nsorted_keys\n.\nend\n())\n\n// Wrap around to the beginning of the ring\nit\n=\nsorted_keys\n.\nbegin\n();",
+    "token_count": 363
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_010",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "int\nhash_value\n=\nget_hash\n(\nkey\n);\nauto\nit\n=\nsorted_keys\n.\nlower_bound\n(\nhash_value\n);\nif\n(\nit\n==\nsorted_keys\n.\nend\n())\n\n// Wrap around to the beginning of the ring\nit\n=\nsorted_keys\n.\nbegin\n();\n\nreturn\nring\n[\n*\nit\n];\n\n};\nint\nmain\n()\n\nConsistentHashRing\nhash_ring\n;\n// Add nodes to the ring\nhash_ring\n.\nadd_node\n(\n\"Node_A\"\n);\nhash_ring\n.\nadd_node\n(\n\"Node_B\"\n);\nhash_ring\n.\nadd_node\n(\n\"Node_C\"\n);\n// Get the node for a key\nstring\nkey\n=\n\"first_key\"\n;\nstring\nnode\n=\nhash_ring\n.\nget_node\n(\nkey\n);\ncout\n<<\n\"The key '\"\n<<\nkey\n<<\n\"' is mapped to node: \"\n<<\nnode\n<<\nendl\n;\nreturn\n0\n;\n\nJava\nimport\njava.util.*\n;\nimport\njava.util.stream.*\n;\nclass\nConsistentHashRing\n\nprivate\nMap\n<\nInteger\n,\nString\n>\nring\n=\nnew\nHashMap\n<>\n();\nprivate\nTreeSet\n<\nInteger\n>\nsortedKeys\n=\nnew\nTreeSet\n<>\n();\nprivate\nint\nreplicas\n;\nprivate\nint\ngetHash\n(\nString\nvalue\n)\n\nreturn\nvalue\n.\nhashCode\n();\n\npublic\nConsistentHashRing\n(\nint\nreplicas\n)\n\nthis\n.\nreplicas\n=\nreplicas\n;\n\npublic\nvoid\naddNode\n(\nString\nnode\n)\n\nfor\n(\nint\ni\n=\n0\n;\ni\n<\nreplicas\n;\n++\ni\n)",
+    "token_count": 353
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_011",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "return\nvalue\n.\nhashCode\n();\n\npublic\nConsistentHashRing\n(\nint\nreplicas\n)\n\nthis\n.\nreplicas\n=\nreplicas\n;\n\npublic\nvoid\naddNode\n(\nString\nnode\n)\n\nfor\n(\nint\ni\n=\n0\n;\ni\n<\nreplicas\n;\n++\ni\n)\n\nint\nreplicaKey\n=\ngetHash\n(\nnode\n+\n\"_\"\n+\ni\n);\nring\n.\nput\n(\nreplicaKey\n,\nnode\n);\nsortedKeys\n.\nadd\n(\nreplicaKey\n);\n\npublic\nvoid\nremoveNode\n(\nString\nnode\n)\n\nfor\n(\nint\ni\n=\n0\n;\ni\n<\nreplicas\n;\n++\ni\n)\n\nint\nreplicaKey\n=\ngetHash\n(\nnode\n+\n\"_\"\n+\ni\n);\nring\n.\nremove\n(\nreplicaKey\n);\nsortedKeys\n.\nremove\n(\nreplicaKey\n);\n\npublic\nString\ngetNode\n(\nString\nkey\n)\n\nif\n(\nring\n.\nisEmpty\n())\n\nreturn\n\"\"\n;\n\nint\nhashValue\n=\ngetHash\n(\nkey\n);\nInteger\nit\n=\nsortedKeys\n.\nceiling\n(\nhashValue\n);\nif\n(\nit\n==\nnull\n)\n\nit\n=\nsortedKeys\n.\nfirst\n();\n\nreturn\nring\n.\nget\n(\nit\n);\n\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)",
+    "token_count": 298
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_012",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "it\n=\nsortedKeys\n.\nfirst\n();\n\nreturn\nring\n.\nget\n(\nit\n);\n\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nConsistentHashRing\nhashRing\n=\nnew\nConsistentHashRing\n(\n3\n);\nhashRing\n.\naddNode\n(\n\"Node_A\"\n);\nhashRing\n.\naddNode\n(\n\"Node_B\"\n);\nhashRing\n.\naddNode\n(\n\"Node_C\"\n);\nString\nkey\n=\n\"first_key\"\n;\nString\nnode\n=\nhashRing\n.\ngetNode\n(\nkey\n);\nSystem\n.\nout\n.\nprintln\n(\n\"The key '\"\n+\nkey\n+\n\"' is mapped to node: \"\n+\nnode\n);",
+    "token_count": 154
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_013",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Python\nfrom\nhashlib\nimport\nmd5\nfrom\nbisect\nimport\nbisect\nclass\nConsistentHashRing\n:\ndef\n__init__\n(\nself\n,\nreplicas\n):\nself\n.\nring\n=\n{}\nself\n.\nsorted_keys\n=\n[]\nself\n.\nreplicas\n=\nreplicas\ndef\nget_hash\n(\nself\n,\nvalue\n):\nreturn\nint\n(\nmd5\n(\nvalue\n.\nencode\n())\n.\nhexdigest\n(),\n16\n)\ndef\nadd_node\n(\nself\n,\nnode\n):\nfor\ni\nin\nrange\n(\nself\n.\nreplicas\n):\nreplica_key\n=\nself\n.\nget_hash\n(\nnode\n+\n\"_\"\n+\nstr\n(\ni\n))\nself\n.\nring\n[\nreplica_key\n]\n=\nnode\nbisect\n(\nself\n.\nsorted_keys\n,\nreplica_key\n)\ndef\nremove_node\n(\nself\n,\nnode\n):\nfor\ni\nin\nrange\n(\nself\n.\nreplicas\n):\nreplica_key\n=\nself\n.\nget_hash\n(\nnode\n+\n\"_\"\n+\nstr\n(\ni\n))\ndel\nself\n.\nring\n[\nreplica_key\n]\nself\n.\nsorted_keys\n.\nremove\n(\nreplica_key\n)\ndef\nget_node\n(\nself\n,\nkey\n):\nif\nnot\nself\n.\nring\n:\nreturn\n\"\"\nhash_value\n=\nself\n.\nget_hash\n(\nkey\n)\nidx\n=\nbisect\n(\nself\n.\nsorted_keys\n,\nhash_value\n)",
+    "token_count": 321
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_014",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "len\n(\nself\n.\nsorted_keys\n)\nreturn\nself\n.\nring\n[\nself\n.\nsorted_keys\n[\nidx\n]]\nif\n__name__\n==\n\"__main__\"\n:\nhash_ring\n=\nConsistentHashRing\n(\n3\n)\nhash_ring\n.\nadd_node\n(\n\"Node_A\"\n)\nhash_ring\n.\nadd_node\n(\n\"Node_B\"\n)\nhash_ring\n.\nadd_node\n(\n\"Node_C\"\n)\nkey\n=\n\"first_key\"\nnode\n=\nhash_ring\n.\nget_node\n(\nkey\n)\nprint\n(\nf\n'The key '\n\nkey\n\n' is mapped to node:\n{node}",
+    "token_count": 133
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_015",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": ")\nOutput\nThe key 'first_key' is mapped to node: Node_C\nNote:\nThis example uses a simple hash function and a binary search to find the position on the ring.\nAdvantages\nConsistent hashing provides efficient data distribution and improves system scalability and reliability in distributed environments.\nLoad Balancing:\nDistributes workload across nodes to keep the system efficient and responsive as data grows.\nScalability:\nAdapts easily to changes in nodes or data volume with little impact on performance.\nFailure Tolerance:\nEnsures data remains available by redistributing keys when a node fails.\nSimplified Operations:\nMakes it easier to add or remove nodes and manage large distributed systems.\nDisadvantages\nDespite its benefits, consistent hashing introduces complexity and may have some performance overhead in certain scenarios.\nHash Function Complexity:\nRequires a good deterministic hash function; poor choice can affect distribution and system efficiency.\nPerformance Cost:",
+    "token_count": 181
+  },
+  {
+    "chunk_id": "system-design_consistent-hashing_016",
+    "domain": "system-design",
+    "concept": "consistent-hashing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/consistent-hashing/",
+    "text": "Hash Function Complexity:\nRequires a good deterministic hash function; poor choice can affect distribution and system efficiency.\nPerformance Cost:\nMapping, replication, and remapping of keys can introduce additional computational overhead.\nLack of Flexibility:\nMay not adapt easily to changing system requirements or dynamic network conditions.\nHigh Resource Use:\nAdding or removing nodes can sometimes increase resource usage and affect performance.",
+    "token_count": 74
+  }
+]

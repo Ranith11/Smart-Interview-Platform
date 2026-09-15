@@ -1,0 +1,92 @@
+[
+  {
+    "chunk_id": "oop_polymorphism_001",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "The word polymorphism means having many forms. In C++, polymorphism concept can be applied to functions and operators. A single function name can work differently in different situations. Similarly, an operator works different when used in different context.\nSame function or operator can behave differently depending on the context or object it is used with.\nAchieved through function overloading and function overriding, improving code reusability and flexibility.\nTypes of Polymorphism\nIn C++, polymorphism is mainly divided into two types\nCompile-Time Polymorphism:\nThe function or operator is decided at the time of compilation based on how it is called.\nRun-Time Polymorphism:\nThe function is decided while the program is running based on the object being used.\nTypes of Polymorphism\nCompile-Time Polymorphism\nCompile-time polymorphism is also known as static polymorphism or early binding. In this type of polymorphism, the compiler decides which function or operator to call during compilation. It is achieved using:",
+    "token_count": 197
+  },
+  {
+    "chunk_id": "oop_polymorphism_002",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "1. Function Overloading\nFunction Overloading\nallows multiple functions to have the same name but different parameters. The difference can be in:\nNumber of parameters\nType of parameters\nExplanation:\nAn add() function is used to perform addition of two numbers, and it works differently for integers and floating-point values. The compiler selects the correct function based on the arguments passed during the function call.\nC++\n#include\n<bits/stdc++.h>\nusing\nnamespace\nstd\n;\nclass\nGeeks",
+    "token_count": 98
+  },
+  {
+    "chunk_id": "oop_polymorphism_003",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "public\n:\n// Function to add two integers\nvoid\nadd\n(\nint\na\n,\nint\nb\n)\n\ncout\n<<\n\"Integer Sum = \"\n<<\na\n+\nb\n<<\nendl\n;\n\n// Function to add two floating point values\nvoid\nadd\n(\ndouble\na\n,\ndouble\nb\n)\n\ncout\n<<\n\"Float Sum = \"\n<<\na\n+\nb\n<<\nendl\n;\n\n};\nint\nmain\n()\n\nGeeks\ngfg\n;\n// add() called with int values\ngfg\n.\nadd\n(\n10\n,\n2\n);\n// add() called with double value\ngfg\n.\nadd\n(\n5.3\n,\n6.2\n);\nreturn\n0\n;",
+    "token_count": 155
+  },
+  {
+    "chunk_id": "oop_polymorphism_004",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "Output\nInteger Sum = 12\nFloat Sum = 11.5\nThe class Geeks contains two overloaded functions named add(), one for integers and one for double values.\nWhen add(10, 2) is called, the integer version is executed; when add(5.3, 6.2) is called, the double version is executed.\nThe compiler decides which function to call at compile time based on the argument types, demonstrating function overloading.\n2. Operator Overloading\nOperator overloading\nallows operators like +, -, and * to work with user-defined data types such as classes. It lets us define how an operator should behave when used with custom objects.\nFor example:\nThe + operator adds two integers.\nThe same + operator can concatenate two strings.\nWe can also define how + should behave for custom classes.\nThis makes code more readable and natural.\nNote:\nMost operators in C++ can be overloaded, but operators such as ::, ., .*, ?:, and sizeof cannot be overloaded because they are essential to the core functionality of the language.\nExample:\nA\nComplex",
+    "token_count": 223
+  },
+  {
+    "chunk_id": "oop_polymorphism_005",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "Most operators in C++ can be overloaded, but operators such as ::, ., .*, ?:, and sizeof cannot be overloaded because they are essential to the core functionality of the language.\nExample:\nA\nComplex\nnumber class is used to represent numbers having real and imaginary parts. The\n+\noperator is overloaded to add two complex numbers directly.\nCPP\n#include\n<iostream>\nusing\nnamespace\nstd\n;\nclass\nComplex",
+    "token_count": 86
+  },
+  {
+    "chunk_id": "oop_polymorphism_006",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "public\n:\nint\nreal\n,\nimag\n;\nComplex\n(\nint\nr\n,\nint\ni\n)\n:\nreal\n(\nr\n),\nimag\n(\ni\n)\n{}\n// Overloading the '+' operator\nComplex\noperator\n+\n(\nconst\nComplex\n\nobj\n)\n\nreturn\nComplex\n(\nreal\n+\nobj\n.\nreal\n,\nimag\n+\nobj\n.\nimag\n);\n\n};\nint\nmain\n()\n\nComplex\nc1\n(\n10\n,\n5\n),\nc2\n(\n2\n,\n4\n);\n// Adding c1 and c2 using + operator\nComplex\nc3\n=\nc1\n+\nc2\n;\ncout\n<<\nc3\n.\nreal\n<<\n\" + i\"\n<<\nc3\n.\nimag\n;\nreturn\n0\n;",
+    "token_count": 164
+  },
+  {
+    "chunk_id": "oop_polymorphism_007",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "Output\n12 + i9\nThe class Complex stores real and imaginary parts and defines an overloaded + operator to add two Complex objects.\nWhen c1 + c2 is used, the overloaded + function is automatically called and adds both real and imaginary values separately.\nThe result is stored in c3, which represents the sum of the two complex numbers and is then printed.\n2. Runtime Polymorphism\nRuntime polymorphism is also known as dynamic polymorphism or late binding. In this type, the function call is resolved during program execution instead of compilation. It is achieved using:\nReal-Life Illustration of Polymorphism\nDifferent animals represent polymorphism, where the same method speak() produces different outputs such as Bark, Meow, and Moo depending on the object calling the method.\nPolymorphism\nIn above Diagram:\nA Dog object says Bark\nA Cat object says Meow\nA Cow object says Moo\nEven though all animals use the same function name speak(), the behavior changes according to the object.\n1. Function Overriding",
+    "token_count": 208
+  },
+  {
+    "chunk_id": "oop_polymorphism_008",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "A Dog object says Bark\nA Cat object says Meow\nA Cow object says Moo\nEven though all animals use the same function name speak(), the behavior changes according to the object.\n1. Function Overriding\nFunction Overriding\noccurs when a derived class defines one or more member functions of the base class. That base function is said to be overridden. The base class function must be declared as\nvirtual function\nfor runtime polymorphism to happen.\nExample:\nA base class pointer is used to point to a derived class object. The\ndisplay()\nfunction is overridden in the derived class to demonstrate runtime polymorphism using a virtual function.\nC++\n#include\n<bits/stdc++.h>\nusing\nnamespace\nstd\n;\nclass\nBase",
+    "token_count": 149
+  },
+  {
+    "chunk_id": "oop_polymorphism_009",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "public\n:\n// Virtual function\nvirtual\nvoid\ndisplay\n()\n\ncout\n<<\n\"Base class function\"\n;\n\n};\nclass\nDerived\n:\npublic\nBase\n\npublic\n:\n// Overriding the base class function\nvoid\ndisplay\n()\noverride\n\ncout\n<<\n\"Derived class function\"\n;\n\n};\nint\nmain\n()\n\n// Creating a pointer of type Base\nBase\n*\nbasePtr\n;\n// Creating an object of Derived class\nDerived\nderivedObj\n;\n// Pointing base class pointer to\n// derived class object\nbasePtr\n=\n\nderivedObj\n;\n// Calling the display function\n// using base class pointer\nbasePtr\n->\ndisplay\n();\nreturn\n0\n;",
+    "token_count": 142
+  },
+  {
+    "chunk_id": "oop_polymorphism_010",
+    "domain": "oop",
+    "concept": "polymorphism",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/polymorphism-in-c/",
+    "text": "derivedObj\n;\n// Calling the display function\n// using base class pointer\nbasePtr\n->\ndisplay\n();\nreturn\n0\n;\n\nOutput\nDerived class function\nA virtual function display() is defined in the base class and is overridden in the derived class.\nA base class pointer is used to point to a derived class object.\nWhen display() is called using the base pointer, the derived class version is executed at runtime due to dynamic binding.\nRuntime Vs Compiler Time Polymorphism\nThe major\ndifference between the compile-time and runtime polymorphism\nis:\nCompile Time Polymorphism\nRun time Polymorphism\nAlso called static binding\nAlso called dynamic binding\nAchieved using function overloading and operator overloading\nAchieved using virtual functions and function overriding\nDecision made by the compiler at compile time\nDecision made at runtime using vtables\nFaster due to early binding\nMore flexible but slightly slower",
+    "token_count": 184
+  }
+]

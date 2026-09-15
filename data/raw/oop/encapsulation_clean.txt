@@ -1,0 +1,145 @@
+Encapsulation is one of the fundamental concepts of Object-Oriented Programming (OOP) that combines data and member functions into a single class while restricting direct access to the data.
+Provides controlled access to object data through member functions.
+Improves code security, modularity, and maintainability.
+Implementing Encapsulation in C++
+A common way to implement encapsulation is by declaring data members as private and providing public getter and setter functions.
+Declare data members as private.
+Use getter functions to read data.
+Use setter functions to modify data after validation.
+C++
+#include
+<iostream>
+#include
+<string>
+using
+namespace
+std
+;
+class
+Programmer
+
+private
+:
+string
+name
+;
+public
+:
+// Getter
+string
+getName
+()
+
+return
+name
+;
+
+// Setter
+void
+setName
+(
+string
+newName
+)
+
+name
+=
+newName
+;
+
+};
+int
+main
+()
+
+Programmer
+p
+;
+p
+.
+setName
+(
+"Geek"
+);
+cout
+<<
+"Name = "
+<<
+p
+.
+getName
+();
+return
+0
+;
+
+Output
+Name = Geek
+Explanation:
+The data member name is private, so it cannot be accessed directly from outside the class. Instead, the setName() function updates its value and the getName() function returns it, ensuring controlled access to the object's data.
+Getters and Setters
+Getter and setter
+functions provide controlled access to private data members.
+Getter returns the value of a private member.
+Setter modifies the value of a private member.
+Setter functions can validate input before updating the data.
+C++
+void
+setAge
+(
+int
+age
+)
+
+if
+(
+age
+>=
+0
+)
+this
+->
+age
+=
+age
+;
+
+Here, invalid values are rejected before updating the object's state.
+Advantages of Encapsulation
+Encapsulation improves the design, safety, and maintainability of C++ programs.
+Prevents unauthorized access to object data.
+Allows validation before modifying data.
+Hides implementation details from users of the class.
+Improves code maintainability and modularity.
+Makes classes easier to reuse.
+Data Hiding vs Encapsulation
+Although the terms are often used together, they are not the same.
+Aspect
+Data Hiding
+Encapsulation
+Definition
+Restricting direct access to data.
+Wrapping data and methods into a single unit.
+Purpose
+Protect object data.
+Organize code and provide controlled access to data.
+Focus
+Security of data.
+Object design and maintainability.
+Achieved Using
+Access specifiers such as private and protected.
+Classes, methods, and access specifiers.
+Relationship
+Data hiding is a part of encapsulation.
+Encapsulation often uses data hiding to protect data.
+Best Practices
+Following good encapsulation practices makes classes more reliable and easier to maintain.
+Keep data members private whenever possible.
+Expose only the required operations through public member functions.
+Validate data inside setter functions.
+Avoid providing setters for values that should remain constant (such as IDs).
+Limitations of Encapsulation
+Although encapsulation is recommended in most cases, there are situations where it may not be the best choice.
+Additional getter and setter functions may increase code size.
+Function calls may introduce a small performance overhead in performance-critical code.
+Some applications may require direct data access for maximum flexibility.

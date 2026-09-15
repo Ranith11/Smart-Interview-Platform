@@ -1,0 +1,65 @@
+[
+  {
+    "chunk_id": "dsa_linked-list_001",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "Introduction\n\nLike arrays, a linked list is used to represent sequential data. It is a linear collection of data elements whose order is not given by their physical placement in memory, as opposed to arrays, where data is stored in sequential blocks of memory. Instead, each element contains an address of the next element. It is a data structure consisting of a collection of nodes which together represent a sequence.\nIn its most basic form, each node contains: data, and a reference (in other words, a link) to the next node in the sequence.\nAdvantages\nInsertion and deletion of a node in the list (given its location) is O(1) whereas in arrays the following elements will have to be shifted.\nDisadvantages\nAccess time is linear because directly accessing elements by its position in the list is not possible (in arrays you can do\narr[4]\nfor example). You have to traverse from the start.\nTypes of linked lists\n\nSingly linked list",
+    "token_count": 197
+  },
+  {
+    "chunk_id": "dsa_linked-list_002",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "Singly linked list\n\nA linked list where each node points to the next node and the last node points to\nnull\n.\nDoubly linked list\n\nA linked list where each node has two pointers,\nnext\nwhich points to the next node and\nprev\nwhich points to the previous node. The\nprev\npointer of the first node and the\nnext\npointer of the last node point to\nnull\n.\nCircular linked list\n\nA singly linked list where the last node points back to the first node. There is a circular doubly linked list variant where the\nprev\npointer of the first node points to the last node and the\nnext\npointer of the last node points to the first node.\nImplementations\n\nOut of the common languages, only Java provides a linked list implementation. Thankfully it's easy to write your own linked list regardless of language.\nLanguage\nAPI\nC++\nstd::list\nJava\njava.util.LinkedList\nPython\nN/A\nJavaScript\nN/A\nTime complexity",
+    "token_count": 203
+  },
+  {
+    "chunk_id": "dsa_linked-list_003",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "Operation\nBig-O\nNote\nAccess\nO(n)\nSearch\nO(n)\nInsert\nO(1)\nAssumes you have traversed to the insertion position\nRemove\nO(1)\nAssumes you have traversed to the node to be removed\nCommon routines\n\nBe familiar with the following routines because many linked list questions make use of one or more of these routines in the solution:\nCounting the number of nodes in the linked list\nReversing a linked list in-place\nFinding the middle node of the linked list using two pointers (fast/slow)\nMerging two linked lists together\nCorner cases\n\nEmpty linked list (head is\nnull\n)\nSingle node\nTwo nodes\nLinked list has cycles.\nTip:\nClarify beforehand with the interviewer whether there can be a cycle in the list. Usually the answer is no and you don't have to handle it in the code\nTechniques\n\nSentinel/dummy nodes",
+    "token_count": 190
+  },
+  {
+    "chunk_id": "dsa_linked-list_004",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "Sentinel/dummy nodes\n\nAdding a sentinel/dummy node at the head and/or tail might help to handle many edge cases where operations have to be performed at the head or the tail. The presence of dummy nodes essentially ensures that operations will never be done on the head or the tail, thereby removing a lot of headache in writing conditional checks to dealing with null pointers. Be sure to remember to remove them at the end of the operation.\nTwo pointers",
+    "token_count": 90
+  },
+  {
+    "chunk_id": "dsa_linked-list_005",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "Two pointer approaches are also common for linked lists. This approach is used for many classic linked list problems.\nGetting the k\nth\nfrom last node - Have two pointers, where one is k nodes ahead of the other. When the node ahead reaches the end, the other node is k nodes behind\nDetecting cycles - Have two pointers, where one pointer increments twice as much as the other, if the two pointers meet, means that there is a cycle\nGetting the middle node - Have two pointers, where one pointer increments twice as much as the other. When the faster node reaches the end of the list, the slower node will be at the middle\nUsing space",
+    "token_count": 135
+  },
+  {
+    "chunk_id": "dsa_linked-list_006",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "Many linked list problems can be easily solved by creating a new linked list and adding nodes to the new linked list with the final result. However, this takes up extra space and makes the question much less challenging. The interviewer will usually request that you modify the linked list in-place and solve the problem without additional storage. You can borrow ideas from the\nReverse a Linked List\nproblem.\nElegant modification operations",
+    "token_count": 81
+  },
+  {
+    "chunk_id": "dsa_linked-list_007",
+    "domain": "dsa",
+    "concept": "linked-list",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/linked-list/",
+    "text": "As mentioned earlier, a linked list's non-sequential nature of memory allows for efficient modification of its contents. Unlike arrays where you can only modify the value at a position, for linked lists you can also modify the\nnext\npointer in addition to the\nvalue\n.\nHere are some common operations and how they can be achieved easily:\nTruncate a list - Set the\nnext\npointer to\nnull\nat the last element\nSwapping values of nodes - Just like arrays, just swap the value of the two nodes, there's no need to swap the\nnext\npointer\nCombining two lists - attach the head of the second list to the tail of the first list\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nReverse a Linked List\nDetect Cycle in a Linked List\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nMerge Two Sorted Lists\nMerge K Sorted Lists\nRemove Nth Node From End Of List\nReorder List",
+    "token_count": 215
+  }
+]

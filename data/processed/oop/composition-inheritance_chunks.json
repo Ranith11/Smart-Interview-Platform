@@ -1,0 +1,65 @@
+[
+  {
+    "chunk_id": "oop_composition-inheritance_001",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "In object-oriented programming (OOP), choosing between inheritance and composition is crucial for designing flexible and maintainable code. This article explores why you should favor composition over inheritance, with simple explanations and examples.\nWhat is Inheritance?\nInheritance is when a new class is based on an existing class. The new class (subclass) inherits properties and methods from the existing class (superclass). This relationship is known as \"is-a.\" For example, an\nEmployee\n\"is a\"\nPerson\nbecause it inherits from the\nPerson\nclass.\nExample:\nJava\nclass\nPerson\n\n// Private fields for encapsulation\nprivate\nString\nname\n;\nprivate\nint\nage\n;\n// Constructor to initialize fields\npublic\nPerson\n(\nString\nname\n,\nint\nage\n)\n\nthis\n.\nname\n=\nname\n;\nthis\n.\nage\n=\nage\n;\n\n// Getter for name\npublic\nString\ngetName\n()\n\nreturn\nname\n;\n\n// Setter for name\npublic\nvoid\nsetName\n(\nString\nname\n)\n\nthis\n.\nname\n=\nname\n;\n\n// Getter for age\npublic\nint\ngetAge\n()\n\nreturn\nage\n;\n\n// Setter for age\npublic\nvoid\nsetAge\n(\nint\nage\n)",
+    "token_count": 255
+  },
+  {
+    "chunk_id": "oop_composition-inheritance_002",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "return\nname\n;\n\n// Setter for name\npublic\nvoid\nsetName\n(\nString\nname\n)\n\nthis\n.\nname\n=\nname\n;\n\n// Getter for age\npublic\nint\ngetAge\n()\n\nreturn\nage\n;\n\n// Setter for age\npublic\nvoid\nsetAge\n(\nint\nage\n)\n\nthis\n.\nage\n=\nage\n;\n\nclass\nEmployee\nextends\nPerson\n\n// Private field for encapsulation\nprivate\nint\nsalary\n;\n// Constructor to initialize fields\npublic\nEmployee\n(\nString\nname\n,\nint\nage\n,\nint\nsalary\n)\n\nsuper\n(\nname\n,\nage\n);\n// Call superclass constructor\nthis\n.\nsalary\n=\nsalary\n;\n\n// Getter for salary\npublic\nint\ngetSalary\n()\n\nreturn\nsalary\n;\n\n// Setter for salary\npublic\nvoid\nsetSalary\n(\nint\nsalary\n)\n\nthis\n.\nsalary\n=\nsalary\n;\n\n// Method to display employee information\npublic\nvoid\ndisplayInfo\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Name: \"\n+\ngetName\n());\nSystem\n.\nout\n.\nprintln\n(\n\"Age: \"\n+\ngetAge\n());\nSystem\n.\nout\n.\nprintln\n(\n\"Salary: \"\n+\nsalary\n);\n\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)",
+    "token_count": 280
+  },
+  {
+    "chunk_id": "oop_composition-inheritance_003",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "public\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\n// Create an Employee object\nEmployee\nemp\n=\nnew\nEmployee\n(\n\"Geek1\"\n,\n30\n,\n50000\n);\n// Display employee information\nemp\n.\ndisplayInfo\n();\n\nOutput\nName: Geek1\nAge: 30\nSalary: 50000\nIn this example, the\nEmployee\nclass inherits from\nPerson\nand adds a new property,\nsalary\n.\nWhat is Composition?\nComposition involves creating classes that include instances of other classes. This is known as a \"has-a\" relationship. For example, a\nPerson\n\"has an\"\nAddress\nbecause it contains an\nAddress\nobject.\nExample:\nJava\nclass\nAddress\n\n// Private fields for encapsulation\nprivate\nString\nstreet\n;\nprivate\nString\ncity\n;\nprivate\nString\nzipCode\n;\n// Constructor to initialize fields\npublic\nAddress\n(\nString\nstreet\n,\nString\ncity\n,\nString\nzipCode\n)\n\nthis\n.\nstreet\n=\nstreet\n;\nthis\n.\ncity\n=\ncity\n;\nthis\n.\nzipCode\n=\nzipCode\n;\n\n// Getter for street\npublic\nString\ngetStreet\n()\n\nreturn\nstreet\n;\n\n// Setter for street\npublic\nvoid\nsetStreet\n(\nString\nstreet\n)\n\nthis\n.\nstreet\n=\nstreet\n;",
+    "token_count": 289
+  },
+  {
+    "chunk_id": "oop_composition-inheritance_004",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "// Getter for street\npublic\nString\ngetStreet\n()\n\nreturn\nstreet\n;\n\n// Setter for street\npublic\nvoid\nsetStreet\n(\nString\nstreet\n)\n\nthis\n.\nstreet\n=\nstreet\n;\n\n// Getter for city\npublic\nString\ngetCity\n()\n\nreturn\ncity\n;\n\n// Setter for city\npublic\nvoid\nsetCity\n(\nString\ncity\n)\n\nthis\n.\ncity\n=\ncity\n;\n\n// Getter for zipCode\npublic\nString\ngetZipCode\n()\n\nreturn\nzipCode\n;\n\n// Setter for zipCode\npublic\nvoid\nsetZipCode\n(\nString\nzipCode\n)\n\nthis\n.\nzipCode\n=\nzipCode\n;\n\n// Method to display address (delegation)\npublic\nvoid\ndisplayAddress\n()\n\nSystem\n.\nout\n.\nprintln\n(\nstreet\n+\n\", \"\n+\ncity\n+\n\", \"\n+\nzipCode\n);\n\nclass\nPerson\n\n// Private fields for encapsulation\nprivate\nString\nname\n;\nprivate\nAddress\naddress\n;\n// Constructor to initialize fields\npublic\nPerson\n(\nString\nname\n,\nAddress\naddress\n)\n\nthis\n.\nname\n=\nname\n;\nthis\n.\naddress\n=\naddress\n;\n\n// Getter for name\npublic\nString\ngetName\n()\n\nreturn\nname\n;\n\n// Setter for name\npublic\nvoid\nsetName\n(\nString\nname\n)\n\nthis\n.\nname\n=\nname\n;\n\n// Getter for address\npublic\nAddress\ngetAddress\n()",
+    "token_count": 305
+  },
+  {
+    "chunk_id": "oop_composition-inheritance_005",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "// Getter for name\npublic\nString\ngetName\n()\n\nreturn\nname\n;\n\n// Setter for name\npublic\nvoid\nsetName\n(\nString\nname\n)\n\nthis\n.\nname\n=\nname\n;\n\n// Getter for address\npublic\nAddress\ngetAddress\n()\n\nreturn\naddress\n;\n\n// Setter for address\npublic\nvoid\nsetAddress\n(\nAddress\naddress\n)\n\nthis\n.\naddress\n=\naddress\n;\n\n// Method to display person information\npublic\nvoid\ndisplayInfo\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Name: \"\n+\nname\n);\nSystem\n.\nout\n.\nprint\n(\n\"Address: \"\n);\naddress\n.\ndisplayAddress\n();\n\npublic\nclass\nMain\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\n// Create an Address object\nAddress\naddr\n=\nnew\nAddress\n(\n\"123 Main St\"\n,\n\"Springfield\"\n,\n\"12345\"\n);\n// Create a Person object\nPerson\nperson\n=\nnew\nPerson\n(\n\"Geek1\"\n,\naddr\n);\n// Display person information\nperson\n.\ndisplayInfo\n();",
+    "token_count": 231
+  },
+  {
+    "chunk_id": "oop_composition-inheritance_006",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "Output\nName: Geek1\nAddress: 123 Main St, Springfield, 12345\nIn this example, the\nPerson\nclass uses composition to include an\nAddress\nobject. This creates a \"has-a\" relationship between\nPerson\nand\nAddress\n.\nWhy Favor Composition Over Inheritance?\nFlexibility:\nWith composition, you can easily change or replace components (like\nAddress\n) without affecting the\nPerson\nclass.\nEncapsulation:\nComposition keeps the details of the composed class (like\nAddress\n) hidden from the outside, making your code more secure and easier to manage.\nAvoid Fragile Base Class Problem:\nChanges in a superclass can break subclasses. Composition reduces this risk because changes in one class do not directly impact others.\nBetter Testability:\nComposition makes it easier to test individual components by substituting mock objects if needed.\nConclusion",
+    "token_count": 173
+  },
+  {
+    "chunk_id": "oop_composition-inheritance_007",
+    "domain": "oop",
+    "concept": "composition-inheritance",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/favoring-composition-over-inheritance-in-java-with-examples/",
+    "text": "Better Testability:\nComposition makes it easier to test individual components by substituting mock objects if needed.\nConclusion\nFavoring composition over inheritance is a best practice in OOP that leads to more flexible, maintainable, and testable code. By using composition, you create \"has-a\" relationships that are often more adaptable and less prone to problems than \"is-a\" relationships from inheritance.",
+    "token_count": 79
+  }
+]

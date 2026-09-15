@@ -1,0 +1,74 @@
+[
+  {
+    "chunk_id": "dsa_graph_001",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": "Introduction\n\nA graph is a structure containing a set of objects (nodes or vertices) where there can be edges between these nodes/vertices. Edges can be directed or undirected and can optionally have values (a weighted graph). Trees are undirected graphs in which any two vertices are connected by exactly one edge and there can be no cycles in the graph.\nGraphs are commonly used to model relationship between unordered entities, such as\nFriendship between people - Each node is a person and edges between nodes represent that these two people are friends.\nDistances between locations - Each node is a location and the edge between nodes represent that these locations are connected. The value of the edge represents the distance.\nBe familiar with the various graph representations, graph search algorithms and their time and space complexities.\nTime complexity\n\n|V|\nis the number of vertices while\n|E|\nis the number of edges.\nAlgorithm\nBig-O\nDepth-first search\nO(\n\nV\n\n+\n\nE\n\n)\nBreadth-first search\nO(\n\nV\n\n+\n\nE",
+    "token_count": 209
+  },
+  {
+    "chunk_id": "dsa_graph_002",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": "|V|\nis the number of vertices while\n|E|\nis the number of edges.\nAlgorithm\nBig-O\nDepth-first search\nO(\n\nV\n\n+\n\nE\n\n)\nBreadth-first search\nO(\n\nV\n\n+\n\nE\n\n)\nTopological sort\nO(\n\nV\n\n+\n\nE\n\n)\nThings to look out for during interviews\n\nA tree-like diagram could very well be a graph that allows for cycles and a naive recursive solution would not work. In that case you will have to handle cycles and keep a set of visited nodes when traversing.\nEnsure you are correctly keeping track of visited nodes and not visiting each node more than once. Otherwise your code could end up in an infinite loop.\nCorner cases\n\nEmpty graph\nGraph with one or two nodes\nDisconnected graphs\nGraph with cycles\nGraph search algorithms\n\nCommon\n- Breadth-first Search, Depth-first Search\nUncommon\n- Topological Sort, Dijkstra's algorithm\nAlmost never\n- Bellman-Ford algorithm, Floyd-Warshall algorithm, Prim's algorithm, Kruskal's algorithm. Your interviewer likely doesn't know them either.\nDepth-first search",
+    "token_count": 229
+  },
+  {
+    "chunk_id": "dsa_graph_003",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": "Depth-first search is a graph traversal algorithm which explores as far as possible along each branch before backtracking. A stack is usually used to keep track of the nodes that are on the current search path. This can be done either by an implicit\nrecursion\nstack, or an actual\nstack\ndata structure.\nA simple template for doing depth-first searches on a matrix goes like this:\ndef\ndfs\n(\nmatrix\n)\n:\n# Check for an empty matrix/graph.\nif\nnot\nmatrix\n:\nreturn\n[\n]\nrows\n,\ncols\n=\nlen\n(\nmatrix\n)\n,\nlen\n(\nmatrix\n[\n0\n]\n)\nvisited\n=\nset\n(\n)\ndirections\n=\n(\n(\n0\n,\n1\n)\n,\n(\n0\n,\n-\n1\n)\n,\n(\n1\n,\n0\n)\n,\n(\n-\n1\n,\n0\n)\n)\ndef\ntraverse\n(\ni\n,\nj\n)\n:\nif\n(\ni\n,\nj\n)\nin\nvisited\n:\nreturn\nvisited\n.\nadd\n(\n(\ni\n,\nj\n)\n)\n# Traverse neighbors.\nfor\ndirection\nin\ndirections\n:\nnext_i\n,\nnext_j\n=\ni\n+\ndirection\n[\n0\n]\n,\nj\n+\ndirection\n[\n1\n]\nif\n0\n<=\nnext_i\n<\nrows\nand\n0\n<=\nnext_j\n<\ncols\n:\n# Add in question-specific checks, where relevant.\ntraverse\n(\nnext_i\n,\nnext_j\n)\nfor\ni\nin\nrange\n(\nrows\n)\n:\nfor\nj\nin\nrange\n(\ncols\n)\n:\ntraverse\n(\ni\n,\nj\n)\nBreadth-first search",
+    "token_count": 347
+  },
+  {
+    "chunk_id": "dsa_graph_004",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": "Breadth-first search is a graph traversal algorithm which starts at a node and explores all nodes at the present depth, before moving on to the nodes at the next depth level. A\nqueue\nis usually used to keep track of the nodes that were encountered but not yet explored.\nA similar template for doing breadth-first searches on the matrix goes like this. It is important to use double-ended queues and not arrays/Python lists as dequeuing for double-ended queues is O(1) but it's O(n) for arrays.\nfrom\ncollections\nimport\ndeque\ndef\nbfs\n(\nmatrix\n)\n:\n# Check for an empty matrix/graph.\nif\nnot\nmatrix\n:\nreturn\n[\n]\nrows\n,\ncols\n=\nlen\n(\nmatrix\n)\n,\nlen\n(\nmatrix\n[\n0\n]\n)\nvisited\n=\nset\n(\n)\ndirections\n=\n(\n(\n0\n,\n1\n)\n,\n(\n0\n,\n-\n1\n)\n,\n(\n1\n,\n0\n)\n,\n(\n-\n1\n,\n0\n)\n)\ndef\ntraverse\n(\ni\n,\nj\n)\n:\nqueue\n=\ndeque\n(\n[\n(\ni\n,\nj\n)\n]\n)\nwhile\nqueue\n:\ncurr_i\n,\ncurr_j\n=\nqueue\n.\npopleft\n(\n)\nif\n(\ncurr_i\n,\ncurr_j\n)\nnot\nin\nvisited\n:\nvisited\n.\nadd\n(\n(\ncurr_i\n,\ncurr_j\n)\n)\n# Traverse neighbors.\nfor\ndirection\nin\ndirections\n:\nnext_i\n,\nnext_j\n=\ncurr_i\n+\ndirection\n[",
+    "token_count": 326
+  },
+  {
+    "chunk_id": "dsa_graph_005",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": ",\ncurr_j\n=\nqueue\n.\npopleft\n(\n)\nif\n(\ncurr_i\n,\ncurr_j\n)\nnot\nin\nvisited\n:\nvisited\n.\nadd\n(\n(\ncurr_i\n,\ncurr_j\n)\n)\n# Traverse neighbors.\nfor\ndirection\nin\ndirections\n:\nnext_i\n,\nnext_j\n=\ncurr_i\n+\ndirection\n[\n0\n]\n,\ncurr_j\n+\ndirection\n[\n1\n]\nif\n0\n<=\nnext_i\n<\nrows\nand\n0\n<=\nnext_j\n<\ncols\n:\n# Add in question-specific checks, where relevant.\nqueue\n.\nappend\n(\n(\nnext_i\n,\nnext_j\n)\n)\nfor\ni\nin\nrange\n(\nrows\n)\n:\nfor\nj\nin\nrange\n(\ncols\n)\n:\ntraverse\n(\ni\n,\nj\n)\ninfo\nWhile DFS is implemented using recursion in this sample, it could also be implemented iteratively similar to BFS. The key difference between the algorithms lies in the underlying data structure (BFS uses a queue while DFS uses a stack). The\ndeque\nclass in Python can function as both a stack and a queue.\nFor additional tips on BFS and DFS, you can refer to this\nLeetCode post\nTopological sorting",
+    "token_count": 262
+  },
+  {
+    "chunk_id": "dsa_graph_006",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": "A topological sort or topological ordering of a directed graph is a linear ordering of its vertices such that for every directed edge uv from vertex u to vertex v, u comes before v in the ordering. Precisely, a topological sort is a graph traversal in which each node v is visited only after all its dependencies are visited.\nTopological sorting is most commonly used for scheduling a sequence of jobs or tasks which has dependencies on other jobs/tasks. The jobs are represented by vertices, and there is an edge from x to y if job x must be completed before job y can be started.\nAnother example is taking courses in university where courses have pre-requisites.\nHere's an example where the edges is an array of two-value tuples and the first value depends on the second value.\ndef\ngraph_topo_sort\n(\nnum_nodes\n,\nedges\n)\n:\nfrom\ncollections\nimport\ndeque\nnodes\n,\norder\n,\nqueue\n=\n\n,\n[\n]\n,\ndeque\n(\n)\nfor\nnode_id\nin\nrange\n(\nnum_nodes\n)\n:\nnodes\n[\nnode_id\n]\n=\n\n'in'\n:\n0\n,\n'out'\n:\nset\n(\n)",
+    "token_count": 236
+  },
+  {
+    "chunk_id": "dsa_graph_007",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": ",\n[\n]\n,\ndeque\n(\n)\nfor\nnode_id\nin\nrange\n(\nnum_nodes\n)\n:\nnodes\n[\nnode_id\n]\n=\n\n'in'\n:\n0\n,\n'out'\n:\nset\n(\n)\n\nfor\nnode_id\n,\npre_id\nin\nedges\n:\nnodes\n[\nnode_id\n]\n[\n'in'\n]\n+=\n1\nnodes\n[\npre_id\n]\n[\n'out'\n]\n.\nadd\n(\nnode_id\n)\nfor\nnode_id\nin\nnodes\n.\nkeys\n(\n)\n:\nif\nnodes\n[\nnode_id\n]\n[\n'in'\n]\n==\n0\n:\nqueue\n.\nappend\n(\nnode_id\n)\nwhile\nlen\n(\nqueue\n)\n:\nnode_id\n=\nqueue\n.\npopleft\n(\n)\nfor\noutgoing_id\nin\nnodes\n[\nnode_id\n]\n[\n'out'\n]\n:\nnodes\n[\noutgoing_id\n]\n[\n'in'\n]\n-=\n1\nif\nnodes\n[\noutgoing_id\n]\n[\n'in'\n]\n==\n0\n:\nqueue\n.\nappend\n(\noutgoing_id\n)\norder\n.\nappend\n(\nnode_id\n)\nreturn\norder\nif\nlen\n(\norder\n)\n==\nnum_nodes\nelse\nNone\nprint\n(\ngraph_topo_sort\n(\n4\n,\n[\n[\n0\n,\n1\n]\n,\n[\n0\n,\n2\n]\n,\n[\n2\n,\n1\n]\n,\n[\n3\n,\n0\n]\n]\n)\n)\n# [1, 2, 0, 3]\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nNumber of Islands\nFlood Fill\n01 Matrix\nRecommended practice questions",
+    "token_count": 345
+  },
+  {
+    "chunk_id": "dsa_graph_008",
+    "domain": "dsa",
+    "concept": "graph",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/graph/",
+    "text": "These are essential questions to practice if you're studying for this topic.\nNumber of Islands\nFlood Fill\n01 Matrix\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nBreadth-first search\nRotting Oranges\nMinimum Knight Moves (LeetCode Premium)\nEither search\nClone Graph\nPacific Atlantic Water Flow\nNumber of Connected Components in an Undirected Graph (LeetCode Premium)\nGraph Valid Tree (LeetCode Premium)\nTopological sorting\nCourse Schedule\nAlien Dictionary (LeetCode Premium)",
+    "token_count": 116
+  }
+]

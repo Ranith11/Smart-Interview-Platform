@@ -1,0 +1,92 @@
+[
+  {
+    "chunk_id": "design-patterns_factory_001",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "The Factory Method Design Pattern is a Creational Design Pattern used to create objects without exposing the object creation logic to the client. It defines a method for creating objects, where subclasses decide which class object should be instantiated, making the application more flexible and maintainable.\nEncapsulates object creation logic from the client code\nPromotes loose coupling using interfaces or abstract classes\nMakes applications easier to extend with new object types\nWidely used in frameworks, libraries, and enterprise applications\nThe client requests objects through the application class instead of creating them directly.\nThe Factory Method creates and returns the required object such as Game, Banking, or Shopping.\nObject creation logic is hidden from the client, which works with interfaces or abstract classes instead of concrete objects, improving flexibility and reducing coupling.\nSince it deals with object creation, it belongs to the Creational Design Pattern category.",
+    "token_count": 172
+  },
+  {
+    "chunk_id": "design-patterns_factory_002",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Since it deals with object creation, it belongs to the Creational Design Pattern category.\nWhen to use Factory Method Design Pattern?\nFactory method design pattern can be used in java in following cases:\nWhen a class cannot determine the type of objects it needs to create beforehand.\nWhen subclasses need to decide which objects should be created.\nWhen object creation logic should be delegated to helper subclasses while keeping the client code independent of concrete classes.\nNote:\nThe client may still use new product types, but it interacts through a common abstraction, so major client-side changes are usually not required.\nKey Components of Factory Method Design Pattern\nBelow are the main components of Factory Method Design Pattern in Java:\n1. Product\nDefines a common interface or abstract class for all objects created by the factory.\ninterface Product {\nvoid display();",
+    "token_count": 159
+  },
+  {
+    "chunk_id": "design-patterns_factory_003",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "2. Concrete Product\nImplements the Product interface and defines specific behavior.\nclass ConcreteProductA implements Product {\npublic void display() {\nSystem.out.println(\"Product A\");\n\n3. Creator\nDeclares the factory method that returns Product objects.\nabstract class Creator {\nabstract Product factoryMethod();\n\n4. Concrete Creator\nImplements the factory method and returns specific product objects.\nclass ConcreteCreatorA extends Creator {\nProduct factoryMethod() {\nreturn new ConcreteProductA();",
+    "token_count": 91
+  },
+  {
+    "chunk_id": "design-patterns_factory_004",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "4. Concrete Creator\nImplements the factory method and returns specific product objects.\nclass ConcreteCreatorA extends Creator {\nProduct factoryMethod() {\nreturn new ConcreteProductA();\n\n5. Factory Method\nA method that creates and returns Product objects without exposing creation logic to the client.\nProduct p = new ConcreteCreatorA().factoryMethod();\nFactory Method Design Pattern Example\nWe are developing an e-commerce system where different product categories (electronics, clothing, books) are created dynamically. You want to:\nAvoid tight coupling between client and object creation\nThe client interacts with the common Product type, so adding new products usually requires extending factories rather than modifying client logic.\nHide object creation logic\nSolution using Abstract Class\nStep 1: Abstract Product Class\nDefines a common structure for all product types.\nabstract class Product {\npublic abstract void display();",
+    "token_count": 166
+  },
+  {
+    "chunk_id": "design-patterns_factory_005",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Step 2: Concrete Products\nThese are actual product implementations created by factory.\nJava\nclass\nConcreteProductA\nextends\nProduct\n\n@Override\npublic\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"This is Concrete Product A.\"\n);\n\nclass\nConcreteProductB\nextends\nProduct\n\n@Override\npublic\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"This is Concrete Product B.\"\n);\n\nStep 3: Creator Abstract Class\nDeclares factory method but does not implement object creation.\nabstract class Creator {\npublic abstract Product factoryMethod();\n\nStep 4: Concrete Creators\nEach class decides which product object to create.\nJava\nclass\nConcreteCreatorA\nextends\nCreator\n\n@Override\npublic\nProduct\nfactoryMethod\n()\n\nreturn\nnew\nConcreteProductA\n();\n\nclass\nConcreteCreatorB\nextends\nCreator\n\n@Override\npublic\nProduct\nfactoryMethod\n()\n\nreturn\nnew\nConcreteProductB\n();\n\nStep 5: Client Code\nClient uses factory to create objects without knowing actual classes.\nJava\npublic\nclass\nFactoryMethodExample\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)",
+    "token_count": 237
+  },
+  {
+    "chunk_id": "design-patterns_factory_006",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Step 5: Client Code\nClient uses factory to create objects without knowing actual classes.\nJava\npublic\nclass\nFactoryMethodExample\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nCreator\ncreatorA\n=\nnew\nConcreteCreatorA\n();\nProduct\nproductA\n=\ncreatorA\n.\nfactoryMethod\n();\nproductA\n.\ndisplay\n();\nCreator\ncreatorB\n=\nnew\nConcreteCreatorB\n();\nProduct\nproductB\n=\ncreatorB\n.\nfactoryMethod\n();\nproductB\n.\ndisplay\n();\n\nOutput\nThis is Concrete Product A.\nThis is Concrete Product B.\nExplanation:\nIn this approach, a Creator interface defines the factory method, and different factory implementations create specific products. It provides more flexibility since Java allows multiple interface implementations\nSolution using Interface\nStep 1: Product Interface\nDefines contract for all product types.\ninterface Product {\nvoid display();\n\nStep 2: Concrete Products\nActual implementations of Product interface.\nJava\nclass\nConcreteProductA\nimplements\nProduct\n\n@Override\npublic\nvoid\ndisplay\n()",
+    "token_count": 216
+  },
+  {
+    "chunk_id": "design-patterns_factory_007",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Step 2: Concrete Products\nActual implementations of Product interface.\nJava\nclass\nConcreteProductA\nimplements\nProduct\n\n@Override\npublic\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"This is Concrete Product A.\"\n);\n\nclass\nConcreteProductB\nimplements\nProduct\n\n@Override\npublic\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"This is Concrete Product B.\"\n);\n\nStep 3: Factory Interface\nDefines factory contract for creating products.\ninterface Creator{\nProduct factoryMethod();\n\nStep 4: Concrete Factories\nEach factory creates specific product type.\nJava\nclass\nConcreteCreatorA\nimplements\nCreator\n\n@Override\npublic\nProduct\nfactoryMethod\n()\n\nreturn\nnew\nConcreteProductA\n();\n\nclass\nConcreteCreatorB\nimplements\nCreator\n\n@Override\npublic\nProduct\nfactoryMethod\n()\n\nreturn\nnew\nConcreteProductB\n();\n\nStep 5: Client Code\nClient depends only on factory interface, not concrete classes.\nJava\npublic\nclass\nFactoryMethodExample\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)",
+    "token_count": 224
+  },
+  {
+    "chunk_id": "design-patterns_factory_008",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Step 5: Client Code\nClient depends only on factory interface, not concrete classes.\nJava\npublic\nclass\nFactoryMethodExample\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nCreator\ncreatorA\n=\nnew\nConcreteCreatorA\n();\nProduct\nproductA\n=\ncreatorA\n.\nfactoryMethod\n();\nproductA\n.\ndisplay\n();\nCreator\ncreatorB\n=\nnew\nConcreteCreatorB\n();\nProduct\nproductB\n=\ncreatorB\n.\nfactoryMethod\n();\nproductB\n.\ndisplay\n();",
+    "token_count": 111
+  },
+  {
+    "chunk_id": "design-patterns_factory_009",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Output\nThis is Concrete Product A.\nThis is Concrete Product B.\nExplanation:\nIn this approach, a Creator interface defines the factory method, and different factory implementations create specific products. It provides more flexibility since Java allows multiple interface implementations.\nFeatures\nSeparates object creation from client code\nEasy to add new product types because the client depends on interfaces or abstract classes, not concrete classes.\nImproves testability using mock objects\nCentralizes and reuses object creation logic\nReduces dependency on concrete classes\nLimitation\nIncreases code complexity due to extra classes and interfaces\nCan lead to overengineering for simple object creation needs\nAdds slight runtime overhead due to polymorphism\nMakes system harder to understand for beginners\nRequires maintenance of both creator and product hierarchies\nSimple Object Creation vs Factory Method\nFeature\nSimple Object Creation\nFactory Method Design Pattern\nObject Creation\nDirectly using\nnew\nkeyword",
+    "token_count": 181
+  },
+  {
+    "chunk_id": "design-patterns_factory_010",
+    "domain": "design-patterns",
+    "concept": "factory",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/factory-method-design-pattern-in-java/",
+    "text": "Simple Object Creation vs Factory Method\nFeature\nSimple Object Creation\nFactory Method Design Pattern\nObject Creation\nDirectly using\nnew\nkeyword\nObject creation is handled by factory method\nFlexibility\nLow flexibility\nHigh flexibility\nCoupling\nTightly coupled with concrete classes\nLoosely coupled using interfaces\nCode Maintenance\nHard to maintain if changes occur\nEasy to maintain and extend\nScalability\nDifficult to add new types\nEasy to add new product types\nTesting\nHard to mock objects\nEasy to use mock objects\nComplexity\nSimple and straightforward\nMore complex due to extra classes\nBest Use Case\nSmall/simple applications\nLarge and scalable applications",
+    "token_count": 136
+  }
+]

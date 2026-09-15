@@ -1,0 +1,173 @@
+Difference Between IPv4 and IPv6 - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+DSA
+Practice Problems
+C
+C++
+Java
+Python
+JavaScript
+Data Science
+Machine Learning
+Courses
+Linux
+DevOps
+Ace GATE 2027
+Computer Network Basics
+Computer Networking
+Types
+Internet
+Network Devices
+OSI Model
+TCP/IP Model
+OSI vs TCP/IP Model
+Physical Layer
+Physical Layer
+Network Topology
+Transmission Modes
+Transmission Media
+Data Link Layer
+Data Link Layer
+Switching
+Virtual LAN
+Framing
+Error Control
+Flow Control
+Piggybacking
+Network Layer
+Network Layer
+Classful Addressing
+Classless Addressing
+IP Address
+IPv4 Datagram Header
+IPv4 vs IPv6
+Public vs Private IP
+Subnetting
+Routing
+Protocols
+Transport Layer
+Transport Layer
+Protocols
+TCP
+UDP
+Session Layer & Presentation Layer
+Session Layer
+Presentation Layer
+Secure Socket Layer
+Point-to-Point Tunneling Protocol
+MIME Protocol
+Application Layer
+Application Layer
+Client-Server Model
+WWW
+Electronic Mail
+Content Distribution Network
+Protocols
+Advanced Topics
+Network Security
+QoS & Multimedia
+Authentication
+Encryption
+Firewall
+MAC Filtering
+Wi-Fi Standards
+Bluetooth
+Wireless Communication
+Cloud Networking
+Practice
+Networking Interview Q&A
+TCP/IP Interview Q&A
+Network Fundamentals Interview Questions
+Notes
+Cheat Sheet
+Courses
+GATE CS/IT/DA Courses
+DSA and System Design Course
+Summer SkillUp
+Explore
+Difference Between IPv4 and IPv6
+Last Updated :
+30 Dec, 2025
+The Internet Protocol (IP) assigns a unique address to each device, enabling communication over the internet.
+IPv4, the earlier version, uses 32-bit addresses, providing about 4.3 billion unique addresses, which are now nearly exhausted due to the rapid growth of the internet and IoT devices.
+IPv6, the newer version, uses 128-bit addresses, offering a vastly larger address space to overcome IPv4 exhaustion and support future internet expansion.
+IPV4 Vs IPV6
+Drawbacks of IPv4
+Limited address space:
+The 32-bit IPv4 address space is insufficient for the growing number of connected devices.
+Complex configuration:
+IPv4 relies on manual setup or DHCP, which can lead to configuration errors.
+Inefficient routing:
+Variable and complex headers increase processing overhead.
+Lack of built-in security:
+Security features are not inherent and require additional mechanisms.
+Limited QoS support:
+Traffic prioritization is weak, affecting real-time applications.
+Router-based fragmentation:
+Packet fragmentation by routers reduces efficiency and may cause data loss.
+Broadcast traffic overhead:
+Broadcast communication increases unnecessary network traffic and degrades performance.
+Benefits of IPv6 over IPv4
+The recent Version of IP IPv6 has a greater advantage over IPv4. Here are some of the mentioned benefits:
+Larger Address Space:
+IPv6 uses 128-bit addresses (vs. 32-bit in IPv4), allowing many more devices to connect.
+Improved Security:
+IPv6 has built-in features like data authentication and encryption, making connections safer..
+Simpler Header:
+IPv6 has a streamlined header, improving speed and reducing processing cost.
+Better QoS Support:
+IPv6 provides stronger Quality of Service, improving video, audio, and website performance.
+Mobile-Friendly:
+IPv6 offers better, faster, and more secure support for mobile connections.
+Switching From IPv4 to IPv6
+: To switch from IPv4 to IPv6, there are several strategies:
+Dual Stacking
+: Devices can use both IPv4 and IPv6 at the same time. This way, they can talk to networks and devices using either version.
+Tunneling
+: This method allows IPv6 users to send data through an IPv4 network to reach other IPv6 users. Think of it as creating a "tunnel" for IPv6 traffic through the older IPv4 system.
+Network Address Translation (NAT)
+: NAT helps devices using different versions of IP addresses (IPv4 and IPv6) to communicate with each other by translating the addresses so they understand each other.
+IPv4 vs IPv6
+The following table summarizes the key differences between IPv4 and IPv6 addressing:
+IPv4
+IPv6
+Uses a 32-bit IP address.
+Uses a 128-bit IP address.
+Uses decimal dot-separated notation (e.g.,
+192.168.0.1
+).
+Uses hexadecimal colon-separated notation (e.g.,
+2001:db8::1
+).
+Provides a limited address space of about 4.3 billion addresses.
+Provides an extremely large address space for future growth.
+Supports manual configuration and DHCP.
+Supports SLAAC, DHCPv6, and manual configuration.
+End-to-end connectivity is often affected due to NAT.
+End-to-end connectivity is restored without NAT.
+IPsec support is optional.
+IPsec support is built into the protocol design.
+Fragmentation is performed by both sender and routers.
+Fragmentation is performed only by the sender.
+Does not support flow-based packet identification.
+Uses a Flow Label field for packet flow identification.
+Includes a header checksum.
+Does not include a header checksum.
+Supports broadcast communication.
+Uses multicast and anycast instead of broadcast.
+Header size is variable (20–60 bytes).
+Header size is fixed at 40 bytes.
+Uses address classes (A, B, C, D, and E).
+Does not use address classes.
+Supports Variable Length Subnet Masking (VLSM).
+Uses prefix-based addressing.
+Example address:
+66.94.29.13
+.
+Example address:
+2001:db8::1
+.
+Comment

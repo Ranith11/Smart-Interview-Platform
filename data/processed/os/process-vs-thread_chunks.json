@@ -1,0 +1,38 @@
+[
+  {
+    "chunk_id": "os_process-vs-thread_001",
+    "domain": "os",
+    "concept": "process-vs-thread",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-process-and-thread/",
+    "text": "Modern operating systems are designed to handle multiple tasks efficiently while maintaining good performance and responsiveness. These are mainly achieved through processes and threads.\nProcess is the Independent program with its own memory\nThread is small unit of a process sharing same memory\nProcess\nProcess\nis a program that is currently in execution within an operating system. It operates in an independent environment and is managed by the OS for proper scheduling and execution. Processes form the basis of program execution in a multitasking system. Its Properties are:\nEach process has a unique Process ID (PID) for identification.\nEvery process moves through different states such as new, ready, running, waiting, and terminated.\nProcesses communicate with each other using\nInter-Process Communication (IPC) methods\n.\nProcess\nThread\nThread",
+    "token_count": 153
+  },
+  {
+    "chunk_id": "os_process-vs-thread_002",
+    "domain": "os",
+    "concept": "process-vs-thread",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-process-and-thread/",
+    "text": "Processes communicate with each other using\nInter-Process Communication (IPC) methods\n.\nProcess\nThread\nThread\nis a smallest unit of execution within a process. It enables a program to perform multiple tasks concurrently while sharing the same memory and resources. Threads improve application performance and responsiveness in multitasking environments. Its properties are:\nEach thread has its own Thread ID (TID) for identification.\nA thread also moves through states such as new, runnable, running, waiting, and terminated.\nThreads within the same process share memory and resources, enabling faster communication.\nContext switching can occur between threads to allow multiple tasks to execute efficiently.\nThread\nSimilarities Between Threads and Processes\nUnits of Execution:\nBoth are execution units within an operating system and are part of process management.\nOS Scheduling & Preemption:\nBoth are scheduled by the operating system for fair CPU allocation, and can be preempted for multitasking.",
+    "token_count": 182
+  },
+  {
+    "chunk_id": "os_process-vs-thread_003",
+    "domain": "os",
+    "concept": "process-vs-thread",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-process-and-thread/",
+    "text": "OS Scheduling & Preemption:\nBoth are scheduled by the operating system for fair CPU allocation, and can be preempted for multitasking.\nOwn Execution Context:\nEach has its own execution context, including program counter, CPU registers, and stack space.\nCreation During Runtime:\nBoth can create child entities during their execution lifecycle.\nCommunication & Resource Release:\nBoth can communicate using IPC mechanisms, and upon termination, their allocated resources are released back to the operating system\nProcess vs Thread\nProcess\nThread\nProgram in execution\nPart of a process\nTakes more time to create & terminate\nTakes less time to create & terminate\nContext switching is slow\nContext switching is fast\nHeavyweight\nLightweight\nLess efficient communication\nMore efficient communication\nBlocking one process doesn’t affect others\nBlocking a user-level thread may block all\nUses system calls\nCreated using APIs (may not need OS call)\nHas its own PCB, stack, address space\nShares PCB & address space, has own TCB & stack",
+    "token_count": 203
+  },
+  {
+    "chunk_id": "os_process-vs-thread_004",
+    "domain": "os",
+    "concept": "process-vs-thread",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-process-and-thread/",
+    "text": "Blocking a user-level thread may block all\nUses system calls\nCreated using APIs (may not need OS call)\nHas its own PCB, stack, address space\nShares PCB & address space, has own TCB & stack\nDoes not share data\nShares data with other threads",
+    "token_count": 56
+  }
+]

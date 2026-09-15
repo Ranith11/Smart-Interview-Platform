@@ -1,0 +1,58 @@
+Introduction
+
+Knowledge of binary number system and bit manipulation is less important in coding interviews as most Software Engineers do not have to deal with bits, which is more commonly used when dealing with lower level systems and programming languages. They are still asked sometimes, so you should at least still know how to convert a number from decimal form into binary form (and vice versa) in your chosen programming language.
+Corner cases
+
+Be aware and check for overflow/underflow
+Negative numbers
+Techniques
+
+Questions involving binary representations and bitwise operations are asked sometimes and you must be absolutely familiar with how to convert a number from decimal form into binary form (and vice versa) in your chosen programming language.
+Some helpful utility snippets:
+Technique
+Code
+Test k
+th
+bit is set
+num & (1 << k) != 0
+Set k
+th
+bit
+num
+
+= (1
+<
+<
+k)
+Turn off k
+th
+bit
+num &= ~(1 << k)
+Toggle the k
+th
+bit
+num ^= (1 << k)
+Multiply by 2
+k
+num << k
+Divide by 2
+k
+num >> k
+Check if a number is a power of 2
+(num & num - 1) == 0
+or
+(num & (-num)) == num
+Swapping two variables
+num1 ^= num2; num2 ^= num1; num1 ^= num2
+Essential questions
+
+These are essential questions to practice if you're studying for this topic.
+Sum of Two Integers
+Number of 1 Bits
+Recommended practice questions
+
+These are recommended questions to practice after you have studied for the topic and have practiced the essential questions.
+Counting Bits
+Missing Number
+Reverse Bits
+Single Number

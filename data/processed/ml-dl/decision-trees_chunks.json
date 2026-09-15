@@ -1,0 +1,101 @@
+[
+  {
+    "chunk_id": "ml-dl_decision-trees_001",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "A decision tree is a supervised learning algorithm used for both classification and regression tasks. It has a hierarchical tree structure which consists of a root node, branches, internal nodes and leaf nodes. It works like a flowchart that helps in making step-by-step decisions, where:\nInternal nodes represent attribute tests\nBranches represent attribute values\nLeaf nodes represent final decisions or predictions.\nDecision trees are widely used due to their interpretability, flexibility and low preprocessing needs.\nHow Does a Decision Tree Work\nA decision tree splits the dataset based on feature values to create pure subsets ideally all items in a group belong to the same class. Each leaf node represents the final output, which can be a class label (in classification) or a continuous value (in regression). Let’s understand this with an example.\nDecision Tree",
+    "token_count": 160
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_002",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "Decision Tree\nLet’s consider a decision tree for predicting whether a customer will buy a product based on age, income and previous purchases: Here's how the decision tree works:\n1. Root Node (Income)\nFirst Question\n:\n\"Is the person’s income greater than $50,000?\"\nIf Yes, proceed to the next question.\nIf No, predict \"No Purchase\" (leaf node).\n2. Internal Node (Age)\n:\nIf the person’s income is greater than $50,000\n, ask:\n\"Is the person’s age above 30?\"\nIf Yes, proceed to the next question.\nIf No, predict \"No Purchase\" (leaf node).\n3. Internal Node (Previous Purchases)\n:\nIf the person is above 30 and has made previous purchases, predict \"Purchase\" (leaf node).\nIf the person is above 30 and has not made previous purchases, predict \"No Purchase\" (leaf node).\nDecision making with 2 Decision Tree\nExample:\nA decision tree makes predictions using a single tree structure by following decision paths from root to leaf.\nTree 1:\nCustomer Demographics\nFirst tree asks two questions:\n1. \"Income > $50,000?\"",
+    "token_count": 242
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_003",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "A decision tree makes predictions using a single tree structure by following decision paths from root to leaf.\nTree 1:\nCustomer Demographics\nFirst tree asks two questions:\n1. \"Income > $50,000?\"\nIf Yes, Proceed to the next question.\nIf No, \"No Purchase\"\n2. \"Age > 30?\"\nYes: \"Purchase\"\nNo: \"No Purchase\"\nTree 2: Previous Purchases\n\"Previous Purchases > 0?\"\nYes: \"Purchase\"\nNo: \"No Purchase\"\nOnce we have predictions from both trees, we can combine the results to make a final prediction. If Tree 1 predicts \"Purchase\" and Tree 2 predicts \"No Purchase\", the final prediction might be \"Purchase\" or \"No Purchase\" depending on the weight or confidence assigned to each tree. This can be decided based on the problem context.\nInformation Gain and Gini Index in Decision Tree\nTill now we have discovered the basic intuition and approach of how decision tree works, so let's just move to the attribute selection measure of decision tree. We have two popular attribute selection measures used:\n1. Information Gain",
+    "token_count": 229
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_004",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "1. Information Gain\nInformation Gain tells us how useful a question (or feature) is for splitting data into groups. It measures how much the uncertainty decreases after the split. A good question will create clearer groups and the feature with the highest Information Gain is chosen to make the decision.\nFor example if we split a dataset of people into \"Young\" and \"Old\" based on age and all young people bought the product while all old people did not, the Information Gain would be high because the split perfectly separates the two groups with no uncertainty left\nSuppose\nS\nis a set of instances\nA\nis an attribute,\nSv\nis the subset of\nS\n,\nv\nrepresents an individual value that the attribute\nA\ncan take and Values (\nA\n) is the set of all possible values of\nA\nthen\nEntropy:\nIt is the measure of uncertainty of a random variable, it characterizes the impurity of an arbitrary collection of examples. The higher the entropy more the information content.",
+    "token_count": 207
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_005",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "A\nthen\nEntropy:\nIt is the measure of uncertainty of a random variable, it characterizes the impurity of an arbitrary collection of examples. The higher the entropy more the information content.\nFor example if a dataset has an equal number of \"Yes\" and \"No\" outcomes (like 3 people who bought a product and 3 who didn’t), the entropy is high because it’s uncertain which outcome to predict. But if all the outcomes are the same (all \"Yes\" or all \"No\") the entropy is 0 meaning there is no uncertainty left in predicting the outcome\nSuppose\nS\nis a set of instances,\nA\nis an attribute,\nSv\nis the subset of\nS\nwith\nA\n=\nv\nand Values (\nA\n) is the set of all possible values of\nA\n, then\nGain(S, A) = Entropy(S) - \\sum_{v \\epsilon Values(A)}\\frac{\\left | S_{v} \\right |}{\\left | S \\right |}. Entropy(S_{v})\nExample:\nFor the set X = {a,a,a,b,b,b,b,b}\nTotal instances: 8\nInstances of b: 5\nInstances of a: 3",
+    "token_count": 257
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_006",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "Example:\nFor the set X = {a,a,a,b,b,b,b,b}\nTotal instances: 8\nInstances of b: 5\nInstances of a: 3\n\\begin{aligned}\\text{Entropy } H(X) &= -\\left[ \\left( \\frac{3}{8} \\right)\\log_{2}\\left( \\frac{3}{8} \\right) + \\left( \\frac{5}{8} \\right)\\log_{2}\\left( \\frac{5}{8} \\right) \\right] \\\\&= -[0.375(-1.415) + 0.625(-0.678)] \\\\&= -(-0.53 - 0.424) \\\\&= 0.954\\end{aligned}\nBuilding Decision Tree using Information Gain the essentials\nStart with all training instances associated with the root node\nUse info gain to choose which attribute to label each node with\nRecursively construct each subtree on the subset of training instances that would be classified down that path in the tree.\nIf all positive or all negative training instances remain, the label that node “yes\" or “no\" accordingly\nIf no attributes remain label with a majority vote of training instances left at that node\nIf no instances remain label with a majority vote of the parent's training instances.\nExample:",
+    "token_count": 278
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_007",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "If no attributes remain label with a majority vote of training instances left at that node\nIf no instances remain label with a majority vote of the parent's training instances.\nExample:\nNow let us draw a Decision Tree for the following data using Information gain. Training set: 3 features and 2 classes\nX\nY\nZ\nC\n1\n1\n1\nI\n1\n1\n0\nI\n0\n0\n1\nII\n1\n0\n0\nII\nHere, we have 3 features and 2 output classes. To build a decision tree using Information gain. We will take each of the features and calculate the information for each feature.\nSplit on attribute X\nSplit on attribute Y\nSplit on attribute Z\nFrom the above images we can see that the information gain is maximum when we make a split on feature Y. So, for the root node best-suited feature is feature Y.\nNow we can see that while splitting the dataset by feature Y, the child contains a pure subset of the target variable.\nSo we don't need to further split the dataset. The final tree for the above dataset would look like this:\ninformation gain on attribute Y\n2. Gini Index",
+    "token_count": 247
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_008",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "So we don't need to further split the dataset. The final tree for the above dataset would look like this:\ninformation gain on attribute Y\n2. Gini Index\nGini Index is a metric to measure how often a randomly chosen element would be incorrectly identified. It means an attribute with a lower Gini index should be preferred. Sklearn supports “Gini” criteria for Gini Index and by default it takes “gini” value.\nFor example if we have a group of people where all bought the product (100% \"Yes\") the Gini Index is 0 indicate perfect purity. But if the group has an equal mix of \"Yes\" and \"No\" the Gini Index would be 0.5 show high impurity or uncertainty. Formula for Gini Index is given by :\nGini = 1 - \\sum_{i=1}^{n} p_i^2\nSome additional features of the Gini Index are:\nIt is calculated by summing the squared probabilities of each outcome in a distribution and subtracting the result from 1.",
+    "token_count": 219
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_009",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "Some additional features of the Gini Index are:\nIt is calculated by summing the squared probabilities of each outcome in a distribution and subtracting the result from 1.\nA lower Gini Index indicates a more homogeneous or pure distribution while a higher Gini Index indicates a more heterogeneous or impure distribution.\nGini Index is used to evaluate the quality of a split by measuring the difference between the impurity of the parent node and the weighted impurity of the child nodes.\nCompared to other impurity measures like entropy, the Gini Index is faster to compute and more sensitive to changes in class probabilities.\nOne disadvantage of the Gini Index is that it tends to favour splits that create equally sized child nodes, even if they are not optimal for classification accuracy.\nIn practice the choice between using the Gini Index or other impurity measures depends on the specific problem and dataset and requires experimentation and tuning.\nUnderstanding Decision Tree with Real life use case:",
+    "token_count": 190
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_010",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "Understanding Decision Tree with Real life use case:\nTill now we have understood about the attributes and components of decision tree. Now lets jump to a real life use case in which how decision tree works step by step.\nStep 1. Start with the Whole Dataset\nWe begin with all the data which is treated as the root node of the decision tree.\nStep 2. Choose the Best Question (Attribute)\nPick the best question to divide the dataset. For example ask:\n\"What is the outlook?\"\nPossible answers: Sunny, Cloudy or Rainy.\nStep 3. Split the Data into Subsets\nDivide the dataset into groups based on the question:\nIf Sunny go to one subset.\nIf Cloudy go to another subset.\nIf Rainy go to the last subset.\nStep 4. Split Further if Needed (Recursive Splitting)\nFor each subset ask another question to refine the groups. For example If the Sunny subset is mixed ask:\n\"Is the humidity high or normal?\"\nHigh humidity → \"Swimming\".\nNormal humidity → \"Hiking\".\nStep 5. Assign Final Decisions (Leaf Nodes)",
+    "token_count": 225
+  },
+  {
+    "chunk_id": "ml-dl_decision-trees_011",
+    "domain": "ml-dl",
+    "concept": "decision-trees",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/decision-tree-introduction-example/",
+    "text": "\"Is the humidity high or normal?\"\nHigh humidity → \"Swimming\".\nNormal humidity → \"Hiking\".\nStep 5. Assign Final Decisions (Leaf Nodes)\nWhen a subset contains only one activity, stop splitting and assign it a label:\nCloudy → \"Hiking\".\nRainy → \"Stay Inside\".\nSunny + High Humidity → \"Swimming\".\nSunny + Normal Humidity → \"Hiking\".\nStep 6. Use the Tree for Predictions\nTo predict an activity follow the branches of the tree. Example: If the outlook is Sunny and the humidity is High follow the tree:\nStart at\nOutlook\n.\nTake the branch for Sunny.\nThen go to Humidity and take the branch for High Humidity.\nResult: \"Swimming\".",
+    "token_count": 157
+  }
+]

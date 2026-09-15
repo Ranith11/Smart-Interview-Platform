@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Python tools
+.pytest_cache/
+.mypy_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+*.env
+
+# Logs
+*.log
+
+# ChromaDB temporary/generated files
+# Keep chroma_db only if you intentionally want to upload the
+# existing vector database.
+
+# Week 7 — Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Week 7 — Uploads
+uploads/
+dummy.pdf
+*.pdf

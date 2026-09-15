@@ -1,0 +1,47 @@
+[
+  {
+    "chunk_id": "dbms_transactions_001",
+    "domain": "dbms",
+    "concept": "transactions",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/concurrency-control-in-dbms/",
+    "text": "In a Database Management System (DBMS), Concurrency control is a mechanism in DBMS that allows simultaneous execution of transactions while maintaining ACID properties - Atomicity, Consistency, Isolation and Durability. It maintains the integrity, accuracy and reliability of data when multiple users or processes perform read/write operations concurrently. It helps manage issues like:\nConflicting operations on shared data\nInconsistent database states\nLost or incorrect updates\nNote:\nBy implementing concurrency control techniques such as locking or timestamp ordering, DBMS ensures that transactions are executed safely and independently, even when they overlap in time.\nNeed of Concurrency Control\nConcurrency control is essential to:\nConcurrency Control\nPrevent conflicts between simultaneous transactions.\nMaintain data consistency and accuracy in multi-user environments.\nAvoid problems such as dirty reads, lost updates and inconsistent reads.\nExample:\nWithout concurrency control:",
+    "token_count": 170
+  },
+  {
+    "chunk_id": "dbms_transactions_002",
+    "domain": "dbms",
+    "concept": "transactions",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/concurrency-control-in-dbms/",
+    "text": "Maintain data consistency and accuracy in multi-user environments.\nAvoid problems such as dirty reads, lost updates and inconsistent reads.\nExample:\nWithout concurrency control:\nTwo users update the same record simultaneously and one update overwrites the other.\nWith concurrency control:\nThe DBMS uses locks or timestamps to ensure updates occur sequentially and data remains correct.\nConcurrency Problems in DBMS\nWhen multiple transactions execute concurrently, several problems may occur:\nDirty Read:\nA transaction reads uncommitted data from another transaction that may later roll back.\nLost Update:\nTwo transactions update the same data and one update overwrites the other.\nInconsistent Read:\nA transaction reads the same data multiple times and the data changes in between reads.\nConcurrency Control Protocols\nConcurrency control protocols define rules to ensure correct and consistent execution of transactions. The main protocols are:\nConcurrency Control Protocols\n1. Lock-Based Concurrency Control:",
+    "token_count": 175
+  },
+  {
+    "chunk_id": "dbms_transactions_003",
+    "domain": "dbms",
+    "concept": "transactions",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/concurrency-control-in-dbms/",
+    "text": "Concurrency control protocols define rules to ensure correct and consistent execution of transactions. The main protocols are:\nConcurrency Control Protocols\n1. Lock-Based Concurrency Control:\nUses locks to restrict access to data items during a transaction. Common types include shared locks (read) and exclusive locks (write).\nEnsures serializability and prevents conflicts.\nExample:\nTwo-Phase Locking (2PL) guarantees that once a transaction releases a lock, it cannot obtain any new locks.\n2. Timestamp-Based Concurrency Control:\nEach transaction is assigned a timestamp.\nThe DBMS uses these timestamps to order transactions and prevent conflicts based on their start time.\nRead more about\nLocked based concurrency control protocol",
+    "token_count": 136
+  },
+  {
+    "chunk_id": "dbms_transactions_004",
+    "domain": "dbms",
+    "concept": "transactions",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/concurrency-control-in-dbms/",
+    "text": "Timestamp based concurrency control protocol\nRecoverable and Cascadeless Schedules\nConcurrency control also ensures proper scheduling of transactions:\nRecoverable Schedules:\nA transaction commits only if all transactions it depends on have committed.\nPrevents inconsistencies caused by dependent transactions.\nExample:\nStrict 2PL ensures recoverability by delaying commits until all dependent transactions commit.\nCascadeless Schedules:\nAvoids cascading rollbacks, where one failed transaction causes others to fail.\nAchieved by allowing transactions to read data only after the previous transaction commits.\nAdvantages of Concurrency Control\nReduced Waiting Time:\nMultiple transactions can proceed simultaneously, reducing idle time.\nImproved Response Time:\nFaster access and interaction with the database.\nBetter Resource Utilization:\nHardware and database resources are efficiently shared.\nIncreased System Efficiency:\nHigher throughput and better overall performance.\nDisadvantages of Concurrency Control\nOverhead:",
+    "token_count": 175
+  },
+  {
+    "chunk_id": "dbms_transactions_005",
+    "domain": "dbms",
+    "concept": "transactions",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/concurrency-control-in-dbms/",
+    "text": "Hardware and database resources are efficiently shared.\nIncreased System Efficiency:\nHigher throughput and better overall performance.\nDisadvantages of Concurrency Control\nOverhead:\nManaging locks and timestamps adds system overhead.\nDeadlocks:\nCircular waits between transactions can halt progress.\nReduced Concurrency:\nLocking can limit the number of simultaneous transactions.\nComplexity:\nImplementation in distributed or large systems can be difficult.\nInconsistencies:\nRollbacks or long waits may cause temporary data inaccuracy or staleness.",
+    "token_count": 97
+  }
+]

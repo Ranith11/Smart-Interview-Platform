@@ -1,0 +1,38 @@
+[
+  {
+    "chunk_id": "system-design_microservices-vs-monolith_001",
+    "domain": "system-design",
+    "concept": "microservices-vs-monolith",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/monolithic-vs-microservices-architecture/",
+    "text": "Modern applications can be built using different architectural styles, with Monolithic Architecture and Microservices Architecture being the two most widely adopted approaches. While a monolithic application combines all functionalities into a single deployable unit where as microservices break the application into smaller, independently deployable services.\nMonolithic Architecture organizes all application components within a single codebase and deploys them as one unit.\nMicroservices Architecture breaks an application into multiple independent services that can be developed, deployed, and scaled separately.\nMonolithic Architecture\nMonolithic Architecture\nis a traditional software architecture where all application components, such as the user interface, business logic, and data access layer, are developed and deployed as a single application. This approach is simple to build and manage for small to medium-sized applications.\nAll application modules are maintained within one project.",
+    "token_count": 162
+  },
+  {
+    "chunk_id": "system-design_microservices-vs-monolith_002",
+    "domain": "system-design",
+    "concept": "microservices-vs-monolith",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/monolithic-vs-microservices-architecture/",
+    "text": "All application modules are maintained within one project.\nThe entire application is typically deployed as one package.\nDevelopment, testing, and deployment are managed from a single application.\nModules are closely connected, making changes more challenging as the application grows.\nMonolithic\nMicroservices Architecture\nMicroservices Architecture\nis a software design approach in which an application is divided into multiple small, independent services. Each service focuses on a specific business capability and communicates with other services through lightweight APIs or messaging systems.\nEach service handles a specific business functionality.\nServices operate independently and communicate through APIs or message brokers.\nIndividual services can be deployed without affecting other services.\nServices can be scaled based on their specific workload and requirements.\nDifferent services can use different technologies, databases, or programming languages.\nMonolithic and Microservices Architecture",
+    "token_count": 155
+  },
+  {
+    "chunk_id": "system-design_microservices-vs-monolith_003",
+    "domain": "system-design",
+    "concept": "microservices-vs-monolith",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/monolithic-vs-microservices-architecture/",
+    "text": "Different services can use different technologies, databases, or programming languages.\nMonolithic and Microservices Architecture\nMonolithic Architecture\nMicroservice Architecture\nSingle codebase\nDistributed services\nBuilt as one large application with tightly coupled components\nComposed of small, loosely coupled services components\nDeployed as a single unit\nIndividual services can be deployed independently\nHorizontal scaling can be challenging\nEasier to scale horizontally\nDevelopment is simpler initially\nDevelopment is more complex due to multiple services\nTechnology stack choices are usually limited\nFreedom to choose the best technology for each service\nEntire application may fail if a part fails\nIndividual services can fail without affecting others\nEasier to maintain due to its simplicity\nRequires more effort to manage multiple services\nLess flexible as all components are tightly coupled\nMore flexible as components can be developed, deployed, and scaled independently",
+    "token_count": 170
+  },
+  {
+    "chunk_id": "system-design_microservices-vs-monolith_004",
+    "domain": "system-design",
+    "concept": "microservices-vs-monolith",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/monolithic-vs-microservices-architecture/",
+    "text": "Requires more effort to manage multiple services\nLess flexible as all components are tightly coupled\nMore flexible as components can be developed, deployed, and scaled independently\nCommunication between components is faster\nCommunication may be slower due to network calls\nBest Scenarios for Monolithic and Microservices Architecture\nThe best scenarios where we can use Monolithic Architecture or Microservices Architecture are:",
+    "token_count": 73
+  }
+]

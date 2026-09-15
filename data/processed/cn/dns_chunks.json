@@ -1,0 +1,74 @@
+[
+  {
+    "chunk_id": "cn_dns_001",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "Translation of human-readable domain names into IP addresses enables computers to communicate over the internet, a function performed by the Domain Name System (DNS), which operates in a hierarchical and distributed manner while improving performance through caching.\nProvides name-to-address resolution using a hierarchical system (Root, TLD, Authoritative servers) to locate domain information.\nImproves performance by using caching mechanisms, reducing lookup time for repeated requests.\nExample:\nWhen you enter a website name like google.com in your browser, the system does not understand the name directly. DNS translates it into an IP address of the server hosting the website. This allows your browser to connect to the correct server and load the webpage.\nWorking\nDNS process can be broken down into several steps, ensuring that users can access websites by simply typing a domain name into their browser.\nUser Input:\nThe user enters a domain name (e.g.,\nwww.geeksforgeeks.org\n) in the browser.\nLocal Cache Check:",
+    "token_count": 191
+  },
+  {
+    "chunk_id": "cn_dns_002",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "User Input:\nThe user enters a domain name (e.g.,\nwww.geeksforgeeks.org\n) in the browser.\nLocal Cache Check:\nThe browser or OS checks its cache for a stored IP address.\nDNS Resolver Query:\nIf not found, the request is sent to a DNS resolver (usually by ISP).\nRoot Server Query:\nThe resolver queries a root server, which points to the correct TLD server.\nTLD Server Response:\nThe TLD server directs the resolver to the domain’s authoritative server.\nAuthoritative Server Response:\nThe authoritative server returns the actual IP address.\nFinal Response:\nThe resolver sends the IP back to the user, and the browser connects to the server.\nStructure of DNS\nThe structure of DNS is hierarchical in nature, enabling scalable and organized domain name resolution across the global Internet.\n1. Root\nThe topmost level of the DNS hierarchy.\nRepresented by a dot (.) at the end of a domain name\nActs as the starting point of domain resolution\n2. Top-Level Domains (TLDs)",
+    "token_count": 210
+  },
+  {
+    "chunk_id": "cn_dns_003",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "1. Root\nThe topmost level of the DNS hierarchy.\nRepresented by a dot (.) at the end of a domain name\nActs as the starting point of domain resolution\n2. Top-Level Domains (TLDs)\nThe level directly below the root that defines domain extensions.\nIncludes extensions like .com, .org, .net, .edu\nHelps categorize domains by purpose or region\n3. Second-Level Domains\nThe main domain name registered by an organization.\nAppears before the TLD (e.g., \"example\" in example.com)\nUniquely identifies a domain under a TLD\n4. Subdomains\nExtensions of the main domain used for organization.\nExamples: www, mail, blog\nHelps structure different parts of a website\n5. Hostnames\nIdentifies specific servers or devices within a domain.\nExamples: web1, mailserver, ftp\nMaps to actual IP addresses using DNS records\nTypes of Domains\nDNS categorizes domain names into different types to organize the global naming system and support both forward and reverse resolution.\nTypes of Domains\n1. Generic Domains (gTLDs)",
+    "token_count": 236
+  },
+  {
+    "chunk_id": "cn_dns_004",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "Types of Domains\nDNS categorizes domain names into different types to organize the global naming system and support both forward and reverse resolution.\nTypes of Domains\n1. Generic Domains (gTLDs)\nThese domains are used for general purposes and are not tied to any country.\nInclude extensions like .com, .org, .net.\nNot restricted to any specific country\nUsed for commercial, organizational, and educational purposes\n2. Country Code Domains (ccTLDs)\nThese domains represent specific countries or geographic regions.\nExamples: .in (India), .us (USA), .uk (UK), .jp (Japan)\nManaged by respective national authorities\n3. Reverse DNS\nThese domains are used to map IP addresses back to domain names.\nUsed for reverse lookup (IP address -> domain name)\nIPv4 uses in-addr.arpa\nIPv6 uses ip6.arpa\nUses PTR (Pointer) records\nDomain Name Server\nResponsible for storing DNS records and answering queries to resolve domain names into IP addresses, this function is performed by a Domain Name Server.",
+    "token_count": 220
+  },
+  {
+    "chunk_id": "cn_dns_005",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "Uses PTR (Pointer) records\nDomain Name Server\nResponsible for storing DNS records and answering queries to resolve domain names into IP addresses, this function is performed by a Domain Name Server.\nStores DNS records such as A, AAAA, MX, CNAME, NS, and PTR.\nResponds to queries from clients or other DNS servers.\nOperates within the hierarchical DNS structure.\nCan perform either recursive or authoritative functions.\nEnables communication between users and web servers by supplying necessary DNS data.\nDNS Lookup\nAlso known as DNS Resolution, is the process of converting a domain name into its corresponding IP address so that a device can establish communication with the target server.\nKey Components\nThe key components of DNS work together to resolve domain names into IP addresses efficiently.\n1. DNS Resolver\n: Starts the DNS lookup process and acts as an intermediary between client and DNS servers.\nInitiates the DNS query from the client side.\nForwards requests to appropriate DNS servers to get the IP address.",
+    "token_count": 197
+  },
+  {
+    "chunk_id": "cn_dns_006",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "Initiates the DNS query from the client side.\nForwards requests to appropriate DNS servers to get the IP address.\n2. Recursive Query\n: A query where the resolver fetches the complete answer on behalf of the client.\nResolver performs full lookup across multiple DNS servers if needed.\nReturns the final IP address or an error to the client.\n3. Iterative Query\n: A query where the server provides the best information it has or a referral.\nReturns partial response or points to another DNS server.\nHelps the resolver move step-by-step toward the final answer.\n4. Non-Recursive Query\n: A query where the answer is already available in cache or authoritative server.\nResponse is returned immediately without further lookup.\nNo additional DNS server communication is required.\nDNS Caching\nTechnique that temporarily stores DNS records to reduce repeated queries and improve resolution efficiency.\nStores previously resolved domain records locally.\nReduces response time for future requests.",
+    "token_count": 186
+  },
+  {
+    "chunk_id": "cn_dns_007",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "Stores previously resolved domain records locally.\nReduces response time for future requests.\nMinimizes load on external DNS servers.\nImproves overall network performance.\nTTL (Time-to-Live)\nTTL defines the duration for which a DNS record is considered valid in cache.\nSpecifies how long a DNS record remains stored in cache.\nDefined by the authoritative DNS server.\nMeasured in seconds.\nAfter expiration, a new DNS lookup is required.\nExample:\nIf the TTL value is 3600 seconds, the record remains cached for one hour before it must be refreshed.\nReverse DNS Lookup\nReverse DNS Lookup is the process of resolving an IP address to its associated domain name, performing the opposite function of standard DNS resolution.\nConverts an IP address into a domain name.\nUses special domains such as in-addr.arpa (IPv4) and ip6.arpa (IPv6).\nRelies on PTR (Pointer) records for mapping.\nReverse DNS Lookup\nReverse DNS is commonly used for:\n1. Network Diagnostics\nHelps in analyzing and troubleshooting network issues.",
+    "token_count": 211
+  },
+  {
+    "chunk_id": "cn_dns_008",
+    "domain": "cn",
+    "concept": "dns",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/domain-name-system-dns-in-application-layer/",
+    "text": "Relies on PTR (Pointer) records for mapping.\nReverse DNS Lookup\nReverse DNS is commonly used for:\n1. Network Diagnostics\nHelps in analyzing and troubleshooting network issues.\nHelps administrators identify the domain linked to a specific IP address.\nAssists in traffic analysis and troubleshooting.\n2. Email Security\nEnsures emails are sent from legitimate sources.\nUsed by mail servers to verify sender authenticity.\nHelps reduce spam and fraudulent email activity.\nDNS Record Types\nDifferent DNS record types are used to store specific information about a domain.\nA Record:\nMaps a domain name to its corresponding IPv4 address.\nCNAME Record:\nCreates an alias that points one domain name to another domain name.\nMX Record:\nSpecifies the mail server responsible for receiving emails for a domain.\nTXT Record:\nStores text information used for verification and email authentication purposes.",
+    "token_count": 168
+  }
+]

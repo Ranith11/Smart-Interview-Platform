@@ -1,0 +1,163 @@
+Linear Regression vs Logistic Regression - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+Python for Machine Learning
+Machine Learning with R
+Machine Learning Algorithms
+EDA
+Math for Machine Learning
+Machine Learning Interview Questions
+ML Projects
+Deep Learning
+NLP
+Computer vision
+Data Science
+Artificial Intelligence
+Share Your Experiences
+Machine Learning Basics
+Introduction
+Types
+ML Pipeline
+Applications
+Python for Machine Learning
+ML with Python
+Numpy
+Pandas
+Data Preprocessing
+EDA
+Feature Engineering
+Feature Engineering
+Dimensionality Reduction
+Feature Selection
+Supervised Learning
+Supervised Learning
+Linear Regression
+Logistic Regression
+Decision Tree
+Random Forest
+KNN
+SVM
+Naive Bayes
+Unsupervised Learning
+Unsupervised Learning
+K means Clustering
+Hierarchical Clustering
+DBSCAN Clustering
+Apriori Algorithm
+FP Growth Algorithm
+ECLAT Algorithm
+PCA
+Model Evaluation and Tuning
+Evaluation Metrics
+Regularization
+Cross Validation
+Hyperparameter Tuning
+Underfitting and Overfitting
+Bias and Variance
+Advanced Techniques
+Reinforcement Learning
+Semi-Supervised Learning
+Self-Supervised Learning
+Ensemble Learning
+Machine Learning Practice
+Interview Questions
+ML Projects
+Courses
+Data Science and ML Course
+Generative AI Course
+Explore GATE Course
+Summer SkillUp
+Explore
+Linear Regression vs Logistic Regression
+Last Updated :
+10 Dec, 2025
+Linear Regression and Logistic Regression are two widely used supervised machine learning algorithms. Although they sound similar, they are used for completely different purposes.
+Linear Regression is used for predicting continuous numerical values.
+Logistic Regression is used for predicting categorical outputs, mostly binary classification.
+Both techniques analyse relationships between independent variables and dependent variables, but differ in usage, output form, mathematics and evaluation metrics.
+Understanding Linear Regression
+Linear Regression
+is used when the output is a continuous number. The model tries to find a straight line (or a plane in higher dimensions) that best fits the data. It predicts values by calculating a weighted sum of input features. It is mainly used to estimate quantities such as price, marks, salary or temperature.
+Predicts a continuous value
+Uses a straight-line relationship between input and output
+Minimizes error using methods like Least Squares
+Works well when data follows a linear trend
+Applications
+House price prediction
+Sales forecasting
+Temperature prediction
+Cost estimation
+Advantages
+Simple to understand and implement
+Fast training and prediction
+Works well for problems with linear patterns
+Provides insights into feature importance through coefficient values.
+Less computational cost compared to complex ML algorithms.
+Limitations
+Cannot capture nonlinear patterns, leading to poor accuracy in complex datasets.
+Sensitive to outliers, which can distort predictions.
+Performs poorly when multicollinearity exists among features.
+Overfits easily if the dataset contains many irrelevant features.
+Understanding Logistic Regression
+Logistic Regression
+is used when the output is categorical, usually binary (0 or 1). Instead of predicting a straight-line value, it predicts the probability of an event happening using the sigmoid function which forms a S-shaped curve graph and it converts any number into a value between 0 and 1.
+It is used for classification tasks such as spam detection or whether a student will pass or fail.
+Predicts probability of a class
+Uses a sigmoid function to squash values between 0 and 1
+Good for binary classification
+Can be extended to multi-class classification using Softmax function
+Applications
+Spam email classification
+Disease prediction
+Customer churn prediction
+Loan approval classification
+Advantages
+Works well for classification problems
+Easy to interpret
+Outputs probabilities which are useful for decision-making
+Provides feature importance through coefficient weights.
+Limitations
+Cannot efficiently solve problems requiring complex nonlinear boundaries.
+Accuracy drops with large feature interaction or noisy data.
+Sensitive to imbalanced datasets; may bias majority class.
+Needs feature scaling for better performance.
+Difference between Linear Regression and Logistic Regression
+Here we compare linear regression and logistic regression
+Feature
+Linear Regression
+Logistic Regression
+Type
+Supervised regression model
+Supervised classification model
+Prediction
+Continuous numeric values
+Categorical values
+Activation Function
+Not used
+Sigmoid function converts linear output to probability
+Threshold Value
+Not required
+Required to classify output into classes
+Evaluation Metric
+Root Mean Square Error
+Precision, Recall, Accuracy, F1-score
+Assumption
+Dependent variable follows normal/Gaussian distribution
+Dependent variable follows binomial distribution
+Dependent Variable
+Numeric and continuous
+Categorical (binary or multinomial)
+When to Use Linear Regression
+Suitable for problems that show a linear relationship between input features and the target variable.
+Best for datasets that are simple and not overly complex.
+Works effectively if features are not highly correlated with each other.
+Preferred in situations where model interpretability is important.
+When to Use Logistic Regression
+Best suited for classification tasks with discrete output values.
+Works well for datasets where the relationship between features and outcome is monotonic.
+Suitable when output probability and interpretability are required.
+Effective when feature count is moderate and dataset is not extremely large.
+Helpful when transparency and explainability are important for decision-making.
+Comment

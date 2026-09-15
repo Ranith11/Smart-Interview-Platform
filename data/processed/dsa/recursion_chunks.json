@@ -1,0 +1,38 @@
+[
+  {
+    "chunk_id": "dsa_recursion_001",
+    "domain": "dsa",
+    "concept": "recursion",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/recursion/",
+    "text": "Introduction\n\nRecursion is a method of solving a computational problem where the solution depends on solutions to smaller instances of the same problem.\nAll recursive functions contain two parts:\nA base case (or cases) defined, which defines when the recursion is stopped - otherwise it will go on forever!\nBreaking down the problem into smaller subproblems and invoking the recursive call\nOne of the most common example of recursion is the Fibonacci sequence.\nBase cases:\nfib(0) = 0\nand\nfib(1) = 1\nRecurrence relation:\nfib(i) = fib(i-1) + fib(i-2)\ndef\nfib\n(\nn\n)\n:\nif\nn\n<=\n1\n:\nreturn\nn\nreturn\nfib\n(\nn\n-\n1\n)\n+\nfib\n(\nn\n-\n2\n)\nMany algorithms relevant in coding interviews make heavy use of recursion - binary search, merge sort, tree traversal, depth-first search, etc. In this article, we focus on questions which use recursion but aren't part of other well known algorithms.\nThings to look out for during interviews",
+    "token_count": 222
+  },
+  {
+    "chunk_id": "dsa_recursion_002",
+    "domain": "dsa",
+    "concept": "recursion",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/recursion/",
+    "text": "Always remember to define a base case so that your recursion will end.\nRecursion is useful for permutation, because it generates all combinations and tree-based questions. You should know how to generate all permutations of a sequence as well as how to handle duplicates.\nRecursion implicitly uses a stack. Hence all recursive approaches can be rewritten iteratively using a stack. Beware of cases where the recursion level goes too deep and causes a stack overflow (the default limit in Python is 1000). You may get bonus points for pointing this out to the interviewer. Recursion will never be O(1) space complexity because a stack is involved, unless there is\ntail-call optimization\n(TCO). Find out if your chosen language supports TCO.\nNumber of base cases - In the fibonacci example above, note that one of our recursive calls invoke\nfib(n - 2)",
+    "token_count": 174
+  },
+  {
+    "chunk_id": "dsa_recursion_003",
+    "domain": "dsa",
+    "concept": "recursion",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/recursion/",
+    "text": "tail-call optimization\n(TCO). Find out if your chosen language supports TCO.\nNumber of base cases - In the fibonacci example above, note that one of our recursive calls invoke\nfib(n - 2)\n. This indicates that you should have 2 base cases defined so that your code covers all possible invocations of the function within the input range. If your recursive function only invokes\nfn(n - 1)\n, then only one base case is needed\nCorner cases",
+    "token_count": 96
+  },
+  {
+    "chunk_id": "dsa_recursion_004",
+    "domain": "dsa",
+    "concept": "recursion",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/recursion/",
+    "text": "n = 0\nn = 1\nMake sure you have enough base cases to cover all possible invocations of the recursive function\nTechniques\n\nMemoization\n\nIn some cases, you may be computing the result for previously computed inputs. Let's look at the Fibonacci example again.\nfib(5)\ncalls\nfib(4)\nand\nfib(3)\n, and\nfib(4)\ncalls\nfib(3)\nand\nfib(2)\n.\nfib(3)\nis being called twice! If the value for\nfib(3)\nis memoized and used again, that greatly improves the efficiency of the algorithm and the time complexity becomes O(n).\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nGenerate Parentheses\nCombinations\nSubsets\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nLetter Combinations of a Phone Number\nSubsets II\nPermutations\nSudoku Solver\nStrobogrammatic Number II (LeetCode Premium)",
+    "token_count": 217
+  }
+]

@@ -1,0 +1,497 @@
+"""
+SmartInterview — Technical Mock Interview Question Generator
+Week 6: Skill-first, RAG-assisted, multi-question generation using Groq.
+
+Usage:
+    python scripts/generate_question.py --resume data/resumes/candidate.pdf
+    python scripts/generate_question.py --resume data/resumes/candidate.pdf --count 5
+    python scripts/generate_question.py --resume data/resumes/candidate.pdf --count 3 --difficulty hard --type mixed --verbose
+"""
+
+import os
+import sys
+import json
+import argparse
+import time
+import importlib.util
+
+# Fix Windows terminal encoding
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+# ============================================================
+# CONSTANTS
+# ============================================================
+
+CHROMA_DB_DIR = "chroma_db"
+COLLECTION_NAME = "technical_kb"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+MAX_QUESTION_COUNT = 10
+PROMPTS_FILE = os.path.join("prompts", "question_generation.json")
+QUESTION_TYPES = ["conceptual", "practical", "technical_reasoning", "scenario", "project"]
+
+# ============================================================
+# SKILL → DOMAIN MAPPING
+# Maps resume skills to relevant knowledge-base domains so that
+# RAG retrieval is filtered to the most relevant chunks.
+# A skill can map to multiple domains (searched in order).
+# ============================================================
+SKILL_DOMAIN_MAP = {
+    # --- Programming languages → OOP + DSA (core CS) ---
+    "java":        ["oop", "dsa", "design-patterns"],
+    "python":      ["dsa", "oop", "ml-dl"],
+    "c++":         ["oop", "dsa"],
+    "c":           ["dsa", "os"],
+    "c#":          ["oop", "dsa", "design-patterns"],
+    "go":          ["dsa", "system-design"],
+    "rust":        ["dsa", "os"],
+    "kotlin":      ["oop", "dsa"],
+    "swift":       ["oop", "dsa"],
+    "typescript":  ["dsa", "design-patterns"],
+    "javascript":  ["dsa", "design-patterns"],
+    # --- Database / SQL ---
+    "sql":         ["dbms"],
+    "sql (postgres)": ["dbms"],
+    "postgres":    ["dbms"],
+    "postgresql":  ["dbms"],
+    "mysql":       ["dbms"],
+    "mongodb":     ["dbms"],
+    "sqlite":      ["dbms"],
+    "redis":       ["dbms", "system-design"],
+    "database":    ["dbms"],
+    # --- Web / Frameworks ---
+    "react":       ["design-patterns", "dsa"],
+    "node.js":     ["system-design", "design-patterns"],
+    "flask":       ["design-patterns", "system-design"],
+    "fastapi":     ["design-patterns", "system-design"],
+    "django":      ["design-patterns", "system-design"],
+    "spring":      ["design-patterns", "oop"],
+    "html":        ["cn"],
+    "css":         ["cn"],
+    # --- DevOps / Cloud ---
+    "docker":      ["os", "system-design"],
+    "kubernetes":  ["system-design", "os"],
+    "google cloud platform": ["system-design", "cn"],
+    "aws":         ["system-design", "cn"],
+    "azure":       ["system-design", "cn"],
+    "travisci":    ["system-design"],
+    "ci/cd":       ["system-design"],
+    # --- Data Science / ML ---
+    "pandas":      ["ml-dl", "dsa"],
+    "numpy":       ["ml-dl", "dsa"],
+    "matplotlib":  ["ml-dl"],
+    "scikit-learn": ["ml-dl"],
+    "tensorflow":  ["ml-dl"],
+    "pytorch":     ["ml-dl"],
+    # --- Testing ---
+    "junit":       ["oop", "design-patterns"],
+    # --- Tools (general fallback) ---
+    "git":         ["system-design"],
+    "developer tools: git": ["system-design"],
+}
+
+# Domain-specific query templates produce better semantic matches
+# than the generic "Technical interview concepts related to {skill}"
+DOMAIN_QUERY_TEMPLATES = {
+    "dbms":            "SQL database {skill} concepts: indexing, joins, normalization, transactions, keys, ACID",
+    "oop":             "Object-oriented programming {skill} concepts: classes, inheritance, polymorphism, encapsulation, abstraction",
+    "dsa":             "Data structures and algorithms {skill}: arrays, trees, graphs, sorting, searching, complexity",
+    "design-patterns": "Software design patterns {skill}: singleton, factory, observer, strategy, architecture",
+    "system-design":   "System design {skill}: scalability, caching, load balancing, microservices, distributed systems",
+    "os":              "Operating systems {skill}: processes, threads, memory management, scheduling, synchronization",
+    "cn":              "Computer networking {skill}: protocols, TCP/IP, HTTP, DNS, OSI model, security",
+    "ml-dl":           "Machine learning {skill}: regression, classification, neural networks, overfitting, bias-variance",
+}
+
+
+def load_prompts():
+    """Load prompt templates from the prompt library."""
+    with open(PROMPTS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def find_project_for_skill(skill, projects):
+    """Find a candidate project that uses the given skill. Returns the project dict or None."""
+    skill_lower = skill.lower().strip()
+    for project in projects:
+        # Check project technologies
+        for tech in project.get("technologies", []):
+            if skill_lower == tech.lower().strip():
+                return project
+        # Check project description
+        desc = project.get("description", "").lower()
+        if skill_lower in desc:
+            return project
+    return None
+
+
+def resolve_skill_domains(skill):
+    """
+    Map a resume skill to its relevant knowledge-base domains.
+    Returns a list of domain strings, or an empty list if no mapping found.
+    """
+    skill_lower = skill.lower().strip()
+
+    # Direct lookup
+    if skill_lower in SKILL_DOMAIN_MAP:
+        return SKILL_DOMAIN_MAP[skill_lower]
+
+    # Partial match — e.g. "sql (postgres)" contains "sql"
+    for key, domains in SKILL_DOMAIN_MAP.items():
+        if key in skill_lower or skill_lower in key:
+            return domains
+
+    return []
+
+
+def build_rag_query(skill, domains):
+    """
+    Build a domain-aware RAG query string.
+    Uses domain-specific templates when a domain mapping exists,
+    falls back to a generic query otherwise.
+    """
+    if domains:
+        primary_domain = domains[0]
+        template = DOMAIN_QUERY_TEMPLATES.get(primary_domain)
+        if template:
+            return template.replace("{skill}", skill)
+    # Fallback
+    return f"Technical interview concepts related to {skill}"
+
+
+def retrieve_rag_context(skill, embedding_model, collection, domains=None):
+    """
+    Retrieve RAG context for a given skill from ChromaDB.
+    Uses domain-filtered search when domains are available,
+    falls back to unfiltered search otherwise.
+    Returns (chunks_list, query_string).
+    """
+    query = build_rag_query(skill, domains or [])
+    query_embedding = embedding_model.encode(query, convert_to_numpy=True).tolist()
+
+    # Build ChromaDB where-filter for domain(s)
+    where_filter = None
+    if domains:
+        if len(domains) == 1:
+            where_filter = {"domain": domains[0]}
+        else:
+            where_filter = {"$or": [{"domain": d} for d in domains]}
+
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=3,
+        where=where_filter,
+    )
+
+    chunks = []
+    if results["ids"] and results["ids"][0]:
+        for i in range(len(results["ids"][0])):
+            chunks.append({
+                "chunk_id": results["ids"][0][i],
+                "domain": results["metadatas"][0][i].get("domain", ""),
+                "concept": results["metadatas"][0][i].get("concept", ""),
+                "text": results["documents"][0][i],
+                "distance": results["distances"][0][i] if results["distances"] else None,
+            })
+
+    return chunks, query
+
+
+def build_prompt(skill, rag_chunks, project_context, difficulty, question_type, previous_questions, prompts):
+    """Build the LLM prompt for a skill-based question."""
+    system_prompt = prompts["system_prompt"]
+    diff_instruction = prompts["difficulty_instructions"].get(difficulty, "")
+    type_instruction = prompts["question_types"].get(question_type, "")
+
+    # Deduplication
+    dedup_section = ""
+    if previous_questions:
+        prev_list = "\n".join([f"- {q}" for q in previous_questions])
+        dedup_section = prompts["dedup_instruction"].replace("{previous_questions}", prev_list)
+
+    # RAG context
+    if rag_chunks:
+        rag_parts = []
+        for c in rag_chunks[:3]:
+            rag_parts.append(f"[{c['domain']}/{c['concept']}]\n{c['text'][:400]}")
+        rag_text = "\n---\n".join(rag_parts)
+    else:
+        rag_text = "None available."
+
+    # Optional project context
+    project_section = ""
+    if project_context:
+        p_name = project_context.get("name", "")
+        p_desc = project_context.get("description", "")[:200]
+        p_techs = ", ".join(project_context.get("technologies", []))
+        project_section = f"\nCandidate Project (optional personalization):\nProject: {p_name}\nDescription: {p_desc}\nTechnologies: {p_techs}"
+
+    user_prompt = f"""{diff_instruction}
+
+Question type: {question_type}
+{type_instruction}
+
+Selected Skill: {skill}
+{project_section}
+
+Retrieved Technical Context:
+{rag_text}
+
+{dedup_section}"""
+
+    return system_prompt, user_prompt
+
+
+def get_groq_model(groq_client):
+    """Get and verify configured Groq model."""
+    configured_model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+    try:
+        models_response = groq_client.models.list()
+        available_ids = {m.id for m in models_response.data}
+        if configured_model not in available_ids:
+            print(f"ERROR: Model '{configured_model}' is not available.")
+            sys.exit(1)
+        return configured_model
+    except Exception as e:
+        print(f"ERROR: Failed to verify model: {e}")
+        sys.exit(1)
+
+
+def call_groq(system_prompt, user_prompt, groq_client, model_name, max_retries=3):
+    """Call Groq API to generate a question with retry + exponential backoff."""
+    current_max_tokens = 512
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            response = groq_client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=0.7,
+                max_tokens=current_max_tokens,
+            )
+
+            choice = response.choices[0]
+            text = choice.message.content
+            finish_reason = getattr(choice, "finish_reason", None)
+
+            # Check for empty response
+            if not text or not text.strip():
+                print(f"  [Attempt {attempt}/{max_retries}] Empty response (finish_reason={finish_reason}), retrying...")
+            # Check for truncated response (hit token limit)
+            elif finish_reason == "length":
+                print(f"  [Attempt {attempt}/{max_retries}] Truncated (hit {current_max_tokens} tokens), retrying with more...")
+                current_max_tokens = min(current_max_tokens * 2, 1024)
+            # Check if it was cut off mid-sentence without finish_reason="length"
+            elif text.strip()[-1] not in ["?", ".", "!", '"', "'", "`"]:
+                print(f"  [Attempt {attempt}/{max_retries}] Incomplete sentence detected (finish_reason={finish_reason}), retrying...")
+                current_max_tokens = min(current_max_tokens * 2, 1024)
+            else:
+                return text.strip()
+
+        except Exception as e:
+            error_msg = str(e)
+            print(f"  [Attempt {attempt}/{max_retries}] Error: {error_msg[:120]}")
+
+        # Exponential backoff: 5s, 10s, 20s
+        if attempt < max_retries:
+            wait = 5 * (2 ** (attempt - 1))
+            time.sleep(wait)
+
+    return None
+
+
+def main():
+    parser = argparse.ArgumentParser(description="SmartInterview — Technical Mock Interview")
+    parser.add_argument("--resume", type=str, required=True, help="Path to candidate resume PDF")
+    parser.add_argument("--count", type=int, default=1, help="Number of questions (1-10)")
+    parser.add_argument("--difficulty", type=str, default="medium", choices=["easy", "medium", "hard"])
+    parser.add_argument("--type", type=str, default="mixed",
+                        choices=["conceptual", "technical_reasoning", "practical", "scenario", "project", "mixed"])
+    parser.add_argument("--verbose", action="store_true")
+    args = parser.parse_args()
+
+    if not os.path.exists(args.resume):
+        print(f"ERROR: Resume not found: {args.resume}")
+        sys.exit(1)
+
+    count = max(1, min(args.count, MAX_QUESTION_COUNT))
+
+    # Load environment and dependencies
+    try:
+        from dotenv import load_dotenv
+    except ImportError:
+        print("ERROR: python-dotenv is required.")
+        sys.exit(1)
+    load_dotenv()
+
+    prompts = load_prompts()
+
+    from groq import Groq
+    import chromadb
+    from sentence_transformers import SentenceTransformer
+
+    # Parse resume
+    _pr_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "parse_resume.py")
+    _spec = importlib.util.spec_from_file_location("parse_resume_mod", _pr_path)
+    _pr_mod = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_pr_mod)
+    parse_resume_fn = _pr_mod.parse_resume
+
+    try:
+        profile = parse_resume_fn(args.resume)
+    except Exception as e:
+        print(f"ERROR: Failed to parse resume: {e}")
+        sys.exit(1)
+
+    skills = profile.get("skills", [])
+    projects = profile.get("projects", [])
+
+    if not skills:
+        print("ERROR: No technical skills found in the resume.")
+        sys.exit(1)
+
+    # Groq setup
+    groq_client = Groq()
+    groq_model = get_groq_model(groq_client)
+
+    # ============================================================
+    # HEADER
+    # ============================================================
+    print("============================================================")
+    print("SMARTINTERVIEW \u2014 TECHNICAL MOCK INTERVIEW")
+    print("============================================================")
+    print(f"\nResume       : {os.path.basename(args.resume)}")
+    print(f"Model        : {groq_model}")
+    print(f"Difficulty   : {args.difficulty.capitalize()}")
+    print(f"Question Type: {args.type.capitalize()}")
+    print(f"Questions    : {count}")
+
+    # ============================================================
+    # SKILL SELECTION (deterministic rotation)
+    # ============================================================
+    selected_skills = []
+    for i in range(count):
+        selected_skills.append(skills[i % len(skills)])
+
+    print("\n============================================================")
+    print(f"EXTRACTED SKILLS ({len(skills)})")
+    print("============================================================")
+    for i, s in enumerate(skills, 1):
+        print(f"{i}. {s}")
+
+    print("\n============================================================")
+    print(f"SELECTED FOR QUESTIONS ({len(selected_skills)})")
+    print("============================================================")
+    for i, s in enumerate(selected_skills, 1):
+        print(f"{i}. {s}")
+
+    # ============================================================
+    # RAG SETUP
+    # ============================================================
+    embedding_model = SentenceTransformer(EMBEDDING_MODEL)
+    client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+    collection = client.get_collection(name=COLLECTION_NAME)
+
+    # Question type rotation
+    if args.type == "mixed":
+        slot_types = [QUESTION_TYPES[i % len(QUESTION_TYPES)] for i in range(count)]
+    else:
+        slot_types = [args.type] * count
+
+    # ============================================================
+    # QUESTION GENERATION
+    # ============================================================
+    print("\n============================================================")
+    print("GENERATED QUESTIONS")
+    print("============================================================")
+
+    generated_questions = []
+    skills_used = set()
+
+    for i in range(count):
+        skill = selected_skills[i]
+        skills_used.add(skill)
+        q_type = slot_types[i]
+
+        # Resolve skill → knowledge-base domains
+        skill_domains = resolve_skill_domains(skill)
+
+        # RAG retrieval (domain-filtered)
+        rag_chunks, rag_query = retrieve_rag_context(skill, embedding_model, collection, domains=skill_domains)
+        rag_available = len(rag_chunks) > 0
+
+        # Optional project context
+        project_ctx = find_project_for_skill(skill, projects)
+
+        # Build prompt
+        system_prompt, user_prompt = build_prompt(
+            skill=skill,
+            rag_chunks=rag_chunks,
+            project_context=project_ctx,
+            difficulty=args.difficulty,
+            question_type=q_type,
+            previous_questions=generated_questions,
+            prompts=prompts,
+        )
+
+        # Verbose output
+        if args.verbose:
+            print(f"\n--- QUESTION {i + 1} PIPELINE ---")
+            print(f"Skill     : {skill}")
+            print(f"Domains   : {', '.join(skill_domains) if skill_domains else 'None (unfiltered)'}")
+            print(f"RAG Query : {rag_query}")
+            if rag_chunks:
+                print("Retrieved :")
+                for c in rag_chunks[:3]:
+                    dist_str = f"{c['distance']:.4f}" if c['distance'] is not None else "N/A"
+                    print(f"  - {c['chunk_id']} (dist: {dist_str})")
+            else:
+                print("Retrieved : None")
+            if project_ctx:
+                print(f"Project   : {project_ctx.get('name', 'N/A')}")
+            print(f"Type      : {q_type.title().replace('_', ' ')}")
+            print(f"Difficulty: {args.difficulty.capitalize()}")
+            print("---")
+
+        # Generate question
+        question = call_groq(system_prompt, user_prompt, groq_client, groq_model)
+
+        if question:
+            generated_questions.append(question)
+
+            print(f"\nQUESTION {i + 1}")
+            print("------------------------------------------------------------")
+            print(f"Skill : {skill}")
+            print(f"Type  : {q_type.title().replace('_', ' ')}")
+            print(f"RAG   : {'Available' if rag_available else 'None available'}")
+            print(f"\n{question}")
+            print("\n------------------------------------------------------------")
+        else:
+            print(f"\nQuestion {i + 1}: [GENERATION FAILED]")
+
+        # Rate limit spacing
+        if i < count - 1:
+            time.sleep(1)
+
+    # ============================================================
+    # FINAL RESULT
+    # ============================================================
+    print("\n============================================================")
+    print("FINAL RESULT")
+    print("============================================================")
+    print(f"\nQuestions Generated : {len(generated_questions)} / {count}")
+    print(f"Skills Used         : {len(skills_used)}")
+    print("\n============================================================")
+    print("WEEK 6 COMPLETE")
+    print("============================================================")
+
+
+if __name__ == "__main__":
+    main()

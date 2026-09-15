@@ -1,0 +1,223 @@
+Domain Name System (DNS) - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+DSA
+Practice Problems
+C
+C++
+Java
+Python
+JavaScript
+Data Science
+Machine Learning
+Courses
+Linux
+DevOps
+Ace GATE 2027
+Computer Network Basics
+Computer Networking
+Types
+Internet
+Network Devices
+OSI Model
+TCP/IP Model
+OSI vs TCP/IP Model
+Physical Layer
+Physical Layer
+Network Topology
+Transmission Modes
+Transmission Media
+Data Link Layer
+Data Link Layer
+Switching
+Virtual LAN
+Framing
+Error Control
+Flow Control
+Piggybacking
+Network Layer
+Network Layer
+Classful Addressing
+Classless Addressing
+IP Address
+IPv4 Datagram Header
+IPv4 vs IPv6
+Public vs Private IP
+Subnetting
+Routing
+Protocols
+Transport Layer
+Transport Layer
+Protocols
+TCP
+UDP
+Session Layer & Presentation Layer
+Session Layer
+Presentation Layer
+Secure Socket Layer
+Point-to-Point Tunneling Protocol
+MIME Protocol
+Application Layer
+Application Layer
+Client-Server Model
+WWW
+Electronic Mail
+Content Distribution Network
+Protocols
+Advanced Topics
+Network Security
+QoS & Multimedia
+Authentication
+Encryption
+Firewall
+MAC Filtering
+Wi-Fi Standards
+Bluetooth
+Wireless Communication
+Cloud Networking
+Practice
+Networking Interview Q&A
+TCP/IP Interview Q&A
+Network Fundamentals Interview Questions
+Notes
+Cheat Sheet
+Courses
+GATE CS/IT/DA Courses
+DSA and System Design Course
+Summer SkillUp
+Explore
+Domain Name System (DNS)
+Last Updated :
+11 Jun, 2026
+Translation of human-readable domain names into IP addresses enables computers to communicate over the internet, a function performed by the Domain Name System (DNS), which operates in a hierarchical and distributed manner while improving performance through caching.
+Provides name-to-address resolution using a hierarchical system (Root, TLD, Authoritative servers) to locate domain information.
+Improves performance by using caching mechanisms, reducing lookup time for repeated requests.
+Example:
+When you enter a website name like google.com in your browser, the system does not understand the name directly. DNS translates it into an IP address of the server hosting the website. This allows your browser to connect to the correct server and load the webpage.
+Working
+DNS process can be broken down into several steps, ensuring that users can access websites by simply typing a domain name into their browser.
+User Input:
+The user enters a domain name (e.g.,
+www.geeksforgeeks.org
+) in the browser.
+Local Cache Check:
+The browser or OS checks its cache for a stored IP address.
+DNS Resolver Query:
+If not found, the request is sent to a DNS resolver (usually by ISP).
+Root Server Query:
+The resolver queries a root server, which points to the correct TLD server.
+TLD Server Response:
+The TLD server directs the resolver to the domain’s authoritative server.
+Authoritative Server Response:
+The authoritative server returns the actual IP address.
+Final Response:
+The resolver sends the IP back to the user, and the browser connects to the server.
+Structure of DNS
+The structure of DNS is hierarchical in nature, enabling scalable and organized domain name resolution across the global Internet.
+1. Root
+The topmost level of the DNS hierarchy.
+Represented by a dot (.) at the end of a domain name
+Acts as the starting point of domain resolution
+2. Top-Level Domains (TLDs)
+The level directly below the root that defines domain extensions.
+Includes extensions like .com, .org, .net, .edu
+Helps categorize domains by purpose or region
+3. Second-Level Domains
+The main domain name registered by an organization.
+Appears before the TLD (e.g., "example" in example.com)
+Uniquely identifies a domain under a TLD
+4. Subdomains
+Extensions of the main domain used for organization.
+Examples: www, mail, blog
+Helps structure different parts of a website
+5. Hostnames
+Identifies specific servers or devices within a domain.
+Examples: web1, mailserver, ftp
+Maps to actual IP addresses using DNS records
+Types of Domains
+DNS categorizes domain names into different types to organize the global naming system and support both forward and reverse resolution.
+Types of Domains
+1. Generic Domains (gTLDs)
+These domains are used for general purposes and are not tied to any country.
+Include extensions like .com, .org, .net.
+Not restricted to any specific country
+Used for commercial, organizational, and educational purposes
+2. Country Code Domains (ccTLDs)
+These domains represent specific countries or geographic regions.
+Examples: .in (India), .us (USA), .uk (UK), .jp (Japan)
+Managed by respective national authorities
+3. Reverse DNS
+These domains are used to map IP addresses back to domain names.
+Used for reverse lookup (IP address -> domain name)
+IPv4 uses in-addr.arpa
+IPv6 uses ip6.arpa
+Uses PTR (Pointer) records
+Domain Name Server
+Responsible for storing DNS records and answering queries to resolve domain names into IP addresses, this function is performed by a Domain Name Server.
+Stores DNS records such as A, AAAA, MX, CNAME, NS, and PTR.
+Responds to queries from clients or other DNS servers.
+Operates within the hierarchical DNS structure.
+Can perform either recursive or authoritative functions.
+Enables communication between users and web servers by supplying necessary DNS data.
+DNS Lookup
+Also known as DNS Resolution, is the process of converting a domain name into its corresponding IP address so that a device can establish communication with the target server.
+Key Components
+The key components of DNS work together to resolve domain names into IP addresses efficiently.
+1. DNS Resolver
+: Starts the DNS lookup process and acts as an intermediary between client and DNS servers.
+Initiates the DNS query from the client side.
+Forwards requests to appropriate DNS servers to get the IP address.
+2. Recursive Query
+: A query where the resolver fetches the complete answer on behalf of the client.
+Resolver performs full lookup across multiple DNS servers if needed.
+Returns the final IP address or an error to the client.
+3. Iterative Query
+: A query where the server provides the best information it has or a referral.
+Returns partial response or points to another DNS server.
+Helps the resolver move step-by-step toward the final answer.
+4. Non-Recursive Query
+: A query where the answer is already available in cache or authoritative server.
+Response is returned immediately without further lookup.
+No additional DNS server communication is required.
+DNS Caching
+Technique that temporarily stores DNS records to reduce repeated queries and improve resolution efficiency.
+Stores previously resolved domain records locally.
+Reduces response time for future requests.
+Minimizes load on external DNS servers.
+Improves overall network performance.
+TTL (Time-to-Live)
+TTL defines the duration for which a DNS record is considered valid in cache.
+Specifies how long a DNS record remains stored in cache.
+Defined by the authoritative DNS server.
+Measured in seconds.
+After expiration, a new DNS lookup is required.
+Example:
+If the TTL value is 3600 seconds, the record remains cached for one hour before it must be refreshed.
+Reverse DNS Lookup
+Reverse DNS Lookup is the process of resolving an IP address to its associated domain name, performing the opposite function of standard DNS resolution.
+Converts an IP address into a domain name.
+Uses special domains such as in-addr.arpa (IPv4) and ip6.arpa (IPv6).
+Relies on PTR (Pointer) records for mapping.
+Reverse DNS Lookup
+Reverse DNS is commonly used for:
+1. Network Diagnostics
+Helps in analyzing and troubleshooting network issues.
+Helps administrators identify the domain linked to a specific IP address.
+Assists in traffic analysis and troubleshooting.
+2. Email Security
+Ensures emails are sent from legitimate sources.
+Used by mail servers to verify sender authenticity.
+Helps reduce spam and fraudulent email activity.
+DNS Record Types
+Different DNS record types are used to store specific information about a domain.
+A Record:
+Maps a domain name to its corresponding IPv4 address.
+CNAME Record:
+Creates an alias that points one domain name to another domain name.
+MX Record:
+Specifies the mail server responsible for receiving emails for a domain.
+TXT Record:
+Stores text information used for verification and email authentication purposes.
+Comment

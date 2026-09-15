@@ -1,0 +1,236 @@
+[
+  {
+    "chunk_id": "design-patterns_singleton_001",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "The Singleton Design Pattern ensures that a class has only one instance and provides a global access point to it. It is used when we want centralized control of resources, such as managing database connections, configuration settings or logging.\nPrevents accidental creation of multiple instances and ensures controlled, efficient use of resources like memory and connections.\nSimplifies coordination across different parts of the application by providing a single shared instance.\nExample:\nA Database Connection Manager uses a single shared instance instead of creating multiple connections. This ensures efficient resource usage and consistent access to the database across the application.\nSingleton Design Pattern\nIn the above Diagram:\nAll clients (Client-1, Client-2, Client-3) send requests but receive the same single instance (Instance-1), showing that only one object is created.\nThe Singleton object acts as a central access point, ensuring every request is handled by the same shared instance.",
+    "token_count": 178
+  },
+  {
+    "chunk_id": "design-patterns_singleton_002",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "The Singleton object acts as a central access point, ensuring every request is handled by the same shared instance.\nThis avoids multiple object creation, leading to efficient resource usage and consistent behavior (e.g., one database connection manager).\nReal-World Applications\nThe Singleton Pattern ensures a single, globally accessible instance of a class, providing controlled access and consistent behavior across an application.\nLogging Systems :\nMaintain a consistent logging mechanism across an application.\nConfiguration Managers :\nCentralize access to configuration settings.\nDatabase Connections :\nManage a single point of database access.\nThread Pools :\nEfficiently manage a pool of threads for concurrent tasks.\nFeatures\nThe Singleton Pattern ensures that a class has only one instance and provides a global point of access to it, while efficiently managing resources.\nSingle Instance:\nEnsures only one object of the class exists in the JVM.\nGlobal Access Point:",
+    "token_count": 171
+  },
+  {
+    "chunk_id": "design-patterns_singleton_003",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "Single Instance:\nEnsures only one object of the class exists in the JVM.\nGlobal Access Point:\nProvides a centralized way to access the instance.\nLazy or Eager Initialization:\nAn Instance can be created at class load time (eager) or when first needed (lazy).\nThread Safety:\nCan be designed to work correctly in multithreaded environments.\nResource Management:\nUseful for managing shared resources like configurations, logging or database connections.\nComponents\nThe main key components of Singleton Method Design Pattern are:\nComponents\n1. Static Member\nThe Singleton pattern employs a static member within the class. This static member ensures that memory is allocated only once, preserving the single instance of the Singleton class.\nC++\n// Static member to hold the single instance\nprivate\n:\nstatic\nSingleton\ninstance\n;\nJava\n// Static member to hold the single instance\nprivate\nstatic\nSingleton\ninstance\n;\nPython\n# Static member to hold the single instance\ninstance\n=\nNone\nJavaScript",
+    "token_count": 197
+  },
+  {
+    "chunk_id": "design-patterns_singleton_004",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": ":\nstatic\nSingleton\ninstance\n;\nJava\n// Static member to hold the single instance\nprivate\nstatic\nSingleton\ninstance\n;\nPython\n# Static member to hold the single instance\ninstance\n=\nNone\nJavaScript\n// Static member to hold the single instance\nlet\ninstance\n=\nnull\n;\n2. Private Constructor\nThe Singleton pattern incorporates a private constructor, which serves as a barricade against external attempts to create instances of the Singleton class. This ensures that the class has control over its instantiation process.\nC++\n// Private constructor to prevent external instantiation\nclass\nSingleton",
+    "token_count": 118
+  },
+  {
+    "chunk_id": "design-patterns_singleton_005",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "private\n:\n// Making the constructor as Private\nSingleton\n()\n\n// Initialization code here\n\n};\nJava\n// Private constructor to prevent external instantiation\nclass\nSingleton\n\n// Making the constructor as Private\nprivate\nSingleton\n()\n\n// Initialization code here\n\nPython\n\"\"\"\nPrivate constructor to prevent external instantiation\n\"\"\"\nclass\nSingleton\n:\ndef\n__new__\n(\ncls\n):\nif\nnot\nhasattr\n(\ncls\n,\n'instance'\n):\ncls\n.\ninstance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\n# Initialization code here\nreturn\ncls\n.\ninstance\n@classmethod\ndef\nget_instance\n(\ncls\n):\nif\nnot\nhasattr\n(\ncls\n,\n'instance'\n):\ncls\n()\nreturn\ncls\n.\ninstance\n# Private constructor\ndef\n__init__\n(\nself\n):\nif\nhasattr\n(\nself\n.\n__class__\n,\n'instance'\n):\nraise\nTypeError\n(\n'Cannot create a new instance of Singleton'\n)\n# Initialization code here\nJavaScript\n// Private constructor to prevent external instantiation\nclass\nSingleton\n\n// Making the constructor as Private\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)",
+    "token_count": 245
+  },
+  {
+    "chunk_id": "design-patterns_singleton_006",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "// Making the constructor as Private\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() to get the singleton instance.'\n);\n\nSingleton\n.\ninstance\n=\nthis\n;\n// Initialization code here\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\n3. Static Factory Method\nA crucial aspect of the Singleton pattern is the presence of a static factory method. This method acts as a gateway, providing a global point of access to the Singleton object. When someone requests an instance, this method either creates a new instance (if none exists) or returns the existing instance to the caller.\nC++\n/* Static factory method for global access */\n#include\n<iostream>\nusing\nnamespace\nstd\n;\nclass\nSingleton\n\nprivate\n:\nstatic\nSingleton\n*\ninstance\n;\nSingleton\n()\n{}\n// Private constructor\npublic\n:\nstatic\nSingleton\n*\ngetInstance\n()\n\nif\n(\ninstance\n==\nnullptr\n)\n\ninstance\n=\nnew\nSingleton\n();\n\nreturn\ninstance\n;\n\nvoid\ndisplay\n()",
+    "token_count": 235
+  },
+  {
+    "chunk_id": "design-patterns_singleton_007",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "if\n(\ninstance\n==\nnullptr\n)\n\ninstance\n=\nnew\nSingleton\n();\n\nreturn\ninstance\n;\n\nvoid\ndisplay\n()\n\ncout\n<<\n\"Singleton instance.\"\n<<\nendl\n;\n\n};\n// Initialize the static member\nSingleton\n*\nSingleton\n::\ninstance\n=\nnullptr\n;\nint\nmain\n()\n\nSingleton\n*\ns\n=\nSingleton\n::\ngetInstance\n();\ns\n->\ndisplay\n();\nreturn\n0\n;\n\nJava\n// Static factory method for global access\npublic\nstatic\nSingleton\ngetInstance\n()\n\n// Check if an instance exists\nif\n(\ninstance\n==\nnull\n)\n\n// If no instance exists, create one\ninstance\n=\nnew\nSingleton\n();\n\n// Return the existing instance\nreturn\ninstance\n;",
+    "token_count": 150
+  },
+  {
+    "chunk_id": "design-patterns_singleton_008",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "// Check if an instance exists\nif\n(\ninstance\n==\nnull\n)\n\n// If no instance exists, create one\ninstance\n=\nnew\nSingleton\n();\n\n// Return the existing instance\nreturn\ninstance\n;\n\nPython\n\"\"\"\nStatic factory method for global access\n\"\"\"\nclass\nSingleton\n:\n_instance\n=\nNone\ndef\n__new__\n(\ncls\n):\nif\ncls\n.\n_instance\nis\nNone\n:\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nreturn\ncls\n.\n_instance\n@staticmethod\ndef\nget_instance\n():\nreturn\nSingleton\n()\ndef\ndisplay\n(\nself\n):\nprint\n(\n\"Singleton instance.\"\n)\ns\n=\nSingleton\n.\nget_instance\n()\ns\n.\ndisplay\n()\nJavaScript\n\"use strict\"\n;\n/* Static factory method for global access */\nclass\nSingleton\n\nstatic\ninstance\n=\nnull\n;\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)\n\nreturn\nSingleton\n.\ninstance\n;\n\nSingleton\n.\ninstance\n=\nthis\n;\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n'Singleton instance.'\n);",
+    "token_count": 265
+  },
+  {
+    "chunk_id": "design-patterns_singleton_009",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "const\ns\n=\nSingleton\n.\ngetInstance\n();\ns\n.\ndisplay\n();\nThread-Safety in Singleton Design Pattern\nIn a multi-threaded environment, the basic implementation of the Singleton Design Pattern may fail due to a problem known as a\nrace condition\n. When multiple threads try to access the Singleton instance at the same time, it can lead to the creation of more than one instance, which violates the core principle of Singleton.\nExplanation\nTo understand the issue, consider two threads executing simultaneously:\nStep 1:\nThread 1 checks whether the instance (\nobj\n) is\nnull\n. Since no object has been created yet, the condition is true.\nStep 2:\nBefore Thread 1 creates the object, it gets paused (context switching happens).\nStep 3:\nThread 2 now runs and also checks\nobj == null\n. It also finds it true.\nStep 4:\nThread 2 creates a new Singleton object.\nStep 5:\nThread 1 resumes execution and, unaware that an object has already been created, also creates another instance.\nDifferent Ways of Implementation",
+    "token_count": 220
+  },
+  {
+    "chunk_id": "design-patterns_singleton_010",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "Thread 2 creates a new Singleton object.\nStep 5:\nThread 1 resumes execution and, unaware that an object has already been created, also creates another instance.\nDifferent Ways of Implementation\nSometimes we need to have only one instance of our class for example a single DB connection shared by multiple objects as creating a separate DB connection for every object may be costly. Similarly, there can be a single configuration manager or error manager in an application that handles all problems instead of creating multiple managers.\n1. Classic (Lazy Initialization)\nIn this method, the Singleton instance is created only when it is first requested. This helps save memory and resources, but the basic implementation is not thread-safe.\nExample:\nClassical Java implementation of singleton design pattern\nC++\n#include\n<iostream>\nclass\nSingleton",
+    "token_count": 157
+  },
+  {
+    "chunk_id": "design-patterns_singleton_011",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "private\n:\nstatic\nSingleton\n*\nobj\n;\nSingleton\n()\n{}\npublic\n:\nstatic\nSingleton\n*\ngetInstance\n()\n\nif\n(\nobj\n==\nnullptr\n)\nobj\n=\nnew\nSingleton\n();\nreturn\nobj\n;\n\n};\nSingleton\n*\nSingleton\n::\nobj\n=\nnullptr\n;\nJava\nclass\nSingleton\n\nprivate\nstatic\nSingleton\nobj\n;\n// private constructor to force use of getInstance() to create Singleton object\nprivate\nSingleton\n()\n{}\npublic\nstatic\nSingleton\ngetInstance\n()\n\nif\n(\nobj\n==\nnull\n)\nobj\n=\nnew\nSingleton\n();\nreturn\nobj\n;\n\nPython\nclass\nSingleton\n:\n_instance\n=\nNone\ndef\n__new__\n(\ncls\n):\nif\ncls\n.\n_instance\nis\nNone\n:\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nreturn\ncls\n.\n_instance\n# Private constructor equivalent\ndef\n__init__\n(\nself\n):\nif\nnot\nhasattr\n(\nself\n,\n'initialized'\n):\nself\n.\ninitialized\n=\nTrue\nJavaScript\nclass\nSingleton\n\nstatic\ninstance\n=\nnull\n;\n// Private constructor equivalent\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() to get the instance.'\n);\n\nSingleton\n.\ninstance\n=\nthis\n;\n\nstatic\ngetInstance\n()",
+    "token_count": 290
+  },
+  {
+    "chunk_id": "design-patterns_singleton_012",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "if\n(\nSingleton\n.\ninstance\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() to get the instance.'\n);\n\nSingleton\n.\ninstance\n=\nthis\n;\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;",
+    "token_count": 70
+  },
+  {
+    "chunk_id": "design-patterns_singleton_013",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "Singleton\n.\ninstance\n=\nthis\n;\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\ngetInstance() is declared static, so it can be called without creating an object of the class.\nThe first call to getInstance() creates the singleton object.\nSubsequent calls return the same instance, ensuring only one object exists.\nNote:\nSingleton obj is not created until we need it and call the getInstance() method. This is called lazy instantiation. The main problem with the above method is that it is not thread-safe. Consider the following execution sequence.\nThis execution sequence creates two objects for the singleton. Therefore this classic implementation is not thread-safe.\n2. Thread-Safe (Synchronized)\nMake getInstance() synchronized to implement Singleton Method Design Pattern\nExample:\nThread Synchronized Java implementation of singleton design pattern\nC++\n#include\n<iostream>\nclass\nSingleton",
+    "token_count": 192
+  },
+  {
+    "chunk_id": "design-patterns_singleton_014",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "private\n:\nstatic\nSingleton\n*\nobj\n;\nSingleton\n()\n{}\npublic\n:\n// Only one thread can execute this at a time\nstatic\nSingleton\n*\ngetInstance\n()\n\nif\n(\nobj\n==\nnullptr\n)\n\nobj\n=\nnew\nSingleton\n();\n\nreturn\nobj\n;\n\n};\nSingleton\n*\nSingleton\n::\nobj\n=\nnullptr\n;\nJava\nclass\nSingleton\n\nprivate\nstatic\nSingleton\nobj\n;\nprivate\nSingleton\n()\n{}\n// Only one thread can execute this at a time\npublic\nstatic\nsynchronized\nSingleton\ngetInstance\n()\n\nif\n(\nobj\n==\nnull\n)\nobj\n=\nnew\nSingleton\n();\nreturn\nobj\n;\n\nPython\nclass\nSingleton\n:\n_instance\n=\nNone\ndef\n__new__\n(\ncls\n):\nif\ncls\n.\n_instance\nis\nNone\n:\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nreturn\ncls\n.\n_instance\n# Only one thread can execute this at a time\n@staticmethod\ndef\nget_instance\n():\nif\nSingleton\n.\n_instance\nis\nNone\n:\nSingleton\n.\n_instance\n=\nSingleton\n()\nreturn\nSingleton\n.\n_instance\nJavaScript\nclass\nSingleton\n\nstatic\nobj\n=\nnull\n;\nconstructor\n()\n\nif\n(\nSingleton\n.\nobj\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() to get the instance.'\n);",
+    "token_count": 293
+  },
+  {
+    "chunk_id": "design-patterns_singleton_015",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "static\nobj\n=\nnull\n;\nconstructor\n()\n\nif\n(\nSingleton\n.\nobj\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() to get the instance.'\n);\n\n// Only one thread can execute this at a time\nstatic\ngetInstance\n()\n\nif\n(\nSingleton\n.\nobj\n===\nnull\n)\n\nSingleton\n.\nobj\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\nobj\n;\n\nUsing synchronized ensures that only one thread at a time can execute getInstance().\nThis approach is safe for multithreading but can reduce performance due to the overhead of synchronization.\nIf performance is not critical, this method is a simple and reliable way to implement a singleton.\n3. Eager Initialization (Static Block)\nIn this method, the Singleton instance is created at the time of class loading, regardless of whether it is used or not. It is simple and thread-safe, but may lead to unnecessary resource usage.\nExample:\nStatic initializer based Java implementation of singleton design pattern\nC++\nclass\nSingleton\n\nnprivate\n:\n\nn\nstatic\nSingleton\n*\nobj\n;\n\nn\nSingleton\n()\n{}\n\nnpublic\n:",
+    "token_count": 228
+  },
+  {
+    "chunk_id": "design-patterns_singleton_016",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "nprivate\n:\n\nn\nstatic\nSingleton\n*\nobj\n;\n\nn\nSingleton\n()\n{}\n\nnpublic\n:\n\nn\nstatic\nSingleton\n*\ngetInstance\n()\n\nreturn\nobj\n;\n\nn\n};\n\nn\n\nnSingleton\n*\nSingleton\n::\nobj\n=\nnew\nSingleton\n();\nJava\nclass\nSingleton\n\nprivate\nstatic\nSingleton\nobj\n=\nnew\nSingleton\n();\nprivate\nSingleton\n()\n{}\npublic\nstatic\nSingleton\ngetInstance\n()\n\nreturn\nobj\n;\n\nPython\nclass\nSingleton\n:\n\nn\n_instance\n=\nNone\n\nn\ndef\n__new__\n(\ncls\n):\n\nn\nif\ncls\n.\n_instance\nis\nNone\n:\n\nn\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\n\nn\nreturn\ncls\n.\n_instance\n\nn\n\nn\n@staticmethod\n\nn\ndef\nget_instance\n():\n\nn\nreturn\nSingleton\n()\nJavaScript\nclass\nSingleton\n\nn\nstatic\nobj\n=\nnew\nSingleton\n();\n\nn\nprivate\nconstructor\n()\n{}\n\nn\nstatic\ngetInstance\n()\n\nreturn\nSingleton\n.\nobj\n;\n\nn",
+    "token_count": 236
+  },
+  {
+    "chunk_id": "design-patterns_singleton_017",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "n\ndef\nget_instance\n():\n\nn\nreturn\nSingleton\n()\nJavaScript\nclass\nSingleton\n\nn\nstatic\nobj\n=\nnew\nSingleton\n();\n\nn\nprivate\nconstructor\n()\n{}\n\nn\nstatic\ngetInstance\n()\n\nreturn\nSingleton\n.\nobj\n;\n\nn\n\nThe singleton instance is created in a static initializer, which runs when the class is loaded.\nThis approach is thread-safe because JVM handles static initialization.\nBest used when the singleton class is lightweight and needed throughout the program execution.\n4. Double-Checked Locking (Most Efficient)\nUse “Double Checked Locking” to implement singleton design pattern\nExample:\nDouble Checked Locking based Java implementation of singleton design pattern\nC++\n#include\n<mutex>\nclass\nSingleton\n\nprivate\n:\nstatic\nSingleton\n*\nobj\n;\nstd\n::\nmutex\nmtx\n;\nSingleton\n()\n{}\npublic\n:\nstatic\nSingleton\n*\ngetInstance\n()\n\nif\n(\nobj\n==\nnullptr\n)\n\nstd\n::\nlock_guard\n<\nstd\n::\nmutex\n>\nlock\n(\nmtx\n);\nif\n(\nobj\n==\nnullptr\n)\nobj\n=\nnew\nSingleton\n();\n\nreturn\nobj\n;\n\n};\nSingleton\n*\nSingleton\n::\nobj\n=\nnullptr\n;\nJava\nclass\nSingleton",
+    "token_count": 253
+  },
+  {
+    "chunk_id": "design-patterns_singleton_018",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "if\n(\nobj\n==\nnullptr\n)\n\nstd\n::\nlock_guard\n<\nstd\n::\nmutex\n>\nlock\n(\nmtx\n);\nif\n(\nobj\n==\nnullptr\n)\nobj\n=\nnew\nSingleton\n();\n\nreturn\nobj\n;\n\n};\nSingleton\n*\nSingleton\n::\nobj\n=\nnullptr\n;\nJava\nclass\nSingleton\n\nprivate\nstatic\nvolatile\nSingleton\nobj\n=\nnull\n;\nprivate\nSingleton\n()\n{}\npublic\nstatic\nSingleton\ngetInstance\n()\n\nif\n(\nobj\n==\nnull\n)\n\n// To make thread safe\nsynchronized\n(\nSingleton\n.\nclass\n)\n\n// check again as multiple threads can reach above step\nif\n(\nobj\n==\nnull\n)\nobj\n=\nnew\nSingleton\n();\n\nreturn\nobj\n;\n\nPython\nimport\nthreading\nclass\nSingleton\n:\n_instance\n=\nNone\n_lock\n=\nthreading\n.\nLock\n()\ndef\n__new__\n(\ncls\n):\nif\nnot\ncls\n.\n_instance\n:\nwith\ncls\n.\n_lock\n:\nif\nnot\ncls\n.\n_instance\n:\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nreturn\ncls\n.\n_instance\nJavaScript\nclass\nSingleton\n\nstatic\ninstance\n=\nnull\n;\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() instead of new.'\n);\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)",
+    "token_count": 308
+  },
+  {
+    "chunk_id": "design-patterns_singleton_019",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "static\ninstance\n=\nnull\n;\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)\n\nthrow\nnew\nError\n(\n'Use Singleton.getInstance() instead of new.'\n);\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\nThe obj is declared volatile to ensure correct handling by multiple threads during initialization.\nThis approach reduces the overhead of synchronizing every time getInstance() is called.\nIt provides a thread-safe and efficient way to create the singleton instance.\n5. Static Inner Class (Best Java-Specific Way)\nIn Java, a Singleton can be implemented using a static inner class.\nA class is loaded into memory only once by the JVM.\nAn inner class is loaded only when it is referenced.\nTherefore, the Singleton instance is created lazily, only when the getInstance() method accesses the inner class.\nExample:\nusing class loading concept singleton design pattern\nC++\n#include\n<iostream>\nclass\nSingleton\n\nprivate\n:\nSingleton\n()",
+    "token_count": 211
+  },
+  {
+    "chunk_id": "design-patterns_singleton_020",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "private\n:\nSingleton\n()\n\nstd\n::\ncout\n<<\n\"Instance created\"\n<<\nstd\n::\nendl\n;\n\nstatic\nSingleton\n*\ninstance\n;\npublic\n:\nstatic\nSingleton\n*\ngetInstance\n()\n\nstatic\nSingleton\ninstance\n;\nreturn\n\ninstance\n;\n\n};\nSingleton\n*\nSingleton\n::\ninstance\n=\nnullptr\n;\nJava\npublic\nclass\nSingleton\n\nprivate\nSingleton\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Instance created\"\n);\n\nprivate\nstatic\nclass\nSingletonInner\n\nprivate\nstatic\nfinal\nSingleton\nINSTANCE\n=\nnew\nSingleton\n();\n\npublic\nstatic\nSingleton\ngetInstance\n()\n\nreturn\nSingletonInner\n.\nINSTANCE\n;\n\nPython\nclass\nSingleton\n:\n_instance\n=\nNone\ndef\n__new__\n(\ncls\n):\nif\nnot\ncls\n.\n_instance\n:\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nprint\n(\n\"Instance created\"\n)\nreturn\ncls\n.\n_instance\ndef\n__init__\n(\nself\n):\npass\n@staticmethod\ndef\nget_instance\n():\nreturn\nSingleton\n()\nJavaScript\nclass\nSingleton\n\nconstructor\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nconsole\n.\nlog\n(\n'Instance created'\n);\nSingleton\n.\ninstance\n=\nthis\n;\n\nreturn\nSingleton\n.\ninstance\n;\n\nstatic\ngetInstance\n()",
+    "token_count": 285
+  },
+  {
+    "chunk_id": "design-patterns_singleton_021",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "constructor\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nconsole\n.\nlog\n(\n'Instance created'\n);\nSingleton\n.\ninstance\n=\nthis\n;\n\nreturn\nSingleton\n.\ninstance\n;\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\nA private static inner class (SingletonInner) holds the singleton instance.\nThe instance is accessed via the getInstance() method of the outer class.\nBeing static, the inner class is loaded only once when INSTANCE is first accessed, ensuring lazy initialization and thread-safety.\n6. Enum Singleton\nIn Java, a Singleton can also be implemented using an enum, which is the simplest and safest approach. Enums are loaded by the JVM only once, and each enum constant is created exactly one time. Therefore, the Singleton instance is created safely when the enum is first accessed.\nExample:\nEnum-based Singleton\nC++\n#include\n<iostream>\nclass\nSingleton\n\npublic\n:\nstatic\nSingleton\n\ngetInstance\n()\n\nstatic\nSingleton\ninstance\n;\nreturn\ninstance\n;",
+    "token_count": 225
+  },
+  {
+    "chunk_id": "design-patterns_singleton_022",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "public\n:\nstatic\nSingleton\n\ngetInstance\n()\n\nstatic\nSingleton\ninstance\n;\nreturn\ninstance\n;\n\nvoid\ndoSomething\n()\n\nstd\n::\ncout\n<<\n\"Doing something...\"\n<<\nstd\n::\nendl\n;\n\nprivate\n:\nSingleton\n()\n{}\n};\nJava\npublic\nenum\nSingleton\n\nINSTANCE\n;\npublic\nvoid\ndoSomething\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Doing something...\"\n);\n\nPython\nclass\nSingleton\n:\n_instance\n=\nNone\ndef\n__new__\n(\ncls\n):\nif\ncls\n.\n_instance\nis\nNone\n:\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nreturn\ncls\n.\n_instance\ndef\ndoSomething\n(\nself\n):\nprint\n(\n\"Doing something...\"\n)\nJavaScript\nclass\nSingleton\n\nconstructor\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nthis\n;\n\nreturn\nSingleton\n.\ninstance\n;\n\ndoSomething\n()\n\nconsole\n.\nlog\n(\n\"Doing something...\"\n);",
+    "token_count": 219
+  },
+  {
+    "chunk_id": "design-patterns_singleton_023",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "constructor\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nthis\n;\n\nreturn\nSingleton\n.\ninstance\n;\n\ndoSomething\n()\n\nconsole\n.\nlog\n(\n\"Doing something...\"\n);\n\nSingleton\n.\ninstance\n=\nnull\n;\nINSTANCE is the single allowed object of the enum.\nThe JVM ensures that the enum is thread-safe, created only once, and cannot be instantiated again.\nIt also automatically protects against serialization and reflection issues.\nWhen Singleton.INSTANCE is accessed for the first time, the enum is loaded and the instance is initialized only once.\nImplementation\nExample:\nThe implementation of the singleton Design pattern is very simple and consists of a single class.\nC++\n#include\n<iostream>\nclass\nSingleton\n\nprivate\n:\nstatic\nSingleton\n*\ninstance\n;\nSingleton\n()\n\nstd\n::\ncout\n<<\n\"Singleton is Instantiated.\"\n<<\nstd\n::\nendl\n;\n\npublic\n:\nstatic\nSingleton\n*\ngetInstance\n()\n\nif\n(\ninstance\n==\nnullptr\n)\ninstance\n=\nnew\nSingleton\n();\nreturn\ninstance\n;\n\nstatic\nvoid\ndoSomething\n()\n\nstd\n::\ncout\n<<\n\"Something is Done.\"\n<<\nstd\n::\nendl\n;",
+    "token_count": 243
+  },
+  {
+    "chunk_id": "design-patterns_singleton_024",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "if\n(\ninstance\n==\nnullptr\n)\ninstance\n=\nnew\nSingleton\n();\nreturn\ninstance\n;\n\nstatic\nvoid\ndoSomething\n()\n\nstd\n::\ncout\n<<\n\"Something is Done.\"\n<<\nstd\n::\nendl\n;\n\n};\nSingleton\n*\nSingleton\n::\ninstance\n=\nnullptr\n;\nint\nmain\n()\n\nSingleton\n::\ngetInstance\n()\n->\ndoSomething\n();\nreturn\n0\n;\n\nJava\nimport\njava.io.*\n;\nclass\nSingleton\n\n// static class\nprivate\nstatic\nSingleton\ninstance\n;\nprivate\nSingleton\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Singleton is Instantiated.\"\n);\n\npublic\nstatic\nSingleton\ngetInstance\n()\n\nif\n(\ninstance\n==\nnull\n)\ninstance\n=\nnew\nSingleton\n();\nreturn\ninstance\n;\n\npublic\nstatic\nvoid\ndoSomething\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Something is Done.\"\n);\n\nclass\nGFG\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nSingleton\n.\ngetInstance\n().\ndoSomething\n();",
+    "token_count": 216
+  },
+  {
+    "chunk_id": "design-patterns_singleton_025",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "public\nstatic\nvoid\ndoSomething\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Something is Done.\"\n);\n\nclass\nGFG\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nSingleton\n.\ngetInstance\n().\ndoSomething\n();\n\nPython\nclass\nSingleton\n:\n_instance\n=\nNone\ndef\n__new__\n(\ncls\n):\nif\ncls\n.\n_instance\nis\nNone\n:\nprint\n(\n'Singleton is Instantiated.'\n)\ncls\n.\n_instance\n=\nsuper\n(\nSingleton\n,\ncls\n)\n.\n__new__\n(\ncls\n)\nreturn\ncls\n.\n_instance\n@staticmethod\ndef\ndo_something\n():\nprint\n(\n'Something is Done.'\n)\nif\n__name__\n==\n'__main__'\n:\nSingleton\n.\ndo_something\n()\nJavaScript\nclass\nSingleton\n\nstatic\ninstance\n=\nnull\n;\nconstructor\n()\n\nif\n(\nSingleton\n.\ninstance\n)\n\nreturn\nSingleton\n.\ninstance\n;\n\nconsole\n.\nlog\n(\n'Singleton is Instantiated.'\n);\nSingleton\n.\ninstance\n=\nthis\n;\n\nstatic\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\nstatic\ndoSomething\n()\n\nconsole\n.\nlog\n(\n'Something is Done.'\n);",
+    "token_count": 275
+  },
+  {
+    "chunk_id": "design-patterns_singleton_026",
+    "domain": "design-patterns",
+    "concept": "singleton",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/singleton-design-pattern/",
+    "text": "static\ngetInstance\n()\n\nif\n(\n!\nSingleton\n.\ninstance\n)\n\nSingleton\n.\ninstance\n=\nnew\nSingleton\n();\n\nreturn\nSingleton\n.\ninstance\n;\n\nstatic\ndoSomething\n()\n\nconsole\n.\nlog\n(\n'Something is Done.'\n);\n\nSingleton\n.\ngetInstance\n().\ndoSomething\n();\nOutput\nSingleton is Instantiated.\nSomething is Done.\nAdvantages\nThe Singleton pattern offers several benefits when controlled access to a single instance is required:\nEnsures only one instance exists, preventing inconsistent states.\nSaves memory and system resources by avoiding multiple object creation.\nProvides a global access point, making it easy to share the same instance across the application.\nDisadvantages\nDespite its benefits, Singleton can introduce certain design challenges:\nCan create tight coupling since many classes depend on a global instance.\nDifficult to unit test due to shared global state.\nMay cause issues in multithreaded environments if not implemented carefully.",
+    "token_count": 186
+  }
+]

@@ -1,0 +1,119 @@
+[
+  {
+    "chunk_id": "cn_osi-model_001",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "The OSI Model is a conceptual framework created by the International Organization for Standardization (ISO) to describe how data is transmitted across a network using a structured seven-layer architecture.\nDivides network communication into seven functional layers.\nAssigns specific responsibilities to each layer.\nPromotes compatibility between different networking systems.\nSimplifies network design, implementation, and troubleshooting.\nLayer 1: The Physical Layer\nThe\nPhysical Layer\nis the foundation of the OSI model, acting as the bridge for actual physical connections between devices. Its primary mission is the transmission of raw, unstructured bitstreams over a physical medium from one node to the next.\nCore Responsibility:\nIt manages the hardware-level transmission of individual bits. When receiving data, it translates incoming physical signals back into digital 0s and 1s to be processed by the Data Link layer.\nEssential Hardware:\nCommon devices operating at this level include\nHubs\n,\nRepeaters\n,\nModems",
+    "token_count": 189
+  },
+  {
+    "chunk_id": "cn_osi-model_002",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Essential Hardware:\nCommon devices operating at this level include\nHubs\n,\nRepeaters\n,\nModems\n, and\nCables\n.\nBit Synchronization:\nIt ensures the sender and receiver are \"in sync\" by providing a clock signal that controls the timing of bit transmission.\nBit Rate Control:\nIt dictates the transmission speed, defined as the number of bits sent per second.\nPhysical\nTopologies\n:\nIt defines the structural layout of the network, such as Bus, Star, or Mesh configurations.\nTransmission Mode:\nIt determines the direction of data flow, utilizing modes like Simplex (one-way), Half-Duplex (two-way, one at a time), or Full-Duplex (simultaneous two-way).\nPhysical Layer\nLayer 2: The Data Link Layer (DLL)\nThe\nData Link Layer\nserves as the bridge between the physical hardware and the logical network, ensuring reliable node-to-node delivery of data. Its primary goal is to ensure that data transfer is error-free across the physical medium.\n1. Data Packaging (Framing):",
+    "token_count": 217
+  },
+  {
+    "chunk_id": "cn_osi-model_003",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "1. Data Packaging (Framing):\nAt this layer, data packets received from the Network layer are divided into manageable units called Frames. This is done by adding specific \"start\" and \"stop\" bits so the receiver can recognize where one unit of data ends and the next begins.\n2. Addressing and Hardware:\nThe DLL uses\nMAC addresses\n(Physical Addressing) to identify hosts. It encapsulates the sender’s and receiver’s MAC addresses into the frame header. Common devices operating here are\nSwitches and Bridges\n.\n3. Sublayers:\nLogical Link Control (LLC)\n:\nManages flow and error control while acting as an interface for upper-layer protocols.\nMedia Access Control (MAC)\n:\nDetermines how devices physically access the transmission medium and handles hardware addressing.\n4. Error Control:\nIt detects and retransmits damaged or lost frames to maintain data integrity.\n5. Flow Control:\nIt synchronizes the data rate between a fast sender and a slower receiver to prevent data \"bottlenecks\" or loss.\n6. Access Control:",
+    "token_count": 215
+  },
+  {
+    "chunk_id": "cn_osi-model_004",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "5. Flow Control:\nIt synchronizes the data rate between a fast sender and a slower receiver to prevent data \"bottlenecks\" or loss.\n6. Access Control:\nWhen multiple devices share the same communication channel, the MAC sublayer dictates which device has the right to transmit at any given time to avoid collisions.\nLayer 3: The Network Layer\nThe\nNetwork Layer\nmanages data transmission between hosts across different networks by handling logical addressing and path finding.\nData Unit:\nData segments are encapsulated into Packets.\nLogical Addressing:\nAssigns unique\nIP addresses\n(sender and receiver) to the packet header to identify devices globally.\nRouting:\nDetermines the most efficient physical path from the source to the destination across interconnected networks.\nHardware:\nPrimarily implemented via\nRouters and Switches\n.\nInter-networking:\nFacilitates communication between disparate networks by directing traffic to the correct destination.\nLayer 4: The Transport Layer\nThe\nTransport Layer",
+    "token_count": 195
+  },
+  {
+    "chunk_id": "cn_osi-model_005",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Routers and Switches\n.\nInter-networking:\nFacilitates communication between disparate networks by directing traffic to the correct destination.\nLayer 4: The Transport Layer\nThe\nTransport Layer\nensures the end-to-end delivery of entire messages. It acts as a liaison, providing services to the Application layer while utilizing the infrastructure of the Network layer to ensure data reaches the correct application on the destination host.\nData Unit:\nData is broken down into Segments.\nService Point Addressing:\nUses Port Numbers (e.g., Port 80 for web traffic) to ensure data is delivered to the specific process or application intended, not just the device.\nSegmentation & Reassembly:\nSplits large messages into smaller segments for transmission and reassembles them in the correct order at the destination.\nProtocols:\nCommon protocols include\nTCP\n(reliable),\nUDP\n(fast).\nConnection-Oriented (TCP):\nRequires a \"handshake\" to establish a connection; ensures reliability via error checking and acknowledgements.",
+    "token_count": 202
+  },
+  {
+    "chunk_id": "cn_osi-model_006",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Common protocols include\nTCP\n(reliable),\nUDP\n(fast).\nConnection-Oriented (TCP):\nRequires a \"handshake\" to establish a connection; ensures reliability via error checking and acknowledgements.\nConnectionless (UDP):\nSends data immediately without a formal connection; faster but offers no guarantee of delivery.\nLayer 5: The Session Layer\nThe\nSession Layer\nacts as the \"dialogue manager,\" governing the opening, closing, and security of communication channels between two devices.\nSession Lifecycle:\nManages the establishment, maintenance, and termination of connections between applications.\nAuthentication & Security:\nEnsures that the communicating parties are verified and the connection is secure.\nSynchronization:\nInserts checkpoints into the data stream. This allows a transfer to resume from the last saved point if a failure occurs, rather than restarting from the beginning.\nDialog Control:\nDirects whether communication is half-duplex (alternating) or full-duplex (simultaneous).\nPractical Example:",
+    "token_count": 198
+  },
+  {
+    "chunk_id": "cn_osi-model_007",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Dialog Control:\nDirects whether communication is half-duplex (alternating) or full-duplex (simultaneous).\nPractical Example:\nIn a web-based messenger, the Session Layer maintains the active link between your browser and the server, ensuring your specific chat remains open and synchronized while handling background encryption and data conversion.\nLayer 6: The Presentation Layer\nOften called the\nTranslation Layer\n, the\nPresentation Layer\nensures that data is formatted, secured, and compressed so that the receiving application can correctly interpret it.\nTranslation:\nIt extracts data from the Application Layer and converts it into a standardized format for network transmission, bridging differences in data representation between different systems.\nStandards & Formats:\nHandles the encoding of media using standards such as\nJPEG, MPEG\n, and\nGIF\n.\nEncryption/Decryption:",
+    "token_count": 169
+  },
+  {
+    "chunk_id": "cn_osi-model_008",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Standards & Formats:\nHandles the encoding of media using standards such as\nJPEG, MPEG\n, and\nGIF\n.\nEncryption/Decryption:\nProvides security by converting \"plain text\" into \"ciphertext\" (encryption) and back again (decryption) using key values. This process is typically handled by protocols like\nTLS/SSL\n.\nCompression:\nReduces the total number of bits required for transmission, which increases network efficiency and speed.\nLayer 7: The Application Layer\nThe\nApplication Layer\nsits at the top of the OSI stack and serves as the direct interface between the software user and the network. It produces the data that will be sent and displays the information received from other layers.\nUser Interface:\nActs as a \"window\" for network-based applications (like web browsers or email clients) to access network services.\nCore Protocols:\nUtilizes high-level protocols such as\nHTTP/S\n(Web),\nSMTP\n(Email),\nFTP\n(File Transfer), and\nDNS\n(Domain Name Resolution).\nNetwork Virtual Terminal (NVT):",
+    "token_count": 214
+  },
+  {
+    "chunk_id": "cn_osi-model_009",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Core Protocols:\nUtilizes high-level protocols such as\nHTTP/S\n(Web),\nSMTP\n(Email),\nFTP\n(File Transfer), and\nDNS\n(Domain Name Resolution).\nNetwork Virtual Terminal (NVT):\nEnables users to log into and interact with remote hosts as if they were physically present at the terminal.\nFile Transfer, Access, and Management (FTAM):\nProvides the framework for users to retrieve, manage, and manipulate files stored on remote computers.\nDirectory Services:\nOffers distributed database access to manage global information regarding various network objects and services.\nApplication Layer\nData Flows in the OSI Model\nWhen we transfer information from one device to another, it travels through 7 layers of OSI model. First data travels down through 7 layers from the sender's end and then climbs back 7 layers on the receiver's end. Data flows through the OSI model in a step-by-step process:\nApplication Layer:\nApplications create the data.\nPresentation Layer:\nData is formatted and encrypted.\nSession Layer:",
+    "token_count": 201
+  },
+  {
+    "chunk_id": "cn_osi-model_010",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Application Layer:\nApplications create the data.\nPresentation Layer:\nData is formatted and encrypted.\nSession Layer:\nConnections are established and managed.\nTransport Layer:\nData is broken into segments for reliable delivery.\nNetwork Layer:\nSegments are packaged into packets and routed.\nData Link Layer:\nPackets are framed and sent to the next device.\nPhysical Layer:\nFrames are converted into bits and transmitted physically.\nEach layer adds specific information to ensure the data reaches its destination correctly, and these steps are reversed upon arrival.\nExample\nWe can understand how data flows through OSI Model with the help of an example mentioned below. Let us suppose, Person A sends an e-mail to his friend Person B.\nStep 1:\nPerson A interacts with e-mail application like Gmail, outlook, etc. Writes his email to send. (This happens at Application Layer).\nStep 2:\nAt Presentation Layer, Mail application prepares for data transmission like encrypting data and formatting it for transmission.\nStep 3:",
+    "token_count": 193
+  },
+  {
+    "chunk_id": "cn_osi-model_011",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Step 2:\nAt Presentation Layer, Mail application prepares for data transmission like encrypting data and formatting it for transmission.\nStep 3:\nAt Session Layer, there is a connection established between the sender and receiver on the internet.\nStep 4:\nAt Transport Layer, Email data is broken into smaller segments. It adds sequence number and error-checking information to maintain the reliability of the information.\nStep 5:\nAt Network Layer, addressing of packets is done in order to find the best route for transfer.\nStep 6:\nAt Data Link Layer, data packets are encapsulated into frames, then MAC address is added for local devices and then it checks for error using error detection.\nStep 7:\nAt Physical Layer, Frames are transmitted in the form of electrical/ optical signals over a physical network medium like ethernet cable or WiFi.\nAfter the email reaches the receiver i.e. Person B, the process will reverse and decrypt the e-mail content. At last, the email will be shown on Person B email client.\nOSI Layers",
+    "token_count": 207
+  },
+  {
+    "chunk_id": "cn_osi-model_012",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "After the email reaches the receiver i.e. Person B, the process will reverse and decrypt the e-mail content. At last, the email will be shown on Person B email client.\nOSI Layers\nProtocols Used in the OSI Layers\nLayer\nWorking\nProtocol Data Unit (PDU)\nProtocols\nPhysical Layer\nEstablishes physical connection between devices and transmits raw bits over the medium.\nBits\nUSB, SONET/SDH\nData Link Layer\nProvides node-to-node delivery and error detection/correction.\nFrames\nEthernet, PPP, PPTP\nNetwork Layer\nHandles logical addressing and routing of data between different networks.\nPackets\nIP, ICMP, IGMP, OSPF\nTransport Layer\nEnsures end-to-end communication, segmentation, flow control, and error handling.\nSegments (TCP) / Datagrams (UDP)\nTCP, UDP, SCTP\nSession Layer\nEstablishes, manages, and terminates communication sessions between applications.\nData\nRPC\nPresentation Layer\nTranslates, encrypts, and formats data for the application layer.\nData\nTLS/SSL, MIME\nApplication Layer",
+    "token_count": 226
+  },
+  {
+    "chunk_id": "cn_osi-model_013",
+    "domain": "cn",
+    "concept": "osi-model",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/open-systems-interconnection-model-osi/",
+    "text": "Data\nRPC\nPresentation Layer\nTranslates, encrypts, and formats data for the application layer.\nData\nTLS/SSL, MIME\nApplication Layer\nProvides network services directly to end-user applications.\nData\nFTP, SMTP, DNS, DHCP, NetBIOS",
+    "token_count": 54
+  }
+]

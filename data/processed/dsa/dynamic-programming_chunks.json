@@ -1,0 +1,11 @@
+[
+  {
+    "chunk_id": "dsa_dynamic-programming_001",
+    "domain": "dsa",
+    "concept": "dynamic-programming",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/dynamic-programming/",
+    "text": "Introduction\n\nDynamic Programming (DP) is usually used to solve optimization problems. The only way to get better at DP is to practice. It takes some amount of practice to be able to recognize that a problem can be solved by DP.\nTechniques\n\nSometimes you do not need to store the whole DP table in memory, the last two values or the last two rows of the matrix will suffice.\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nClimbing Stairs\nCoin Change\nHouse Robber\nLongest Increasing Subsequence\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\n0/1 Knapsack or Partition Equal Subset Sum\nLongest Common Subsequence\nWord Break Problem\nCombination Sum\nHouse Robber II\nDecode Ways\nUnique Paths\nJump Game",
+    "token_count": 179
+  }
+]

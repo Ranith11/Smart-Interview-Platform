@@ -1,0 +1,74 @@
+[
+  {
+    "chunk_id": "os_mutex-vs-semaphore_001",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Mutex and Semaphores are kernel resources that provide synchronization services (also known as synchronization primitives). Synchronization is required when multiple processes are executing concurrently, to avoid conflicts between processes using shared resources.\nMutex\nA mutex is different from a binary semaphore, which provides a locking mechanism. It stands for\nMutual Exclusion\nObject. Mutex is mainly used to provide mutual exclusion to a specific portion of the code so that the process can execute and work with a particular section of the code at a particular time.\nMutex\nA mutex enforces strict ownership. Only the thread that locks the mutex can unlock it.\nIt is specifically used for locking a resource to ensure that only one thread accesses it at a time.\nDue to this strict ownership, a mutex is not only typically used for signaling between threads, but it is used for mutual exclusion also to ensuring that a resource is accessed by only one thread at a time.",
+    "token_count": 186
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_002",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Mutex uses a priority inheritance mechanism to avoid\npriority inversion\nissues.\nNote:\nThe priority inheritance mechanism keeps higher-priority processes in the blocked state for the minimum possible time. However, this cannot avoid the priority inversion problem, but it can reduce its effect up to an extent.\nUsing Mutex\nThe\nproducer-consumer\nproblem:\nConsider the standard producer-consumer problem. Assume, we have a buffer of 4096-byte length. A producer thread collects the data and writes it to the buffer. A consumer thread processes the collected data from the buffer. The objective is, that both the threads should not run at the same time.\nSolution:\nA mutex provides mutual exclusion, either producer or consumer can have the key (mutex) and proceed with their work. As long as the buffer is filled by the producer, the consumer needs to wait and vice versa. At any point in time, only one thread can work with the entire buffer. The concept can be generalized using semaphore.\nAdvantages of Mutex",
+    "token_count": 203
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_003",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Advantages of Mutex\nNo race condition arises, as only one process is in the\ncritical section\nat a time.\nData remains consistent and it helps in maintaining integrity.\nIt is a simple locking mechanism that into a critical section and is released while leaving the critical section.\nDisadvantages of Mutex\nIf a thread holding the mutex is preempted or goes to sleep inside the critical section, other threads are blocked, which can lead to priority inversion or\nstarvation\n.\nMutexes involve context switching and kernel overhead, which makes them slower than spinlocks for very short critical sections.\nIncorrect usage (such as forgetting to unlock) can cause deadlock.\nSemaphore\nA semaphore is a non-negative integer variable that is shared between various threads. Semaphore works upon signaling mechanism, in this a thread can be signaled by another thread.\nSemaphore\nIt provides a less restrictive control mechanism. Any thread can invoke\nsignal()",
+    "token_count": 182
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_004",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Semaphore\nIt provides a less restrictive control mechanism. Any thread can invoke\nsignal()\n(also known as release() or up()) and any other thread can invoke wait() (also known as acquire() or down()).\nThere is no strict ownership in semaphores, meaning the thread that signals doesn't necessarily have to be the same one that waited.\nNote:\nSemaphores are often used for coordinating signaling between threads. Semaphore uses two atomic operations for process synchronization:  Wait (P) & Signal (V).\nUsing Semaphore\nThe\nproducer-consumer\nproblem:\nConsider the standard producer-consumer problem. Assume, we have a buffer of 4096-byte length. A producer thread collects the data and writes it to the buffer. A consumer thread processes the collected data from the buffer. The objective is, both the threads should not run at the same time.\nSolution:\nA semaphore is a generalized\nmutex",
+    "token_count": 184
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_005",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Solution:\nA semaphore is a generalized\nmutex\n. instead a single buffer, we can split the 4 KB buffer into four 1 KB buffers (identical resources). A semaphore can be associated with these four buffers. The consumer and producer can work on different buffers at the same time.\nAdvantages of Semaphore\nSemaphores\nare machine-independent.\nOnly one process will access the critical section at a time, however, multiple threads are allowed.\nSemaphores are machine-independent, so they should be run over\nmicrokernel\n.\nFlexible resource management.\nDisadvantages of Semaphore\nIt has priority inversion.\nSemaphore operations (Wait, Signal) must be implemented in the correct manner to avoid deadlock.\nIt leads to a loss of modularity, so semaphores can't be used for large-scale systems.\nSemaphore is prone to programming error and this can lead to deadlock or violation of mutual exclusion property.\nOperating System has to track all the calls to wait and signal operations.\nDifference Between Mutex and Semaphore\nMutex\nSemaphore",
+    "token_count": 206
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_006",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Operating System has to track all the calls to wait and signal operations.\nDifference Between Mutex and Semaphore\nMutex\nSemaphore\nA mutex is an object.\nA semaphore is an integer.\nMutex works upon the locking mechanism.\nSemaphore uses signaling mechanism.\nOperations on mutex: Lock & Unlock\nOperation on semaphore: Wait & Signal\nMutex does not have any subtypes.\nSemaphore is of two types: Counting Semaphore & Binary Semaphore\nA mutex can only be modified by the process that is requesting or releasing a resource.\nSemaphore work with two atomic operations (Wait, signal) which can modify it.\nIf the mutex is locked then the process needs to wait in the process queue and mutex can only be accessed once the lock is released.\nIf the process needs a resource and no resource is free. So, the process needs to perform a wait operation until the semaphore value is greater than zero.\nMisconception of Mutex and Semaphore",
+    "token_count": 183
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_007",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "If the process needs a resource and no resource is free. So, the process needs to perform a wait operation until the semaphore value is greater than zero.\nMisconception of Mutex and Semaphore\nThere is an ambiguity between binary semaphore and mutex. We might have come across that a mutex is a binary semaphore. But it is not! The purposes of mutex and semaphore are different. Maybe, due to similarity in their implementation of a mutex would be referred to as a binary semaphore.\nA mutex is a locking mechanism used to synchronize access to a resource.\nOnly one task (can be a thread or process based on OS abstraction) can acquire the mutex.\nIt means there is ownership associated with a mutex and only the owner can release the lock (mutex).",
+    "token_count": 154
+  },
+  {
+    "chunk_id": "os_mutex-vs-semaphore_008",
+    "domain": "os",
+    "concept": "mutex-vs-semaphore",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/mutex-vs-semaphore/",
+    "text": "Only one task (can be a thread or process based on OS abstraction) can acquire the mutex.\nIt means there is ownership associated with a mutex and only the owner can release the lock (mutex).\nWhile, a semaphore is a signaling mechanism used to control access to shared resources in an operating system. For example, imagine you are downloading a large file on your computer (Task A) while simultaneously trying to print a document (Task B). When the print job is initiated, it triggers a semaphore that checks if the download is complete.\nIf the download is still in progress, the semaphore prevents the print task from proceeding, effectively saying, \"Wait until the download finishes.\"\nOnce the download completes, the semaphore signals that Task B can start printing.\nThis ensures that both tasks do not interfere with each other and helps manage system resources efficiently, allowing tasks to run smoothly without conflict.",
+    "token_count": 175
+  }
+]

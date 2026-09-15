@@ -1,0 +1,304 @@
+{
+  "domains": {
+    "cn": {
+      "concepts": 5,
+      "chunks": 33,
+      "details": [
+        {
+          "concept": "dns",
+          "chunks": 8,
+          "status": "PASS"
+        },
+        {
+          "concept": "http-vs-https",
+          "chunks": 5,
+          "status": "PASS"
+        },
+        {
+          "concept": "ipv4-vs-ipv6",
+          "chunks": 5,
+          "status": "PASS"
+        },
+        {
+          "concept": "osi-model",
+          "chunks": 13,
+          "status": "PASS"
+        },
+        {
+          "concept": "tcp-vs-udp",
+          "chunks": 2,
+          "status": "PASS"
+        }
+      ]
+    },
+    "dbms": {
+      "concepts": 6,
+      "chunks": 45,
+      "details": [
+        {
+          "concept": "acid-properties",
+          "chunks": 8,
+          "status": "PASS"
+        },
+        {
+          "concept": "indexing",
+          "chunks": 9,
+          "status": "PASS"
+        },
+        {
+          "concept": "keys",
+          "chunks": 10,
+          "status": "PASS"
+        },
+        {
+          "concept": "normalization",
+          "chunks": 7,
+          "status": "PASS"
+        },
+        {
+          "concept": "sql-joins",
+          "chunks": 6,
+          "status": "PASS"
+        },
+        {
+          "concept": "transactions",
+          "chunks": 5,
+          "status": "PASS"
+        }
+      ]
+    },
+    "design-patterns": {
+      "concepts": 4,
+      "chunks": 105,
+      "details": [
+        {
+          "concept": "factory",
+          "chunks": 10,
+          "status": "PASS"
+        },
+        {
+          "concept": "observer",
+          "chunks": 34,
+          "status": "PASS"
+        },
+        {
+          "concept": "singleton",
+          "chunks": 26,
+          "status": "PASS"
+        },
+        {
+          "concept": "strategy",
+          "chunks": 35,
+          "status": "PASS"
+        }
+      ]
+    },
+    "dsa": {
+      "concepts": 15,
+      "chunks": 63,
+      "details": [
+        {
+          "concept": "array",
+          "chunks": 9,
+          "status": "PASS"
+        },
+        {
+          "concept": "binary",
+          "chunks": 2,
+          "status": "PASS"
+        },
+        {
+          "concept": "dynamic-programming",
+          "chunks": 1,
+          "status": "PASS"
+        },
+        {
+          "concept": "graph",
+          "chunks": 8,
+          "status": "PASS"
+        },
+        {
+          "concept": "hash-table",
+          "chunks": 3,
+          "status": "PASS"
+        },
+        {
+          "concept": "heap",
+          "chunks": 3,
+          "status": "PASS"
+        },
+        {
+          "concept": "linked-list",
+          "chunks": 7,
+          "status": "PASS"
+        },
+        {
+          "concept": "matrix",
+          "chunks": 4,
+          "status": "PASS"
+        },
+        {
+          "concept": "queue",
+          "chunks": 3,
+          "status": "PASS"
+        },
+        {
+          "concept": "recursion",
+          "chunks": 4,
+          "status": "PASS"
+        },
+        {
+          "concept": "sorting",
+          "chunks": 3,
+          "status": "PASS"
+        },
+        {
+          "concept": "stack",
+          "chunks": 2,
+          "status": "PASS"
+        },
+        {
+          "concept": "string",
+          "chunks": 6,
+          "status": "PASS"
+        },
+        {
+          "concept": "tree",
+          "chunks": 6,
+          "status": "PASS"
+        },
+        {
+          "concept": "trie",
+          "chunks": 2,
+          "status": "PASS"
+        }
+      ]
+    },
+    "ml-dl": {
+      "concepts": 5,
+      "chunks": 35,
+      "details": [
+        {
+          "concept": "bias-variance-tradeoff",
+          "chunks": 5,
+          "status": "PASS"
+        },
+        {
+          "concept": "decision-trees",
+          "chunks": 11,
+          "status": "PASS"
+        },
+        {
+          "concept": "linear-vs-logistic-regression",
+          "chunks": 5,
+          "status": "PASS"
+        },
+        {
+          "concept": "neural-networks",
+          "chunks": 9,
+          "status": "PASS"
+        },
+        {
+          "concept": "overfitting-vs-underfitting",
+          "chunks": 5,
+          "status": "PASS"
+        }
+      ]
+    },
+    "oop": {
+      "concepts": 5,
+      "chunks": 33,
+      "details": [
+        {
+          "concept": "abstraction",
+          "chunks": 6,
+          "status": "PASS"
+        },
+        {
+          "concept": "composition-inheritance",
+          "chunks": 7,
+          "status": "PASS"
+        },
+        {
+          "concept": "encapsulation",
+          "chunks": 4,
+          "status": "PASS"
+        },
+        {
+          "concept": "interfaces-abstract-classes",
+          "chunks": 6,
+          "status": "PASS"
+        },
+        {
+          "concept": "polymorphism",
+          "chunks": 10,
+          "status": "PASS"
+        }
+      ]
+    },
+    "os": {
+      "concepts": 5,
+      "chunks": 35,
+      "details": [
+        {
+          "concept": "deadlock",
+          "chunks": 3,
+          "status": "PASS"
+        },
+        {
+          "concept": "mutex-vs-semaphore",
+          "chunks": 8,
+          "status": "PASS"
+        },
+        {
+          "concept": "process-vs-thread",
+          "chunks": 4,
+          "status": "PASS"
+        },
+        {
+          "concept": "scheduling-algorithms",
+          "chunks": 10,
+          "status": "PASS"
+        },
+        {
+          "concept": "virtual-memory",
+          "chunks": 10,
+          "status": "PASS"
+        }
+      ]
+    },
+    "system-design": {
+      "concepts": 5,
+      "chunks": 53,
+      "details": [
+        {
+          "concept": "caching",
+          "chunks": 11,
+          "status": "PASS"
+        },
+        {
+          "concept": "cap-theorem",
+          "chunks": 9,
+          "status": "PASS"
+        },
+        {
+          "concept": "consistent-hashing",
+          "chunks": 16,
+          "status": "PASS"
+        },
+        {
+          "concept": "load-balancing",
+          "chunks": 13,
+          "status": "PASS"
+        },
+        {
+          "concept": "microservices-vs-monolith",
+          "chunks": 4,
+          "status": "PASS"
+        }
+      ]
+    }
+  },
+  "total_concepts": 50,
+  "total_chunks": 402
+}

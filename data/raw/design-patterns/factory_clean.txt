@@ -1,0 +1,382 @@
+The Factory Method Design Pattern is a Creational Design Pattern used to create objects without exposing the object creation logic to the client. It defines a method for creating objects, where subclasses decide which class object should be instantiated, making the application more flexible and maintainable.
+Encapsulates object creation logic from the client code
+Promotes loose coupling using interfaces or abstract classes
+Makes applications easier to extend with new object types
+Widely used in frameworks, libraries, and enterprise applications
+The client requests objects through the application class instead of creating them directly.
+The Factory Method creates and returns the required object such as Game, Banking, or Shopping.
+Object creation logic is hidden from the client, which works with interfaces or abstract classes instead of concrete objects, improving flexibility and reducing coupling.
+Since it deals with object creation, it belongs to the Creational Design Pattern category.
+When to use Factory Method Design Pattern?
+Factory method design pattern can be used in java in following cases:
+When a class cannot determine the type of objects it needs to create beforehand.
+When subclasses need to decide which objects should be created.
+When object creation logic should be delegated to helper subclasses while keeping the client code independent of concrete classes.
+Note:
+The client may still use new product types, but it interacts through a common abstraction, so major client-side changes are usually not required.
+Key Components of Factory Method Design Pattern
+Below are the main components of Factory Method Design Pattern in Java:
+1. Product
+Defines a common interface or abstract class for all objects created by the factory.
+interface Product {
+void display();
+
+2. Concrete Product
+Implements the Product interface and defines specific behavior.
+class ConcreteProductA implements Product {
+public void display() {
+System.out.println("Product A");
+
+3. Creator
+Declares the factory method that returns Product objects.
+abstract class Creator {
+abstract Product factoryMethod();
+
+4. Concrete Creator
+Implements the factory method and returns specific product objects.
+class ConcreteCreatorA extends Creator {
+Product factoryMethod() {
+return new ConcreteProductA();
+
+5. Factory Method
+A method that creates and returns Product objects without exposing creation logic to the client.
+Product p = new ConcreteCreatorA().factoryMethod();
+Factory Method Design Pattern Example
+We are developing an e-commerce system where different product categories (electronics, clothing, books) are created dynamically. You want to:
+Avoid tight coupling between client and object creation
+The client interacts with the common Product type, so adding new products usually requires extending factories rather than modifying client logic.
+Hide object creation logic
+Solution using Abstract Class
+Step 1: Abstract Product Class
+Defines a common structure for all product types.
+abstract class Product {
+public abstract void display();
+
+Step 2: Concrete Products
+These are actual product implementations created by factory.
+Java
+class
+ConcreteProductA
+extends
+Product
+
+@Override
+public
+void
+display
+()
+
+System
+.
+out
+.
+println
+(
+"This is Concrete Product A."
+);
+
+class
+ConcreteProductB
+extends
+Product
+
+@Override
+public
+void
+display
+()
+
+System
+.
+out
+.
+println
+(
+"This is Concrete Product B."
+);
+
+Step 3: Creator Abstract Class
+Declares factory method but does not implement object creation.
+abstract class Creator {
+public abstract Product factoryMethod();
+
+Step 4: Concrete Creators
+Each class decides which product object to create.
+Java
+class
+ConcreteCreatorA
+extends
+Creator
+
+@Override
+public
+Product
+factoryMethod
+()
+
+return
+new
+ConcreteProductA
+();
+
+class
+ConcreteCreatorB
+extends
+Creator
+
+@Override
+public
+Product
+factoryMethod
+()
+
+return
+new
+ConcreteProductB
+();
+
+Step 5: Client Code
+Client uses factory to create objects without knowing actual classes.
+Java
+public
+class
+FactoryMethodExample
+
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+
+Creator
+creatorA
+=
+new
+ConcreteCreatorA
+();
+Product
+productA
+=
+creatorA
+.
+factoryMethod
+();
+productA
+.
+display
+();
+Creator
+creatorB
+=
+new
+ConcreteCreatorB
+();
+Product
+productB
+=
+creatorB
+.
+factoryMethod
+();
+productB
+.
+display
+();
+
+Output
+This is Concrete Product A.
+This is Concrete Product B.
+Explanation:
+In this approach, a Creator interface defines the factory method, and different factory implementations create specific products. It provides more flexibility since Java allows multiple interface implementations
+Solution using Interface
+Step 1: Product Interface
+Defines contract for all product types.
+interface Product {
+void display();
+
+Step 2: Concrete Products
+Actual implementations of Product interface.
+Java
+class
+ConcreteProductA
+implements
+Product
+
+@Override
+public
+void
+display
+()
+
+System
+.
+out
+.
+println
+(
+"This is Concrete Product A."
+);
+
+class
+ConcreteProductB
+implements
+Product
+
+@Override
+public
+void
+display
+()
+
+System
+.
+out
+.
+println
+(
+"This is Concrete Product B."
+);
+
+Step 3: Factory Interface
+Defines factory contract for creating products.
+interface Creator{
+Product factoryMethod();
+
+Step 4: Concrete Factories
+Each factory creates specific product type.
+Java
+class
+ConcreteCreatorA
+implements
+Creator
+
+@Override
+public
+Product
+factoryMethod
+()
+
+return
+new
+ConcreteProductA
+();
+
+class
+ConcreteCreatorB
+implements
+Creator
+
+@Override
+public
+Product
+factoryMethod
+()
+
+return
+new
+ConcreteProductB
+();
+
+Step 5: Client Code
+Client depends only on factory interface, not concrete classes.
+Java
+public
+class
+FactoryMethodExample
+
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+
+Creator
+creatorA
+=
+new
+ConcreteCreatorA
+();
+Product
+productA
+=
+creatorA
+.
+factoryMethod
+();
+productA
+.
+display
+();
+Creator
+creatorB
+=
+new
+ConcreteCreatorB
+();
+Product
+productB
+=
+creatorB
+.
+factoryMethod
+();
+productB
+.
+display
+();
+
+Output
+This is Concrete Product A.
+This is Concrete Product B.
+Explanation:
+In this approach, a Creator interface defines the factory method, and different factory implementations create specific products. It provides more flexibility since Java allows multiple interface implementations.
+Features
+Separates object creation from client code
+Easy to add new product types because the client depends on interfaces or abstract classes, not concrete classes.
+Improves testability using mock objects
+Centralizes and reuses object creation logic
+Reduces dependency on concrete classes
+Limitation
+Increases code complexity due to extra classes and interfaces
+Can lead to overengineering for simple object creation needs
+Adds slight runtime overhead due to polymorphism
+Makes system harder to understand for beginners
+Requires maintenance of both creator and product hierarchies
+Simple Object Creation vs Factory Method
+Feature
+Simple Object Creation
+Factory Method Design Pattern
+Object Creation
+Directly using
+new
+keyword
+Object creation is handled by factory method
+Flexibility
+Low flexibility
+High flexibility
+Coupling
+Tightly coupled with concrete classes
+Loosely coupled using interfaces
+Code Maintenance
+Hard to maintain if changes occur
+Easy to maintain and extend
+Scalability
+Difficult to add new types
+Easy to add new product types
+Testing
+Hard to mock objects
+Easy to use mock objects
+Complexity
+Simple and straightforward
+More complex due to extra classes
+Best Use Case
+Small/simple applications
+Large and scalable applications

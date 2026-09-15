@@ -1,0 +1,145 @@
+Introduction to Database Normalization - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+DBMS Tutorial
+Interview Questions
+Quizzes
+Acid Properties
+ER Model
+Data Warehousing
+Notes
+Indexing
+SQL
+Compiler Design
+Computer Network
+Digital Electronics
+Ace GATE 2027
+Basics of DBMS
+Introduction of DBMS
+History of DBMS
+Types of DBMS Architecture
+Difference between File System and DBMS
+ER & Relational Model
+Introduction of ER Model
+Structural Constraints of Relationships in ER Model
+Generalization, Specialization and Aggregation in ER Model
+Introduction of Relational Model and Codd Rules in DBMS
+Keys in Relational Model
+Mapping from ER Model to Relational Model
+Strategies for Schema design in DBMS
+Relational Algebra
+Introduction to Relational Algebra in DBMS
+SQL Joins (Inner, Left, Right and Full Join)
+Join Operation vs Nested Query in DBMS
+Tuple Relational Calculus (TRC) in DBMS
+Domain Relational Calculus in DBMS
+Functional Dependencies & Normalisation
+Attribute Closure in DBMS
+Armstrong's Axioms in Functional Dependency in DBMS
+Canonical Cover of Functional Dependencies in DBMS
+Normal Forms in DBMS
+The Problem of Redundancy in Database
+Lossless Join and Dependency Preserving Decomposition
+Denormalization in Databases
+Transactions & Concurrency Control
+ACID Properties in DBMS
+Types of Schedules in DBMS
+Concurrency Control in DBMS
+Graph Based Concurrency Control Protocol in DBMS
+Multiple Granularity Locking in DBMS
+Database Recovery Techniques in DBMS
+Deadlock in DBMS
+Advanced DBMS
+Indexing in Databases
+Introduction of B Tree
+Introduction of B+ Tree
+Bitmap Indexing in DBMS
+Inverted Index
+SQL Queries on Clustered and Non-Clustered Indexes
+File Organization in DBMS
+Practice Questions
+Last Minute Notes - DBMS
+DBMS Interview Questions with Answers
+Commonly asked DBMS Interview Questions | Set 2
+Database Management System - GATE CSE Previous Year Questions
+Courses
+GATE CS/IT/DA Courses
+DSA and System Design Course
+Summer SkillUp
+Explore
+Introduction to Database Normalization
+Last Updated :
+1 May, 2026
+Normalization is an important process in database design that helps improve the database's efficiency, consistency, and accuracy. It makes it easier to manage and maintain the data and ensures that the database is adaptable to changing business needs.
+It is the process of organizing the attributes of the database to reduce or eliminate data redundancy (having the same data in different places), which otherwise unnecessarily increases the size of the database.
+Data redundancy leads to inconsistency problems during insert, delete, and update operations, making data management difficult.
+Normalization involves splitting a table into multiple tables, which must be linked each time a query requires data from the split tables.
+Before Normalization:
+The table is prone to redundancy and anomalies (insertion, update, and deletion).
+After Normalization:
+The data is divided into logical tables to ensure consistency, avoid redundancy and remove anomalies making the database efficient and reliable.
+Problems in the Employee_Department Relation
+If a new department is created but no employee is assigned to it yet, we cannot store its location because we need an employee record to insert. It shows insertion anomaly.
+If the location of the HR department changes, we must update it in multiple rows (for both Nick Wise and Lily Case). If one row is missed, the data becomes inconsistent.
+If all employees in the IT department leave, we lose the department information, including its location.
+The department location is repeated for every employee in the same department. It is data redundant.
+Need of Normalization
+The primary objective for normalizing the relations is to eliminate the below
+anomalies
+. Failure to reduce anomalies results in data redundancy, which may threaten data integrity and cause additional issues as the database increases.
+Insertion Anomalies:
+Insertion anomalies occur when it is not possible to insert data into a database because the required fields are missing or because the data is incomplete. For example, if a database requires that every record has a primary key, but no value is provided for a particular record, it cannot be inserted into the database.
+Deletion anomalies:
+Deletion anomalies occur when deleting a record from a database and can result in the unintentional loss of data. For example, if a database contains information about customers and orders, deleting a customer record may also delete all the orders associated with that customer.
+Update anomalies:
+Updation of anomalies occur when modifying data in a database and can result in inconsistencies or errors. For example, if a database contains information about employees and their salaries, updating an employee’s salary in one record but not in all related records could lead to incorrect calculations and reporting.
+Features of Database Normalization
+Elimination of Data Redundancy:
+One of the main features of normalization is to eliminate the data redundancy that can occur in a database. Data redundancy refers to the repetition of data in different parts of the database. Normalization helps in reducing or eliminating this redundancy, which can improve the efficiency and consistency of the database.
+Ensuring Data Consistency:
+Normalization helps in ensuring that the data in the database is consistent and accurate. By eliminating redundancy, normalization helps in preventing inconsistencies and contradictions that can arise due to different versions of the same data.
+Simplification of Data Management:
+Normalization simplifies the process of managing data in a database. By breaking down a complex data structure into simpler tables, normalization makes it easier to manage the data, update it, and retrieve it.
+Improved Database Design:
+Normalization helps in improving the overall design of the database. By organizing the data in a structured and systematic way, normalization makes it easier to design and maintain the database. It also makes the database more flexible and adaptable to changing business needs.
+Standardization:
+Normalization helps in standardizing the data in the database. By organizing the data into tables and defining relationships between them, normalization helps in ensuring that the data is stored in a consistent and uniform manner.
+Normal Forms in DBMS
+Normal Forms
+Description of Normal Forms
+First Normal Form (1NF)
+A relation is in
+first normal form
+if every attribute in that relation is single-valued attribute.
+Second Normal Form (2NF)
+A relation that is in First Normal Form and every non-primary-key attribute is fully functionally dependent on the primary key, then the relation is in
+Second Normal Form (2NF).
+Third Normal Form (3NF)
+A relation is in the
+third normal form
+, if there is no transitive dependency for non-prime attributes as well as it is in the second normal form. A relation is in 3NF if at least one of the following conditions holds in every non-trivial function dependency X –> Y.
+X is a super key.
+Y is a prime attribute (each element of Y is part of some candidate key).
+Boyce-Codd Normal Form (BCNF)
+For BCNF the relation should satisfy the below conditions
+The relation should be in the 3rd
+Normal Form
+.
+X should be a super-key for every functional dependency (FD) X−>Y in a given relation.
+Fourth Normal Form (4NF)
+A relation R is in
+4NF
+if and only if the following conditions are satisfied:
+It should be in the
+Boyce-Codd Normal Form (BCNF)
+.
+The table should not have any Multi-valued Dependency.
+Fifth Normal Form (5NF)
+A relation R is in
+5NF
+if and only if it satisfies the following conditions:
+R should be already in 4NF.
+It cannot be further non loss decomposed (join dependency)
+Comment

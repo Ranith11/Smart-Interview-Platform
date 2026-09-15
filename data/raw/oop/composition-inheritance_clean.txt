@@ -1,0 +1,594 @@
+In object-oriented programming (OOP), choosing between inheritance and composition is crucial for designing flexible and maintainable code. This article explores why you should favor composition over inheritance, with simple explanations and examples.
+What is Inheritance?
+Inheritance is when a new class is based on an existing class. The new class (subclass) inherits properties and methods from the existing class (superclass). This relationship is known as "is-a." For example, an
+Employee
+"is a"
+Person
+because it inherits from the
+Person
+class.
+Example:
+Java
+class
+Person
+
+// Private fields for encapsulation
+private
+String
+name
+;
+private
+int
+age
+;
+// Constructor to initialize fields
+public
+Person
+(
+String
+name
+,
+int
+age
+)
+
+this
+.
+name
+=
+name
+;
+this
+.
+age
+=
+age
+;
+
+// Getter for name
+public
+String
+getName
+()
+
+return
+name
+;
+
+// Setter for name
+public
+void
+setName
+(
+String
+name
+)
+
+this
+.
+name
+=
+name
+;
+
+// Getter for age
+public
+int
+getAge
+()
+
+return
+age
+;
+
+// Setter for age
+public
+void
+setAge
+(
+int
+age
+)
+
+this
+.
+age
+=
+age
+;
+
+class
+Employee
+extends
+Person
+
+// Private field for encapsulation
+private
+int
+salary
+;
+// Constructor to initialize fields
+public
+Employee
+(
+String
+name
+,
+int
+age
+,
+int
+salary
+)
+
+super
+(
+name
+,
+age
+);
+// Call superclass constructor
+this
+.
+salary
+=
+salary
+;
+
+// Getter for salary
+public
+int
+getSalary
+()
+
+return
+salary
+;
+
+// Setter for salary
+public
+void
+setSalary
+(
+int
+salary
+)
+
+this
+.
+salary
+=
+salary
+;
+
+// Method to display employee information
+public
+void
+displayInfo
+()
+
+System
+.
+out
+.
+println
+(
+"Name: "
++
+getName
+());
+System
+.
+out
+.
+println
+(
+"Age: "
++
+getAge
+());
+System
+.
+out
+.
+println
+(
+"Salary: "
++
+salary
+);
+
+public
+class
+Main
+
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+
+// Create an Employee object
+Employee
+emp
+=
+new
+Employee
+(
+"Geek1"
+,
+30
+,
+50000
+);
+// Display employee information
+emp
+.
+displayInfo
+();
+
+Output
+Name: Geek1
+Age: 30
+Salary: 50000
+In this example, the
+Employee
+class inherits from
+Person
+and adds a new property,
+salary
+.
+What is Composition?
+Composition involves creating classes that include instances of other classes. This is known as a "has-a" relationship. For example, a
+Person
+"has an"
+Address
+because it contains an
+Address
+object.
+Example:
+Java
+class
+Address
+
+// Private fields for encapsulation
+private
+String
+street
+;
+private
+String
+city
+;
+private
+String
+zipCode
+;
+// Constructor to initialize fields
+public
+Address
+(
+String
+street
+,
+String
+city
+,
+String
+zipCode
+)
+
+this
+.
+street
+=
+street
+;
+this
+.
+city
+=
+city
+;
+this
+.
+zipCode
+=
+zipCode
+;
+
+// Getter for street
+public
+String
+getStreet
+()
+
+return
+street
+;
+
+// Setter for street
+public
+void
+setStreet
+(
+String
+street
+)
+
+this
+.
+street
+=
+street
+;
+
+// Getter for city
+public
+String
+getCity
+()
+
+return
+city
+;
+
+// Setter for city
+public
+void
+setCity
+(
+String
+city
+)
+
+this
+.
+city
+=
+city
+;
+
+// Getter for zipCode
+public
+String
+getZipCode
+()
+
+return
+zipCode
+;
+
+// Setter for zipCode
+public
+void
+setZipCode
+(
+String
+zipCode
+)
+
+this
+.
+zipCode
+=
+zipCode
+;
+
+// Method to display address (delegation)
+public
+void
+displayAddress
+()
+
+System
+.
+out
+.
+println
+(
+street
++
+", "
++
+city
++
+", "
++
+zipCode
+);
+
+class
+Person
+
+// Private fields for encapsulation
+private
+String
+name
+;
+private
+Address
+address
+;
+// Constructor to initialize fields
+public
+Person
+(
+String
+name
+,
+Address
+address
+)
+
+this
+.
+name
+=
+name
+;
+this
+.
+address
+=
+address
+;
+
+// Getter for name
+public
+String
+getName
+()
+
+return
+name
+;
+
+// Setter for name
+public
+void
+setName
+(
+String
+name
+)
+
+this
+.
+name
+=
+name
+;
+
+// Getter for address
+public
+Address
+getAddress
+()
+
+return
+address
+;
+
+// Setter for address
+public
+void
+setAddress
+(
+Address
+address
+)
+
+this
+.
+address
+=
+address
+;
+
+// Method to display person information
+public
+void
+displayInfo
+()
+
+System
+.
+out
+.
+println
+(
+"Name: "
++
+name
+);
+System
+.
+out
+.
+print
+(
+"Address: "
+);
+address
+.
+displayAddress
+();
+
+public
+class
+Main
+
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+
+// Create an Address object
+Address
+addr
+=
+new
+Address
+(
+"123 Main St"
+,
+"Springfield"
+,
+"12345"
+);
+// Create a Person object
+Person
+person
+=
+new
+Person
+(
+"Geek1"
+,
+addr
+);
+// Display person information
+person
+.
+displayInfo
+();
+
+Output
+Name: Geek1
+Address: 123 Main St, Springfield, 12345
+In this example, the
+Person
+class uses composition to include an
+Address
+object. This creates a "has-a" relationship between
+Person
+and
+Address
+.
+Why Favor Composition Over Inheritance?
+Flexibility:
+With composition, you can easily change or replace components (like
+Address
+) without affecting the
+Person
+class.
+Encapsulation:
+Composition keeps the details of the composed class (like
+Address
+) hidden from the outside, making your code more secure and easier to manage.
+Avoid Fragile Base Class Problem:
+Changes in a superclass can break subclasses. Composition reduces this risk because changes in one class do not directly impact others.
+Better Testability:
+Composition makes it easier to test individual components by substituting mock objects if needed.
+Conclusion
+Favoring composition over inheritance is a best practice in OOP that leads to more flexible, maintainable, and testable code. By using composition, you create "has-a" relationships that are often more adaptable and less prone to problems than "is-a" relationships from inheritance.

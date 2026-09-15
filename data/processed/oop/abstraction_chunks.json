@@ -1,0 +1,56 @@
+[
+  {
+    "chunk_id": "oop_abstraction_001",
+    "domain": "oop",
+    "concept": "abstraction",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/abstraction-in-cpp/",
+    "text": "Abstraction is one of the fundamental principles of\nObject-Oriented Programming (OOP)\nthat exposes only the essential features of an object while hiding its internal implementation details. It allows users to interact with an object without knowing how its functionality is implemented internally.\nHides unnecessary implementation details from the user.\nSimplifies complex systems by exposing only the required functionality.\nMakes programs easier to maintain since implementation changes do not affect user code.\nReal-World Example:\nAn ATM or a coffee machine demonstrates abstraction, where users perform operations such as withdrawing cash or selecting a beverage without knowing the internal implementation.\nAchieving Abstraction in C++\nAbstraction in C++ is primarily achieved using abstract classes and pure virtual functions. They define a common interface while allowing derived classes to provide their own implementations.\nAbstract classes define common behavior shared by multiple classes.",
+    "token_count": 167
+  },
+  {
+    "chunk_id": "oop_abstraction_002",
+    "domain": "oop",
+    "concept": "abstraction",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/abstraction-in-cpp/",
+    "text": "Abstract classes define common behavior shared by multiple classes.\nPure virtual functions specify functions that derived classes must implement.\nRuntime polymorphism enables the appropriate implementation to be selected during execution.\nAbstract Classes\nAn abstract class is a class that contains at least one pure virtual function. It serves as a base class that defines a common interface while leaving the implementation of specific operations to derived classes.\nAn abstract class contains at least one pure virtual function.\nObjects of an abstract class cannot be instantiated.\nDerived classes must implement the pure virtual functions.\nIt provides a common interface to achieve abstraction.\nExample:\nThe following program demonstrates abstraction using an abstract class.\nC++\n#include\n<iostream>\n#include\n<string>\nusing\nnamespace\nstd\n;\n// Abstract base class as there is a\n// pure virtual method\nclass\nShape",
+    "token_count": 158
+  },
+  {
+    "chunk_id": "oop_abstraction_003",
+    "domain": "oop",
+    "concept": "abstraction",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/abstraction-in-cpp/",
+    "text": "protected\n:\nstring\ncolor\n;\npublic\n:\nShape\n(\nstring\ncolor\n)\n:\ncolor\n(\ncolor\n){}\n// Abstract or Pure virtual method\nvirtual\ndouble\narea\n()\n=\n0\n;\n// Concrete method\nstring\ngetColor\n(){\nreturn\ncolor\n;\n\nvirtual\n\nShape\n()\n{}\n};\n// Derived class: Rectangle\nclass\nRectangle\n:\npublic\nShape\n\ndouble\nlength\n,\nwidth\n;\npublic\n:\nRectangle\n(\nstring\ncolor\n,\ndouble\nlength\n,\ndouble\nwidth\n)\n:\nShape\n(\ncolor\n){\nthis\n->\nlength\n=\nlength\n;\nthis\n->\nwidth\n=\nwidth\n;\n\ndouble\narea\n()\noverride\n\nreturn\nlength\n*\nwidth\n;\n\n};\nint\nmain\n()\n\nShape\n*\ns\n=\nnew\nRectangle\n(\n\"Yellow\"\n,\n2\n,\n4\n);\ncout\n<<\n\"Rectangle color is \"\n<<\ns\n->\ngetColor\n()\n<<\n\" and area is : \"\n<<\ns\n->\narea\n()\n<<\nendl\n;\nreturn\n0\n;",
+    "token_count": 219
+  },
+  {
+    "chunk_id": "oop_abstraction_004",
+    "domain": "oop",
+    "concept": "abstraction",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/abstraction-in-cpp/",
+    "text": "Output\nRectangle color is Yellow and area is : 8\nExplanation\nShape is an abstract class because it contains the pure virtual function area().\nRectangle inherits from Shape and provides its own implementation of area().\nThe base class pointer Shape* points to a Rectangle object.\nCalling area() invokes the derived class implementation at runtime, demonstrating abstraction through a common interface.\nComplete Abstraction Using Pure Abstract Classes\nA class containing only pure virtual functions is commonly used as a pure abstract class to provide complete abstraction. Such classes define only the required operations without providing any implementation.\nContains only pure virtual functions.\nCannot be instantiated directly.\nEvery derived class must implement all inherited functions.\nEnables different classes to expose the same interface while providing different implementations.\nExample:\nThe following program demonstrates complete abstraction using a pure abstract class.\nC++\n#include\n<iostream>\nusing\nnamespace",
+    "token_count": 168
+  },
+  {
+    "chunk_id": "oop_abstraction_005",
+    "domain": "oop",
+    "concept": "abstraction",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/abstraction-in-cpp/",
+    "text": "public\n:\nvirtual\nvoid\nprint\n()\n=\n0\n;\n// pure virtual function\nvirtual\nvoid\nscan\n()\n=\n0\n;\n// pure virtual function\n// Virtual destructor is a good practice for base classes\nvirtual\n\nPrintable\n()\n{}\n};\n// Derived class must implement all functions\nclass\nDocument\n:\npublic\nPrintable\n\npublic\n:\nvoid\nprint\n()\noverride\n\ncout\n<<\n\"Printing document...\"\n<<\nendl\n;\n\nvoid\nscan\n()\noverride\n\ncout\n<<\n\"Scanning document...\"\n<<\nendl\n;\n\n};\n// Another derived class implementing the same interface\nclass\nPhoto\n:\npublic\nPrintable\n\npublic\n:\nvoid\nprint\n()\noverride\n\ncout\n<<\n\"Printing photo...\"\n<<\nendl\n;\n\nvoid\nscan\n()\noverride\n\ncout\n<<\n\"Scanning photo...\"\n<<\nendl\n;\n\n};\nint\nmain\n()\n\n// Base class pointer pointing to derived objects\nPrintable\n*\np1\n=\nnew\nDocument\n();\nPrintable\n*\np2\n=\nnew\nPhoto\n();\n// Call interface functions - runtime polymorphism\np1\n->\nprint\n();\np1\n->\nscan\n();\np2\n->\nprint\n();\np2\n->\nscan\n();\n// Free memory\ndelete\np1\n;\ndelete\np2\n;\nreturn\n0\n;",
+    "token_count": 279
+  },
+  {
+    "chunk_id": "oop_abstraction_006",
+    "domain": "oop",
+    "concept": "abstraction",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/abstraction-in-cpp/",
+    "text": "Output\nPrinting document...\nScanning document...\nPrinting photo...\nScanning photo...\nExplanation\nPrintable is a pure abstract class that defines the operations print() and scan().\nDocument and Photo implement these operations differently.\nA base class pointer can refer to objects of different derived classes.\nThe appropriate implementation is selected at runtime through runtime polymorphism.\nAdvantages of Abstraction\nAbstraction provides several benefits while designing object-oriented applications.\nHides implementation details and exposes only the required functionality.\nMakes code easier to maintain and extend.\nImproves flexibility through common interfaces.\nReduces coupling between different parts of a program.\nEnables runtime polymorphism using abstract classes and virtual functions.",
+    "token_count": 132
+  }
+]

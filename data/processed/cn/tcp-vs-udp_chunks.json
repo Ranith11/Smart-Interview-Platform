@@ -1,0 +1,20 @@
+[
+  {
+    "chunk_id": "cn_tcp-vs-udp_001",
+    "domain": "cn",
+    "concept": "tcp-vs-udp",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-tcp-and-udp/",
+    "text": "TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are two core protocols of the Transport Layer of the OSI and TCP/IP models. Both are responsible for end-to-end communication between applications, but they differ significantly in terms of reliability, speed, and use cases. Understanding the difference between TCP and UDP is essential for designing efficient and reliable networked systems.\nTransmission Control Protocol (TCP)\nTCP is a reliable, connection-oriented transport protocol that ensures accurate and ordered data delivery. It uses control mechanisms to guarantee data correctness, which makes it slower but dependable.\nConnection-oriented protocol\nReliable and ordered data delivery\nHigher overhead but high accuracy\nUser Datagram Protocol (UDP)\nUDP is a fast, connectionless transport protocol that sends data without reliability guarantees. It is efficient for applications where speed is more important than accuracy.\nConnectionless and lightweight\nNo guarantee of delivery or order",
+    "token_count": 175
+  },
+  {
+    "chunk_id": "cn_tcp-vs-udp_002",
+    "domain": "cn",
+    "concept": "tcp-vs-udp",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-tcp-and-udp/",
+    "text": "Connectionless and lightweight\nNo guarantee of delivery or order\nLow overhead and high speed\nDifferences between TCP and UDP\nTCP (Transmission Control Protocol)\nUDP (User Datagram Protocol)\nConnection-oriented; uses a three-way handshake\nConnectionless; no handshake\nGuarantees reliable data delivery\nDoes not guarantee delivery\nUses acknowledgements (ACKs)\nNo acknowledgements\nSupports retransmission of lost packets\nNo retransmission support\nEnsures packets are delivered in order\nDoes not ensure ordering\nProvides flow control and congestion control\nNo flow or congestion control\nSlower due to higher overhead\nFaster with minimal overhead\nVariable header size (20–60 bytes)\nFixed header size (8 bytes)\nTreats data as a continuous byte stream\nTreats data as independent messages\nDoes not support broadcasting or multicasting\nSupports broadcasting and multicasting\nUsed by HTTP, HTTPS, FTP, SMTP\nUsed by DNS, DHCP, VoIP, Streaming",
+    "token_count": 199
+  }
+]

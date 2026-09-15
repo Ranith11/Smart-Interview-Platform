@@ -1,0 +1,409 @@
+Abstraction in C++ - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+C++ Tutorial
+Interview Questions
+Examples
+Quizzes
+Projects
+Cheatsheet
+OOP
+Exception Handling
+STL
+DSA C++
+Share Your Experiences
+C++ Basics
+Introduction
+Data Types
+Variables
+Operators
+Basic Input / Output
+Control Flow Statements
+Loops
+Functions
+Arrays
+Core Concepts
+Pointers and References
+new and delete Operators
+Templates in C++
+Struct Union Enum
+Exception Handling
+File Handling
+Multithreading
+Namespace
+OOP
+OOP Concepts
+Inheritance
+Polymorphism
+Encapsulation
+Abstraction
+Standard Template Library(STL)
+STL
+Container Library
+Iterators
+Algorithm Library
+Practice & Problems
+Interview Questions
+Programming Examples
+Courses
+Placement 360 Course
+DSA and System Design Course
+Placement 360 Course
+Explore
+Abstraction in C++
+Last Updated :
+22 Jun, 2026
+Abstraction is one of the fundamental principles of
+Object-Oriented Programming (OOP)
+that exposes only the essential features of an object while hiding its internal implementation details. It allows users to interact with an object without knowing how its functionality is implemented internally.
+Hides unnecessary implementation details from the user.
+Simplifies complex systems by exposing only the required functionality.
+Makes programs easier to maintain since implementation changes do not affect user code.
+Real-World Example:
+An ATM or a coffee machine demonstrates abstraction, where users perform operations such as withdrawing cash or selecting a beverage without knowing the internal implementation.
+Achieving Abstraction in C++
+Abstraction in C++ is primarily achieved using abstract classes and pure virtual functions. They define a common interface while allowing derived classes to provide their own implementations.
+Abstract classes define common behavior shared by multiple classes.
+Pure virtual functions specify functions that derived classes must implement.
+Runtime polymorphism enables the appropriate implementation to be selected during execution.
+Abstract Classes
+An abstract class is a class that contains at least one pure virtual function. It serves as a base class that defines a common interface while leaving the implementation of specific operations to derived classes.
+An abstract class contains at least one pure virtual function.
+Objects of an abstract class cannot be instantiated.
+Derived classes must implement the pure virtual functions.
+It provides a common interface to achieve abstraction.
+Example:
+The following program demonstrates abstraction using an abstract class.
+C++
+#include
+<iostream>
+#include
+<string>
+using
+namespace
+std
+;
+// Abstract base class as there is a
+// pure virtual method
+class
+Shape
+{
+protected
+:
+string
+color
+;
+public
+:
+Shape
+(
+string
+color
+)
+:
+color
+(
+color
+){}
+// Abstract or Pure virtual method
+virtual
+double
+area
+()
+=
+0
+;
+// Concrete method
+string
+getColor
+(){
+return
+color
+;
+}
+virtual
+~
+Shape
+()
+{}
+};
+// Derived class: Rectangle
+class
+Rectangle
+:
+public
+Shape
+{
+double
+length
+,
+width
+;
+public
+:
+Rectangle
+(
+string
+color
+,
+double
+length
+,
+double
+width
+)
+:
+Shape
+(
+color
+){
+this
+->
+length
+=
+length
+;
+this
+->
+width
+=
+width
+;
+}
+double
+area
+()
+override
+{
+return
+length
+*
+width
+;
+}
+};
+int
+main
+()
+{
+Shape
+*
+s
+=
+new
+Rectangle
+(
+"Yellow"
+,
+2
+,
+4
+);
+cout
+<<
+"Rectangle color is "
+<<
+s
+->
+getColor
+()
+<<
+" and area is : "
+<<
+s
+->
+area
+()
+<<
+endl
+;
+return
+0
+;
+}
+Output
+Rectangle color is Yellow and area is : 8
+Explanation
+Shape is an abstract class because it contains the pure virtual function area().
+Rectangle inherits from Shape and provides its own implementation of area().
+The base class pointer Shape* points to a Rectangle object.
+Calling area() invokes the derived class implementation at runtime, demonstrating abstraction through a common interface.
+Complete Abstraction Using Pure Abstract Classes
+A class containing only pure virtual functions is commonly used as a pure abstract class to provide complete abstraction. Such classes define only the required operations without providing any implementation.
+Contains only pure virtual functions.
+Cannot be instantiated directly.
+Every derived class must implement all inherited functions.
+Enables different classes to expose the same interface while providing different implementations.
+Example:
+The following program demonstrates complete abstraction using a pure abstract class.
+C++
+#include
+<iostream>
+using
+namespace
+std
+;
+// Pure Abstract Class acting as an Interface
+class
+Printable
+{
+public
+:
+virtual
+void
+print
+()
+=
+0
+;
+// pure virtual function
+virtual
+void
+scan
+()
+=
+0
+;
+// pure virtual function
+// Virtual destructor is a good practice for base classes
+virtual
+~
+Printable
+()
+{}
+};
+// Derived class must implement all functions
+class
+Document
+:
+public
+Printable
+{
+public
+:
+void
+print
+()
+override
+{
+cout
+<<
+"Printing document..."
+<<
+endl
+;
+}
+void
+scan
+()
+override
+{
+cout
+<<
+"Scanning document..."
+<<
+endl
+;
+}
+};
+// Another derived class implementing the same interface
+class
+Photo
+:
+public
+Printable
+{
+public
+:
+void
+print
+()
+override
+{
+cout
+<<
+"Printing photo..."
+<<
+endl
+;
+}
+void
+scan
+()
+override
+{
+cout
+<<
+"Scanning photo..."
+<<
+endl
+;
+}
+};
+int
+main
+()
+{
+// Base class pointer pointing to derived objects
+Printable
+*
+p1
+=
+new
+Document
+();
+Printable
+*
+p2
+=
+new
+Photo
+();
+// Call interface functions - runtime polymorphism
+p1
+->
+print
+();
+p1
+->
+scan
+();
+p2
+->
+print
+();
+p2
+->
+scan
+();
+// Free memory
+delete
+p1
+;
+delete
+p2
+;
+return
+0
+;
+}
+Output
+Printing document...
+Scanning document...
+Printing photo...
+Scanning photo...
+Explanation
+Printable is a pure abstract class that defines the operations print() and scan().
+Document and Photo implement these operations differently.
+A base class pointer can refer to objects of different derived classes.
+The appropriate implementation is selected at runtime through runtime polymorphism.
+Advantages of Abstraction
+Abstraction provides several benefits while designing object-oriented applications.
+Hides implementation details and exposes only the required functionality.
+Makes code easier to maintain and extend.
+Improves flexibility through common interfaces.
+Reduces coupling between different parts of a program.
+Enables runtime polymorphism using abstract classes and virtual functions.
+Comment

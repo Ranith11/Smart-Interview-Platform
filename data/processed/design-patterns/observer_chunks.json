@@ -1,0 +1,308 @@
+[
+  {
+    "chunk_id": "design-patterns_observer_001",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Observer Design Pattern is a behavioral pattern that creates a one-to-many relationship between a subject and its observers. When the subject's state changes, all dependent observers are notified and updated automatically, ensuring synchronized communication.\nEnables automatic updates to multiple objects when one object changes, useful for event-driven or publish-subscribe systems.\nPromotes loose coupling between the subject and its observers, improving flexibility and maintainability.\nExample:\nA YouTube channel (Subject) notifies all its subscribers (Observers) whenever a new video is uploaded.\nObserver Design Pattern\nIn the Diagram\nClients (A, B, C) interact with the Subject, and when its state changes, it triggers a notification.\nThe Subject sends notify() updates to all registered Observers (Observer 1, 2, 3).\nObservers automatically receive updates and react, without the Subject knowing their specific details (loose coupling).\nNote",
+    "token_count": 176
+  },
+  {
+    "chunk_id": "design-patterns_observer_002",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Observers automatically receive updates and react, without the Subject knowing their specific details (loose coupling).\nNote\n: Subjects are the objects that maintain and notify observers about changes in their state, while Observers are the entities that react to those changes.\nReal-Life Applications\nThe Observer pattern is widely used in applications where changes in one object need to be automatically reflected in multiple others:\nSocial Media Notifications:\nUsers (observers) receive updates when someone they follow (subject) posts new content.\nStock Market Apps:\nInvestors get real-time updates when stock prices (subjects) change.\nEvent Listeners in GUIs:\nUI components respond to user actions like clicks or keyboard input.\nWeather Monitoring Systems:\nMultiple displays update automatically when central weather data changes.\nComponents\nThe main components of Observer Design Pattern are:\nClass Diagram\nSubject",
+    "token_count": 163
+  },
+  {
+    "chunk_id": "design-patterns_observer_003",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Weather Monitoring Systems:\nMultiple displays update automatically when central weather data changes.\nComponents\nThe main components of Observer Design Pattern are:\nClass Diagram\nSubject\n: Maintains a list of observers, provides methods to add/remove them, and notifies them of state changes.\nObserver\n: Defines an interface with an update() method to ensure all observers receive updates consistently.\nConcreteSubject\n: A specific subject that holds actual data. On state change, it notifies registered observers (e.g., a weather station).\nConcreteObserver\n: Implements the observer interface and reacts to subject updates (e.g., a weather app showing weather updates).\nWorking\nThe Observer Pattern works by establishing a subscription mechanism between a subject and its observers so that changes in one object are automatically reflected in others.\nObservers subscribe to the subject to receive updates.\nThe subject maintains a list of registered observers.\nWhen the subject’s state changes, it notifies all observers.",
+    "token_count": 182
+  },
+  {
+    "chunk_id": "design-patterns_observer_004",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Observers subscribe to the subject to receive updates.\nThe subject maintains a list of registered observers.\nWhen the subject’s state changes, it notifies all observers.\nObservers react to the update according to their own behavior.\nUses\nThe Observer Pattern is used when multiple objects need to be notified automatically about changes in another object’s state.\nTo implement event handling systems such as GUI listeners.\nTo maintain consistency between related objects without tight coupling.\nTo support publish–subscribe mechanisms.\nImplementation Example\nProblem statement\nImagine a weather monitoring system where multiple display devices like phone and TV need to show updated weather information. Whenever the weather changes, all devices should receive updates automatically without being tightly connected to the weather system.",
+    "token_count": 137
+  },
+  {
+    "chunk_id": "design-patterns_observer_005",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "The Observer pattern solves this by allowing devices (observers) to register with a WeatherStation (subject). When the weather changes using setWeather(), it notifies all observers, and they update their display accordingly.\n1. Subject\nThe \"Subject\" interface outlines the operations a subject (like \"WeatherStation\") should support.\n\"addObserver\" and \"removeObserver\" are for managing the list of observers.\n\"notifyObservers\" is for informing observers about changes.\nC++\nclass\nObserver\n;\n// Forward declaration\nclass\nSubject",
+    "token_count": 106
+  },
+  {
+    "chunk_id": "design-patterns_observer_006",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "public\n:\nvirtual\nvoid\naddObserver\n(\nObserver\n*\nobserver\n)\n=\n0\n;\nvirtual\nvoid\nremoveObserver\n(\nObserver\n*\nobserver\n)\n=\n0\n;\nvirtual\nvoid\nnotifyObservers\n()\n=\n0\n;\nvirtual\n\nSubject\n()\n=\ndefault\n;\n};\nJava\npublic\ninterface\nSubject\n\nvoid\naddObserver\n(\nObserver\nobserver\n);\nvoid\nremoveObserver\n(\nObserver\nobserver\n);\nvoid\nnotifyObservers\n();\n\nPython\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nSubject\n(\nABC\n):\n@abstractmethod\ndef\nadd_observer\n(\nself\n,\nobserver\n):\npass\n@abstractmethod\ndef\nremove_observer\n(\nself\n,\nobserver\n):\npass\n@abstractmethod\ndef\nnotify_observers\n(\nself\n):\npass\nJavaScript\nclass\nSubject\n\naddObserver\n(\nobserver\n)\n\n// Implementation\n\nremoveObserver\n(\nobserver\n)\n\n// Implementation\n\nnotifyObservers\n()\n\n// Implementation",
+    "token_count": 199
+  },
+  {
+    "chunk_id": "design-patterns_observer_007",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "addObserver\n(\nobserver\n)\n\n// Implementation\n\nremoveObserver\n(\nobserver\n)\n\n// Implementation\n\nnotifyObservers\n()\n\n// Implementation\n\n2. Observer\nThe \"\nObserver\"\ninterface defines a contract for objects that want to be notified about changes in the subject (\"\nWeatherStation\"\nin this case).\nIt includes a method \"\nupdate\"\nthat concrete observers must implement to receive and handle updates.\nC++\n#include\n<string>\nclass\nObserver\n\npublic\n:\nvirtual\nvoid\nupdate\n(\nconst\nstd\n::\nstring\n\nweather\n)\n=\n0\n;\nvirtual\n\nObserver\n()\n=\ndefault\n;\n};\nJava\npublic\ninterface\nObserver\n\nvoid\nupdate\n(\nString\nweather\n);\n\nPython\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nObserver\n(\nABC\n):\n@abstractmethod\ndef\nupdate\n(\nself\n,\nweather\n:\nstr\n):\npass\nJavaScript\nclass\nObserver\n\nupdate\n(\nweather\n)\n\n// Implementation here",
+    "token_count": 195
+  },
+  {
+    "chunk_id": "design-patterns_observer_008",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Python\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nObserver\n(\nABC\n):\n@abstractmethod\ndef\nupdate\n(\nself\n,\nweather\n:\nstr\n):\npass\nJavaScript\nclass\nObserver\n\nupdate\n(\nweather\n)\n\n// Implementation here\n\n3. ConcreteSubject(WeatherStation)\n\"WeatherStation\" is the concrete subject implementing the \"Subject\" interface.\nIt maintains a list of observers (\"observers\") and provides methods to manage this list.\n\"notifyObservers\" iterates through the observers and calls their \"update\" method, passing the current weather.\n\"setWeather\" method updates the weather and notifies observers of the change.\nC++\n#include\n<vector>\n#include\n<string>\n#include\n<algorithm>\nclass\nObserver\n\npublic\n:\nvirtual\nvoid\nupdate\n(\nconst\nstd\n::\nstring\n\nweather\n)\n=\n0\n;\n};\nclass\nSubject\n\npublic\n:\nvirtual\nvoid\naddObserver\n(\nObserver\n*\nobserver\n)\n=\n0\n;\nvirtual\nvoid\nremoveObserver\n(\nObserver\n*\nobserver\n)\n=\n0\n;\nvirtual\nvoid\nnotifyObservers\n()\n=\n0\n;\n};\nclass\nWeatherStation\n:\npublic\nSubject",
+    "token_count": 242
+  },
+  {
+    "chunk_id": "design-patterns_observer_009",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "private\n:\nstd\n::\nvector\n<\nObserver\n*>\nobservers\n;\nstd\n::\nstring\nweather\n;\npublic\n:\nvoid\naddObserver\n(\nObserver\n*\nobserver\n)\noverride\n\nobservers\n.\npush_back\n(\nobserver\n);\n\nvoid\nremoveObserver\n(\nObserver\n*\nobserver\n)\noverride\n\nobservers\n.\nerase\n(\nstd\n::\nremove\n(\nobservers\n.\nbegin\n(),\nobservers\n.\nend\n(),\nobserver\n),\nobservers\n.\nend\n());\n\nvoid\nnotifyObservers\n()\noverride\n\nfor\n(\nObserver\n*\nobserver\n:\nobservers\n)\n\nobserver\n->\nupdate\n(\nweather\n);\n\nvoid\nsetWeather\n(\nconst\nstd\n::\nstring\n\nnewWeather\n)\n\nthis\n->\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\n};\nJava\nimport\njava.util.ArrayList\n;\nimport\njava.util.List\n;\n// Observer interface\ninterface\nObserver\n\nvoid\nupdate\n(\nString\nweather\n);\n\n// Subject interface\ninterface\nSubject\n\nvoid\naddObserver\n(\nObserver\nobserver\n);\nvoid\nremoveObserver\n(\nObserver\nobserver\n);\nvoid\nnotifyObservers\n();\n\n// Concrete Subject\nclass\nWeatherStation\nimplements\nSubject",
+    "token_count": 248
+  },
+  {
+    "chunk_id": "design-patterns_observer_010",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "void\naddObserver\n(\nObserver\nobserver\n);\nvoid\nremoveObserver\n(\nObserver\nobserver\n);\nvoid\nnotifyObservers\n();\n\n// Concrete Subject\nclass\nWeatherStation\nimplements\nSubject\n\nprivate\nList\n<\nObserver\n>\nobservers\n=\nnew\nArrayList\n<>\n();\nprivate\nString\nweather\n=\n\"\"\n;\n@Override\npublic\nvoid\naddObserver\n(\nObserver\nobserver\n)\n\nobservers\n.\nadd\n(\nobserver\n);\n\n@Override\npublic\nvoid\nremoveObserver\n(\nObserver\nobserver\n)\n\nobservers\n.\nremove\n(\nobserver\n);\n\n@Override\npublic\nvoid\nnotifyObservers\n()\n\nfor\n(\nObserver\nobserver\n:\nobservers\n)\n\nobserver\n.\nupdate\n(\nweather\n);\n\npublic\nvoid\nsetWeather\n(\nString\nnewWeather\n)\n\nthis\n.\nweather\n=\nnewWeather\n;\nnotifyObservers\n();",
+    "token_count": 177
+  },
+  {
+    "chunk_id": "design-patterns_observer_011",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "this\n.\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\nPython\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nfrom\ntyping\nimport\nList\nclass\nObserver\n(\nABC\n):\n@abstractmethod\ndef\nupdate\n(\nself\n,\nweather\n:\nstr\n):\npass\nclass\nSubject\n(\nABC\n):\n@abstractmethod\ndef\nadd_observer\n(\nself\n,\nobserver\n:\nObserver\n):\npass\n@abstractmethod\ndef\nremove_observer\n(\nself\n,\nobserver\n:\nObserver\n):\npass\n@abstractmethod\ndef\nnotify_observers\n(\nself\n):\npass\nclass\nWeatherStation\n(\nSubject\n):\ndef\n__init__\n(\nself\n):\nself\n.\nobservers\n:\nList\n[\nObserver\n]\n=\n[]\nself\n.\nweather\n=\n\"\"\ndef\nadd_observer\n(\nself\n,\nobserver\n:\nObserver\n):\nself\n.\nobservers\n.\nappend\n(\nobserver\n)\ndef\nremove_observer\n(\nself\n,\nobserver\n:\nObserver\n):\nif\nobserver\nin\nself\n.\nobservers\n:\nself\n.\nobservers\n.\nremove\n(\nobserver\n)\ndef\nnotify_observers\n(\nself\n):\nfor\nobserver\nin\nself\n.\nobservers\n:\nobserver\n.\nupdate\n(\nself\n.\nweather\n)\ndef\nset_weather\n(\nself\n,\nnew_weather\n:\nstr\n):\nself\n.\nweather\n=\nnew_weather\nself\n.\nnotify_observers\n()\nJavaScript\nclass\nObserver\n\nupdate\n(\nweather\n)",
+    "token_count": 314
+  },
+  {
+    "chunk_id": "design-patterns_observer_012",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "update\n(\nweather\n)\n\nthrow\nnew\nError\n(\n'Method update() must be implemented.'\n);\n\nclass\nSubject\n\naddObserver\n(\nobserver\n)\n\nthrow\nnew\nError\n(\n'Method addObserver() must be implemented.'\n);\n\nremoveObserver\n(\nobserver\n)\n\nthrow\nnew\nError\n(\n'Method removeObserver() must be implemented.'\n);\n\nnotifyObservers\n()\n\nthrow\nnew\nError\n(\n'Method notifyObservers() must be implemented.'\n);\n\nclass\nWeatherStation\nextends\nSubject\n\nconstructor\n()\n\nsuper\n();\nthis\n.\nobservers\n=\n[];\nthis\n.\nweather\n=\n\"\"\n;\n\naddObserver\n(\nobserver\n)\n\nthis\n.\nobservers\n.\npush\n(\nobserver\n);\n\nremoveObserver\n(\nobserver\n)\n\nthis\n.\nobservers\n=\nthis\n.\nobservers\n.\nfilter\n(\nobs\n=>\nobs\n!==\nobserver\n);\n\nnotifyObservers\n()\n\nthis\n.\nobservers\n.\nforEach\n(\nobserver\n=>\nobserver\n.\nupdate\n(\nthis\n.\nweather\n));\n\nsetWeather\n(\nnewWeather\n)\n\nthis\n.\nweather\n=\nnewWeather\n;\nthis\n.\nnotifyObservers\n();",
+    "token_count": 235
+  },
+  {
+    "chunk_id": "design-patterns_observer_013",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "notifyObservers\n()\n\nthis\n.\nobservers\n.\nforEach\n(\nobserver\n=>\nobserver\n.\nupdate\n(\nthis\n.\nweather\n));\n\nsetWeather\n(\nnewWeather\n)\n\nthis\n.\nweather\n=\nnewWeather\n;\nthis\n.\nnotifyObservers\n();\n\n4. ConcreteObserver(PhoneDisplay)\n\"PhoneDisplay\" is a concrete observer implementing the \"Observer\" interface.\nIt has a private field weather to store the latest weather.\nThe \"update\" method sets the new weather and calls the \"display\" method.\n\"display\" prints the updated weather to the console.\nC++\nclass\nPhoneDisplay\n:\npublic\nObserver\n\nprivate\n:\nstring\nweather\n;\npublic\n:\nvoid\nupdate\n(\nstring\nweather\n)\noverride\n\nthis\n->\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\n:\nvoid\ndisplay\n()\n\ncout\n<<\n\"Phone Display: Weather updated - \"\n<<\nweather\n<<\nendl\n;\n\n};\nJava\nimport\njava.util.Observer\n;\nimport\njava.util.Observable\n;\npublic\nclass\nPhoneDisplay\nimplements\nObserver\n\nprivate\nString\nweather\n;\n@Override\npublic\nvoid\nupdate\n(\nObservable\no\n,\nObject\narg\n)\n\nif\n(\narg\ninstanceof\nString\n)\n\nthis\n.\nweather\n=\n(\nString\n)\narg\n;\ndisplay\n();",
+    "token_count": 274
+  },
+  {
+    "chunk_id": "design-patterns_observer_014",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "private\nString\nweather\n;\n@Override\npublic\nvoid\nupdate\n(\nObservable\no\n,\nObject\narg\n)\n\nif\n(\narg\ninstanceof\nString\n)\n\nthis\n.\nweather\n=\n(\nString\n)\narg\n;\ndisplay\n();\n\nprivate\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Phone Display: Weather updated - \"\n+\nweather\n);\n\nPython\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nObserver\n(\nABC\n):\n@abstractmethod\ndef\nupdate\n(\nself\n,\nweather\n):\npass\nclass\nPhoneDisplay\n(\nObserver\n):\ndef\n__init__\n(\nself\n):\nself\n.\nweather\n=\n\"\"\ndef\nupdate\n(\nself\n,\nweather\n):\nself\n.\nweather\n=\nweather\nself\n.\ndisplay\n()\ndef\ndisplay\n(\nself\n):\nprint\n(\nf\n'Phone Display: Weather updated -\n\nself\n.\nweather\n\n)\nJavaScript\nclass\nObserver\n\nupdate\n(\nweather\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nclass\nPhoneDisplay\nextends\nObserver\n\nconstructor\n()\n\nsuper\n();\nthis\n.\nweather\n=\n\"\"\n;\n\nupdate\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\ndisplay\n();\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n`Phone Display: Weather updated -\n${\nthis\n.\nweather\n\n);",
+    "token_count": 287
+  },
+  {
+    "chunk_id": "design-patterns_observer_015",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "super\n();\nthis\n.\nweather\n=\n\"\"\n;\n\nupdate\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\ndisplay\n();\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n`Phone Display: Weather updated -\n${\nthis\n.\nweather\n\n);\n\n5. ConcreteObserver(TVDisplay)\n\"TVDisplay\" is another concrete observer similar to \"PhoneDisplay\".\nIt also implements the \"Observer\" interface, with a similar structure to \"PhoneDisplay\".\nC++\nclass\nTVDisplay\n:\npublic\nObserver\n\nprivate\n:\nstring\nweather\n;\npublic\n:\nvoid\nupdate\n(\nstring\nweather\n)\noverride\n\nthis\n->\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\n:\nvoid\ndisplay\n()\n\ncout\n<<\n\"TV Display: Weather updated - \"\n<<\nweather\n<<\nendl\n;\n\n};\nJava\nclass\nTVDisplay\nimplements\nObserver\n\nprivate\nString\nweather\n;\n@Override\npublic\nvoid\nupdate\n(\nString\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"TV Display: Weather updated - \"\n+\nweather\n);",
+    "token_count": 245
+  },
+  {
+    "chunk_id": "design-patterns_observer_016",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "this\n.\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"TV Display: Weather updated - \"\n+\nweather\n);\n\nPython\nclass\nTVDisplay\n:\ndef\n__init__\n(\nself\n):\nself\n.\nweather\n=\n\"\"\ndef\nupdate\n(\nself\n,\nweather\n):\nself\n.\nweather\n=\nweather\nself\n.\ndisplay\n()\ndef\ndisplay\n(\nself\n):\nprint\n(\nf\n'TV Display: Weather updated -\n\nself\n.\nweather\n\n)\nJavaScript\nclass\nTVDisplay\n\nconstructor\n()\n\nthis\n.\nweather\n=\n\"\"\n;\n\nupdate\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\ndisplay\n();\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n`TV Display: Weather updated -\n${\nthis\n.\nweather\n\n);\n\n6. Usage\nIn \"WeatherApp\", a \"WeatherStation\" is created.\nTwo observers (\"PhoneDisplay\" and \"TVDisplay\") are registered with the weather station using \"addObserver\".\nThe \"setWeather\" method simulates a weather change to \"Sunny,\" triggering the \"update\" method in both observers.\nThe output shows how both concrete observers display the updated weather information.\nC++\n#include\n<iostream>\n#include\n<vector>\nusing\nnamespace\nstd\n;\nclass\nObserver",
+    "token_count": 276
+  },
+  {
+    "chunk_id": "design-patterns_observer_017",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "public\n:\nvirtual\nvoid\nupdate\n(\nstring\nweather\n)\n=\n0\n;\n};\nclass\nPhoneDisplay\n:\npublic\nObserver\n\npublic\n:\nvoid\nupdate\n(\nstring\nweather\n)\noverride\n\ncout\n<<\n\"Phone Display: \"\n<<\nweather\n<<\nendl\n;\n\n};\nclass\nTVDisplay\n:\npublic\nObserver\n\npublic\n:\nvoid\nupdate\n(\nstring\nweather\n)\noverride\n\ncout\n<<\n\"TV Display: \"\n<<\nweather\n<<\nendl\n;\n\n};\nclass\nWeatherStation\n\nprivate\n:\nvector\n<\nObserver\n*>\nobservers\n;\nstring\nweather\n;\npublic\n:\nvoid\naddObserver\n(\nObserver\n*\nobserver\n)\n\nobservers\n.\npush_back\n(\nobserver\n);\n\nvoid\nsetWeather\n(\nstring\nnewWeather\n)\n\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\nvoid\nnotifyObservers\n()\n\nfor\n(\nObserver\n*\nobserver\n:\nobservers\n)\n\nobserver\n->\nupdate\n(\nweather\n);\n\n};\nint\nmain\n()",
+    "token_count": 215
+  },
+  {
+    "chunk_id": "design-patterns_observer_018",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "void\nsetWeather\n(\nstring\nnewWeather\n)\n\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\nvoid\nnotifyObservers\n()\n\nfor\n(\nObserver\n*\nobserver\n:\nobservers\n)\n\nobserver\n->\nupdate\n(\nweather\n);\n\n};\nint\nmain\n()\n\nWeatherStation\nweatherStation\n;\nObserver\n*\nphoneDisplay\n=\nnew\nPhoneDisplay\n();\nObserver\n*\ntvDisplay\n=\nnew\nTVDisplay\n();\nweatherStation\n.\naddObserver\n(\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(\ntvDisplay\n);\n// Simulating weather change\nweatherStation\n.\nsetWeather\n(\n\"Sunny\"\n);\ndelete\nphoneDisplay\n;\ndelete\ntvDisplay\n;\nreturn\n0\n;\n\nJava\npublic\nclass\nWeatherApp\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nWeatherStation\nweatherStation\n=\nnew\nWeatherStation\n();\nObserver\nphoneDisplay\n=\nnew\nPhoneDisplay\n();\nObserver\ntvDisplay\n=\nnew\nTVDisplay\n();\nweatherStation\n.\naddObserver\n(\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(\ntvDisplay\n);\n// Simulating weather change\nweatherStation\n.\nsetWeather\n(\n\"Sunny\"\n);",
+    "token_count": 252
+  },
+  {
+    "chunk_id": "design-patterns_observer_019",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Python\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nObserver\n(\nABC\n):\n@abstractmethod\ndef\nupdate\n(\nself\n,\nweather\n):\npass\nclass\nPhoneDisplay\n(\nObserver\n):\ndef\nupdate\n(\nself\n,\nweather\n):\nprint\n(\nf\n'Phone Display: Weather updated -\n\nweather\n\n)\nclass\nTVDisplay\n(\nObserver\n):\ndef\nupdate\n(\nself\n,\nweather\n):\nprint\n(\nf\n'TV Display: Weather updated -\n\nweather",
+    "token_count": 105
+  },
+  {
+    "chunk_id": "design-patterns_observer_020",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "weather\n\n)\nclass\nTVDisplay\n(\nObserver\n):\ndef\nupdate\n(\nself\n,\nweather\n):\nprint\n(\nf\n'TV Display: Weather updated -\n\nweather\n\n)\nclass\nWeatherStation\n:\ndef\n__init__\n(\nself\n):\nself\n.\nobservers\n=\n[]\nself\n.\nweather\n=\n\"\"\ndef\nadd_observer\n(\nself\n,\nobserver\n):\nself\n.\nobservers\n.\nappend\n(\nobserver\n)\ndef\nset_weather\n(\nself\n,\nweather\n):\nself\n.\nweather\n=\nweather\nself\n.\nnotify_observers\n()\ndef\nnotify_observers\n(\nself\n):\nfor\nobserver\nin\nself\n.\nobservers\n:\nobserver\n.\nupdate\n(\nself\n.\nweather\n)\n# Main execution\nweather_station\n=\nWeatherStation\n()\nphone_display\n=\nPhoneDisplay\n()\ntv_display\n=\nTVDisplay\n()\nweather_station\n.\nadd_observer\n(\nphone_display\n)\nweather_station\n.\nadd_observer\n(\ntv_display\n)\n# Simulating weather change\nweather_station\n.\nset_weather\n(\n'Sunny'\n)\n# Output:\n# Phone Display: Weather updated - Sunny\n# TV Display: Weather updated - Sunny\nJavaScript\nclass\nObserver\n\nupdate\n(\nweather\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nclass\nPhoneDisplay\nextends\nObserver\n\nupdate\n(\nweather\n)",
+    "token_count": 287
+  },
+  {
+    "chunk_id": "design-patterns_observer_021",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "update\n(\nweather\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nclass\nPhoneDisplay\nextends\nObserver\n\nupdate\n(\nweather\n)\n\nconsole\n.\nlog\n(\n`Phone Display: Weather updated -\n${\nweather\n\n);\n\nclass\nTVDisplay\nextends\nObserver\n\nupdate\n(\nweather\n)\n\nconsole\n.\nlog\n(\n`TV Display: Weather updated -\n${\nweather\n\n);\n\nclass\nWeatherStation\n\nconstructor\n()\n\nthis\n.\nobservers\n=\n[];\nthis\n.\nweather\n=\n\"\"\n;\n\naddObserver\n(\nobserver\n)\n\nthis\n.\nobservers\n.\npush\n(\nobserver\n);\n\nsetWeather\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\nnotifyObservers\n();\n\nnotifyObservers\n()\n\nthis\n.\nobservers\n.\nforEach\n(\nobserver\n=>\nobserver\n.\nupdate\n(\nthis\n.\nweather\n));",
+    "token_count": 182
+  },
+  {
+    "chunk_id": "design-patterns_observer_022",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "setWeather\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\nnotifyObservers\n();\n\nnotifyObservers\n()\n\nthis\n.\nobservers\n.\nforEach\n(\nobserver\n=>\nobserver\n.\nupdate\n(\nthis\n.\nweather\n));\n\n// Main execution\nconst\nweatherStation\n=\nnew\nWeatherStation\n();\nconst\nphoneDisplay\n=\nnew\nPhoneDisplay\n();\nconst\ntvDisplay\n=\nnew\nTVDisplay\n();\nweatherStation\n.\naddObserver\n(\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(\ntvDisplay\n);\n// Simulating weather change\nweatherStation\n.\nsetWeather\n(\n'Sunny'\n);\n// Output:\n// Phone Display: Weather updated - Sunny\n// TV Display: Weather updated - Sunny\nComplete code for the above example\nThe complete code for the above example is:\nC++\n#include\n<iostream>\n#include\n<vector>\n#include\n<algorithm>\n// for std::remove\n#include\n<string>\nusing\nnamespace\nstd\n;\n// Observer Interface\nclass\nObserver\n\npublic\n:\nvirtual\nvoid\nupdate\n(\nconst\nstring\n\nweather\n)\n=\n0\n;\nvirtual\n\nObserver\n()\n{}\n};\n// Subject Interface\nclass\nSubject",
+    "token_count": 246
+  },
+  {
+    "chunk_id": "design-patterns_observer_023",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "public\n:\nvirtual\nvoid\nupdate\n(\nconst\nstring\n\nweather\n)\n=\n0\n;\nvirtual\n\nObserver\n()\n{}\n};\n// Subject Interface\nclass\nSubject\n\npublic\n:\nvirtual\nvoid\naddObserver\n(\nObserver\n*\nobserver\n)\n=\n0\n;\nvirtual\nvoid\nremoveObserver\n(\nObserver\n*\nobserver\n)\n=\n0\n;\nvirtual\nvoid\nnotifyObservers\n()\n=\n0\n;\nvirtual\n\nSubject\n()\n{}\n};\n// ConcreteSubject Class\nclass\nWeatherStation\n:\npublic\nSubject\n\nprivate\n:\nvector\n<\nObserver\n*>\nobservers\n;\n// list of observers\nstring\nweather\n;\npublic\n:\nvoid\naddObserver\n(\nObserver\n*\nobserver\n)\noverride\n\nobservers\n.\npush_back\n(\nobserver\n);\n\nvoid\nremoveObserver\n(\nObserver\n*\nobserver\n)\noverride\n\nobservers\n.\nerase\n(\nremove\n(\nobservers\n.\nbegin\n(),\nobservers\n.\nend\n(),\nobserver\n),\nobservers\n.\nend\n());\n\nvoid\nnotifyObservers\n()\noverride\n\nfor\n(\nObserver\n*\nobserver\n:\nobservers\n)\n\nobserver\n->\nupdate\n(\nweather\n);\n\nvoid\nsetWeather\n(\nconst\nstring\n\nnewWeather\n)\n\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\n};\n// ConcreteObserver Class: PhoneDisplay\nclass\nPhoneDisplay\n:\npublic\nObserver",
+    "token_count": 282
+  },
+  {
+    "chunk_id": "design-patterns_observer_024",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "void\nsetWeather\n(\nconst\nstring\n\nnewWeather\n)\n\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\n};\n// ConcreteObserver Class: PhoneDisplay\nclass\nPhoneDisplay\n:\npublic\nObserver\n\nprivate\n:\nstring\nweather\n;\nvoid\ndisplay\n()\n\ncout\n<<\n\"Phone Display: Weather updated - \"\n<<\nweather\n<<\nendl\n;\n\npublic\n:\nvoid\nupdate\n(\nconst\nstring\n\nweather\n)\noverride\n\nthis\n->\nweather\n=\nweather\n;\ndisplay\n();\n\n};\n// ConcreteObserver Class: TVDisplay\nclass\nTVDisplay\n:\npublic\nObserver\n\nprivate\n:\nstring\nweather\n;\nvoid\ndisplay\n()\n\ncout\n<<\n\"TV Display: Weather updated - \"\n<<\nweather\n<<\nendl\n;\n\npublic\n:\nvoid\nupdate\n(\nconst\nstring\n\nweather\n)\noverride\n\nthis\n->\nweather\n=\nweather\n;\ndisplay\n();\n\n};\n// Usage / Demo\nint\nmain\n()\n\nWeatherStation\nweatherStation\n;\nPhoneDisplay\nphoneDisplay\n;\nTVDisplay\ntvDisplay\n;\n// Register observers\nweatherStation\n.\naddObserver\n(\n\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(",
+    "token_count": 245
+  },
+  {
+    "chunk_id": "design-patterns_observer_025",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "WeatherStation\nweatherStation\n;\nPhoneDisplay\nphoneDisplay\n;\nTVDisplay\ntvDisplay\n;\n// Register observers\nweatherStation\n.\naddObserver\n(\n\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(\n\ntvDisplay\n);\n// Simulating weather changes\nweatherStation\n.\nsetWeather\n(\n\"Sunny\"\n);\nweatherStation\n.\nsetWeather\n(\n\"Rainy\"\n);\nweatherStation\n.\nsetWeather\n(\n\"Cloudy\"\n);\n// Remove one observer\nweatherStation\n.\nremoveObserver\n(\n\ntvDisplay\n);\n// Notify remaining observer\nweatherStation\n.\nsetWeather\n(\n\"Windy\"\n);\nreturn\n0\n;\n\nJava\nimport\njava.util.ArrayList\n;\nimport\njava.util.List\n;\n// Observer Interface\ninterface\nObserver\n\nvoid\nupdate\n(\nString\nweather\n);\n\n// Subject Interface\ninterface\nSubject\n\nvoid\naddObserver\n(\nObserver\nobserver\n);\nvoid\nremoveObserver\n(\nObserver\nobserver\n);\nvoid\nnotifyObservers\n();\n\n// ConcreteSubject Class\nclass\nWeatherStation\nimplements\nSubject\n\nprivate\nList\n<\nObserver\n>\nobservers\n=\nnew\nArrayList\n<>\n();\nprivate\nString\nweather\n;\n@Override\npublic\nvoid\naddObserver\n(\nObserver\nobserver\n)\n\nobservers\n.\nadd\n(\nobserver\n);",
+    "token_count": 266
+  },
+  {
+    "chunk_id": "design-patterns_observer_026",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "private\nList\n<\nObserver\n>\nobservers\n=\nnew\nArrayList\n<>\n();\nprivate\nString\nweather\n;\n@Override\npublic\nvoid\naddObserver\n(\nObserver\nobserver\n)\n\nobservers\n.\nadd\n(\nobserver\n);\n\n@Override\npublic\nvoid\nremoveObserver\n(\nObserver\nobserver\n)\n\nobservers\n.\nremove\n(\nobserver\n);\n\n@Override\npublic\nvoid\nnotifyObservers\n()\n\nfor\n(\nObserver\nobserver\n:\nobservers\n)\n\nobserver\n.\nupdate\n(\nweather\n);\n\npublic\nvoid\nsetWeather\n(\nString\nnewWeather\n)\n\nthis\n.\nweather\n=\nnewWeather\n;\nnotifyObservers\n();\n\n// ConcreteObserver Class\nclass\nPhoneDisplay\nimplements\nObserver\n\nprivate\nString\nweather\n;\n@Override\npublic\nvoid\nupdate\n(\nString\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"Phone Display: Weather updated - \"\n+\nweather\n);\n\n// ConcreteObserver Class\nclass\nTVDisplay\nimplements\nObserver\n\nprivate\nString\nweather\n;\n@Override\npublic\nvoid\nupdate\n(\nString\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\nvoid\ndisplay\n()",
+    "token_count": 263
+  },
+  {
+    "chunk_id": "design-patterns_observer_027",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "private\nString\nweather\n;\n@Override\npublic\nvoid\nupdate\n(\nString\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\ndisplay\n();\n\nprivate\nvoid\ndisplay\n()\n\nSystem\n.\nout\n.\nprintln\n(\n\"TV Display: Weather updated - \"\n+\nweather\n);\n\n// Usage Class\npublic\nclass\nWeatherApp\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\nWeatherStation\nweatherStation\n=\nnew\nWeatherStation\n();\nObserver\nphoneDisplay\n=\nnew\nPhoneDisplay\n();\nObserver\ntvDisplay\n=\nnew\nTVDisplay\n();\n// Register observers\nweatherStation\n.\naddObserver\n(\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(\ntvDisplay\n);\n// Simulating weather changes\nweatherStation\n.\nsetWeather\n(\n\"Sunny\"\n);\nweatherStation\n.\nsetWeather\n(\n\"Rainy\"\n);\nweatherStation\n.\nsetWeather\n(\n\"Cloudy\"\n);\n// Remove one observer\nweatherStation\n.\nremoveObserver\n(\ntvDisplay\n);\n// Notify remaining observer\nweatherStation\n.\nsetWeather\n(\n\"Windy\"\n);",
+    "token_count": 230
+  },
+  {
+    "chunk_id": "design-patterns_observer_028",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Python\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nfrom\ntyping\nimport\nList\n# Observer Interface\nclass\nObserver\n(\nABC\n):\n@abstractmethod\ndef\nupdate\n(\nself\n,\nweather\n:\nstr\n):\npass\n# Subject Interface\nclass\nSubject\n(\nABC\n):\n@abstractmethod\ndef\nadd_observer\n(\nself\n,\nobserver\n:\nObserver\n):\npass\n@abstractmethod\ndef\nremove_observer\n(\nself\n,\nobserver\n:\nObserver\n):\npass\n@abstractmethod\ndef\nnotify_observers\n(\nself\n):\npass\n# ConcreteSubject Class\nclass\nWeatherStation\n(\nSubject\n):\ndef\n__init__\n(\nself\n):\nself\n.\nobservers\n:\nList\n[\nObserver\n]\n=\n[]\nself\n.\nweather\n=\n\"\"\ndef\nadd_observer\n(\nself\n,\nobserver\n:\nObserver\n):\nself\n.\nobservers\n.\nappend\n(\nobserver\n)\ndef\nremove_observer\n(\nself\n,\nobserver\n:\nObserver\n):\nself\n.\nobservers\n.\nremove\n(\nobserver\n)\ndef\nnotify_observers\n(\nself\n):\nfor\nobserver\nin\nself\n.\nobservers\n:\nobserver\n.\nupdate\n(\nself\n.\nweather\n)\ndef\nset_weather\n(\nself\n,\nnew_weather\n:\nstr\n):\nself\n.\nweather\n=\nnew_weather\nself\n.\nnotify_observers\n()\n# ConcreteObserver Class\nclass\nPhoneDisplay\n(\nObserver\n):\ndef\n__init__\n(\nself\n):\nself",
+    "token_count": 312
+  },
+  {
+    "chunk_id": "design-patterns_observer_029",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": ".\nweather\n)\ndef\nset_weather\n(\nself\n,\nnew_weather\n:\nstr\n):\nself\n.\nweather\n=\nnew_weather\nself\n.\nnotify_observers\n()\n# ConcreteObserver Class\nclass\nPhoneDisplay\n(\nObserver\n):\ndef\n__init__\n(\nself\n):\nself\n.\nweather\n=\n\"\"\ndef\nupdate\n(\nself\n,\nweather\n:\nstr\n):\nself\n.\nweather\n=\nweather\nself\n.\ndisplay\n()\ndef\ndisplay\n(\nself\n):\nprint\n(\nf\n'Phone Display: Weather updated -",
+    "token_count": 115
+  },
+  {
+    "chunk_id": "design-patterns_observer_030",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "self\n.\nweather\n\n)\n# ConcreteObserver Class\nclass\nTVDisplay\n(\nObserver\n):\ndef\n__init__\n(\nself\n):\nself\n.\nweather\n=\n\"\"\ndef\nupdate\n(\nself\n,\nweather\n:\nstr\n):\nself\n.\nweather\n=\nweather\nself\n.\ndisplay\n()\ndef\ndisplay\n(\nself\n):\nprint\n(\nf\n'TV Display: Weather updated -\n\nself\n.\nweather\n\n)\n# Usage\nif\n__name__\n==\n'__main__'\n:\nweather_station\n=\nWeatherStation\n()\nphone_display\n=\nPhoneDisplay\n()\ntv_display\n=\nTVDisplay\n()\nweather_station\n.\nadd_observer\n(\nphone_display\n)\nweather_station\n.\nadd_observer\n(\ntv_display\n)\n# Simulating weather change\nweather_station\n.\nset_weather\n(\n'Sunny'\n)\n# Output:\n# Phone Display: Weather updated - Sunny\n# TV Display: Weather updated - Sunny\nJavaScript\n// Observer Interface\nclass\nObserver\n\nupdate\n(\nweather\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\n// Subject Interface\nclass\nSubject\n\naddObserver\n(\nobserver\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nremoveObserver\n(\nobserver\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nnotifyObservers\n()",
+    "token_count": 273
+  },
+  {
+    "chunk_id": "design-patterns_observer_031",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "addObserver\n(\nobserver\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nremoveObserver\n(\nobserver\n)\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\nnotifyObservers\n()\n\nthrow\nnew\nError\n(\n'Method not implemented.'\n);\n\n// ConcreteSubject Class\nclass\nWeatherStation\nextends\nSubject\n\nconstructor\n()\n\nsuper\n();\nthis\n.\nobservers\n=\n[];\nthis\n.\nweather\n=\n\"\"\n;\n\naddObserver\n(\nobserver\n)\n\nthis\n.\nobservers\n.\npush\n(\nobserver\n);\n\nremoveObserver\n(\nobserver\n)\n\nthis\n.\nobservers\n=\nthis\n.\nobservers\n.\nfilter\n(\nobs\n=>\nobs\n!==\nobserver\n);\n\nnotifyObservers\n()\n\nthis\n.\nobservers\n.\nforEach\n(\nobserver\n=>\nobserver\n.\nupdate\n(\nthis\n.\nweather\n));\n\nsetWeather\n(\nnewWeather\n)\n\nthis\n.\nweather\n=\nnewWeather\n;\nthis\n.\nnotifyObservers\n();\n\n// ConcreteObserver Class\nclass\nPhoneDisplay\nextends\nObserver\n\nconstructor\n()\n\nsuper\n();\nthis\n.\nweather\n=\n\"\"\n;\n\nupdate\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\ndisplay\n();\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n`Phone Display: Weather updated -\n${\nthis\n.\nweather\n\n);",
+    "token_count": 276
+  },
+  {
+    "chunk_id": "design-patterns_observer_032",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "super\n();\nthis\n.\nweather\n=\n\"\"\n;\n\nupdate\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\ndisplay\n();\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n`Phone Display: Weather updated -\n${\nthis\n.\nweather\n\n);\n\n// ConcreteObserver Class\nclass\nTVDisplay\nextends\nObserver\n\nconstructor\n()\n\nsuper\n();\nthis\n.\nweather\n=\n\"\"\n;\n\nupdate\n(\nweather\n)\n\nthis\n.\nweather\n=\nweather\n;\nthis\n.\ndisplay\n();\n\ndisplay\n()\n\nconsole\n.\nlog\n(\n`TV Display: Weather updated -\n${\nthis\n.\nweather\n\n);",
+    "token_count": 129
+  },
+  {
+    "chunk_id": "design-patterns_observer_033",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "// Usage\nconst\nweatherStation\n=\nnew\nWeatherStation\n();\nconst\nphoneDisplay\n=\nnew\nPhoneDisplay\n();\nconst\ntvDisplay\n=\nnew\nTVDisplay\n();\nweatherStation\n.\naddObserver\n(\nphoneDisplay\n);\nweatherStation\n.\naddObserver\n(\ntvDisplay\n);\n// Simulating weather change\nweatherStation\n.\nsetWeather\n(\n'Sunny'\n);\n// Output:\n// Phone Display: Weather updated - Sunny\n// TV Display: Weather updated - Sunny\nOutput\nPhone Display: Weather updated - Sunny\nTV Display: Weather updated - Sunny\nPhone Display: Weather updated - Rainy\nTV Display: Weather updated - Rainy\nPhone Display: Weather updated - Cloudy\nTV Display...\nAdvantages\nThe Observer Pattern improves flexibility and communication between objects.\nProvides loose coupling between subject and observers.\nAllows easy addition or removal of observers at runtime.\nEnsures automatic and consistent updates to all dependents.\nDisadvantages\nDespite its benefits, the Observer Pattern has some drawbacks.\nCan lead to performance issues if there are many observers.",
+    "token_count": 218
+  },
+  {
+    "chunk_id": "design-patterns_observer_034",
+    "domain": "design-patterns",
+    "concept": "observer",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/",
+    "text": "Ensures automatic and consistent updates to all dependents.\nDisadvantages\nDespite its benefits, the Observer Pattern has some drawbacks.\nCan lead to performance issues if there are many observers.\nDebugging becomes harder due to indirect communication.\nObservers may receive unnecessary updates if not managed carefully.",
+    "token_count": 56
+  }
+]
