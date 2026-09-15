@@ -18,13 +18,6 @@ env/
 
 # OS
 .DS_Store
-
-# Syllabus RAG Database and Uploads
-chroma_db/
-backend/chroma_db/
-uploads/
-
-
 Thumbs.db
 
 # Environment / secrets
@@ -45,4 +38,6 @@ frontend/dist/
 # Week 7 — Uploads
 uploads/
 dummy.pdf
-*.pdf
+*.pdf
+# ChromaDB
+chroma_db/
