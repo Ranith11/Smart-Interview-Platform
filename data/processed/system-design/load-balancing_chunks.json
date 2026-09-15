@@ -1,0 +1,119 @@
+[
+  {
+    "chunk_id": "system-design_load-balancing_001",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "A load balancer is a networking device or software application that distributes and balances the incoming traffic among the servers to provide high availability, efficient utilization of servers and high performance.\nWorks as a \"traffic cop\" routing client requests across all servers.\nEnsures that no single server bears too many requests, which helps improve the performance,\nreliability\nand\navailability\nof applications.\nHighly used in cloud computing domains, data centers and large-scale web applications where traffic flow needs to be managed.\nExample\n: A company may use NGINX, HAProxy, or AWS Elastic Load Balancing to distribute traffic between multiple backend servers.\nPath of the request\nLoad Balancing\nLoad balancing is the process of distributing incoming network traffic across multiple servers to ensure no single server becomes overloaded. It helps improve application performance, reliability, and availability by efficiently utilizing server resources.",
+    "token_count": 173
+  },
+  {
+    "chunk_id": "system-design_load-balancing_002",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Load balancing is like a busy restaurant where instead of one chef handling all orders, multiple chefs share the work so customers get served faster and more efficiently.\nSimilarly, in computer systems, a load balancer distributes user requests across multiple servers so that no single server becomes overwhelmed.\nProblems Without a Load Balancer\nSeveral problems will occur without the load balancer, these are:\nWithout Load Balancer\nSingle Point of Failure: I\nf the server goes down or something happens to the server the whole application will be interrupted and it will become unavailable for the users for a certain period. It will create a bad experience for users which is unacceptable for service providers.\nOverloaded Servers:\nThere will be a limitation on the number of requests that a web server can handle. If the business grows and the number of requests increases the server will be overloaded.\nLimited Scalability",
+    "token_count": 173
+  },
+  {
+    "chunk_id": "system-design_load-balancing_003",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "There will be a limitation on the number of requests that a web server can handle. If the business grows and the number of requests increases the server will be overloaded.\nLimited Scalability\n: Without a load balancer, adding more servers to share the traffic is complicated. All requests are stuck with one server and adding new servers won’t automatically solve the load issue.\nWith Load balancer\nWorking\nA load balancer receives incoming requests, checks server health, and routes each request to the most suitable available server to ensure high availability and optimal performance.\nReceives Incoming Requests\n: When users try to access a website or application, their requests first go to the load balancer instead of directly to a server.\nChecks Server Health\n: The load balancer continuously monitors the status of all servers. It checks which servers are healthy and ready to handle requests.\nDistributes Traffic",
+    "token_count": 176
+  },
+  {
+    "chunk_id": "system-design_load-balancing_004",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Checks Server Health\n: The load balancer continuously monitors the status of all servers. It checks which servers are healthy and ready to handle requests.\nDistributes Traffic\n: Based on factors like server load, response time or proximity, the load balancer forwards each request to the most appropriate server. This helps avoid any server getting overloaded.\nHandles Server Failures\n: If a server goes down or becomes unresponsive, the load balancer automatically stops sending traffic to that server and redirects it to others that are still functioning properly.\nOptimizes Performance\n: By spreading traffic efficiently and using healthy servers, load balancers improve overall performance and reduce delays.\nCharacteristics\nLoad balancers have several important characteristics that help improve system performance, reliability, and scalability. These include:\nTraffic Distribution:\nTo keep any one server from becoming overburdened, load balancers divide incoming requests evenly among several servers.",
+    "token_count": 181
+  },
+  {
+    "chunk_id": "system-design_load-balancing_005",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Traffic Distribution:\nTo keep any one server from becoming overburdened, load balancers divide incoming requests evenly among several servers.\nHigh Availability:\nApplications' reliability and availability are improved by load balancers, which divide traffic among several servers. The load balancer reroutes traffic to servers that are in good condition in the event that one fails.\nScalability:\nBy making it simple to add servers or resources to meet growing traffic demands, load balancers enable horizontal scaling.\nOptimization:\nLoad balancers optimize resource utilization, ensuring efficient use of server capacity and preventing bottlenecks.\nHealth Monitoring:\nLoad balancers often monitor the health of servers, directing traffic away from servers experiencing issues or downtime.\nSSL Termination:\nSome load balancers can handle SSL/TLS encryption and decryption, offloading this resource-intensive task from servers.\nTypes of Load Balancers",
+    "token_count": 171
+  },
+  {
+    "chunk_id": "system-design_load-balancing_006",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "SSL Termination:\nSome load balancers can handle SSL/TLS encryption and decryption, offloading this resource-intensive task from servers.\nTypes of Load Balancers\nLoad balancers can be classified based on how they are deployed and how they handle network traffic at different layers.\n1. Based on deployment\nLoad balancers can be categorized based on how they are deployed and how they manage network traffic. Each type is designed to handle different levels of traffic and infrastructure requirements.\n1. Hardware Load Balancer\nA hardware load balancer is a dedicated physical device used in large data centers to distribute traffic across multiple servers. It is designed for high performance and can handle a large volume of network requests efficiently.\nExample:\nEnterprise data centers often use hardware appliances from companies like F5 Networks to manage heavy traffic.\n2. Software Load Balancer",
+    "token_count": 165
+  },
+  {
+    "chunk_id": "system-design_load-balancing_007",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Example:\nEnterprise data centers often use hardware appliances from companies like F5 Networks to manage heavy traffic.\n2. Software Load Balancer\nA software load balancer runs as an application on a server and distributes traffic among backend servers. It is flexible, cost-effective, and widely used in modern web applications.\nExample:\nPopular software load balancers include NGINX and HAProxy, which are commonly used to distribute traffic across web servers.\n3. Cloud Load Balancer\nA cloud load balancer is a managed service provided by cloud platforms to automatically distribute incoming traffic across multiple cloud servers. It helps scale applications easily without managing the underlying infrastructure.\nExample:\nServices such as AWS Elastic Load Balancing automatically distribute user requests across multiple cloud instances to maintain high availability and performance.\n2. Based on OSI Model",
+    "token_count": 159
+  },
+  {
+    "chunk_id": "system-design_load-balancing_008",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Example:\nServices such as AWS Elastic Load Balancing automatically distribute user requests across multiple cloud instances to maintain high availability and performance.\n2. Based on OSI Model\nLoad balancers can be categorized based on the layer of the OSI (Open Systems Interconnection) model at which they operate. The two most common types are Layer 4 and Layer 7 load balancers.\n1. Layer 4 (Transport Layer) Load Balancer\nA Layer 4 load balancer operates at the transport layer of the OSI model and distributes traffic based on network information such as IP addresses and TCP/UDP port numbers. It does not inspect the actual content of the request, which makes it fast and efficient for handling large volumes of traffic.\nExample:\nA Layer 4 load balancer forwards incoming TCP requests to different servers based on the destination port and IP address.\n2. Layer 7 (Application Layer) Load Balancer",
+    "token_count": 182
+  },
+  {
+    "chunk_id": "system-design_load-balancing_009",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Example:\nA Layer 4 load balancer forwards incoming TCP requests to different servers based on the destination port and IP address.\n2. Layer 7 (Application Layer) Load Balancer\nA Layer 7 load balancer operates at the application layer and distributes traffic based on application-level information such as HTTP headers, URLs, cookies, or request content. This allows more intelligent routing decisions based on the type of request.\nExample:\nA Layer 7 load balancer can route requests for\n/images\nto one server and\n/api\nrequests to another server using tools like NGINX.\nServer Health Monitoring by Load Balancers (Up or Down)\nLoad balancers continuously monitor backend servers to ensure that requests are only sent to healthy servers. This helps maintain application availability and performance.\n1. Active Health Checks / Heartbeat Monitoring\nEnsures servers are online and responding before sending traffic to them.",
+    "token_count": 179
+  },
+  {
+    "chunk_id": "system-design_load-balancing_010",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "1. Active Health Checks / Heartbeat Monitoring\nEnsures servers are online and responding before sending traffic to them.\nThe load balancer periodically sends test requests (like HTTP, TCP, or ICMP pings) to servers to verify they are online and responding correctly.\nHeartbeat signals are lightweight messages sent at regular intervals to confirm server availability. If a heartbeat fails multiple times, the server is considered unhealthy.\n2. Passive Health Checks\nDetects failing servers by monitoring real user traffic.\nThe load balancer monitors real client traffic for errors or timeouts.\nIf a server consistently fails to respond or returns errors, it is marked as down automatically without waiting for active tests.\n3. Automatic Failover and Recovery\nPrevents downtime by rerouting traffic away from unhealthy servers.\nWhen a server is detected as down, the load balancer immediately stops sending traffic to it, preventing failed requests from reaching clients.",
+    "token_count": 179
+  },
+  {
+    "chunk_id": "system-design_load-balancing_011",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "When a server is detected as down, the load balancer immediately stops sending traffic to it, preventing failed requests from reaching clients.\nOnce the server recovers and passes health checks or heartbeat monitoring, it is automatically reinstated into the pool.\nThis ensures seamless failover with minimal disruption to end users.\nExample:\nImagine a popular e-commerce site during a flash sale: if one web server crashes under heavy load, the load balancer detects the failure through heartbeat monitoring and health checks. Traffic is rerouted to healthy servers until the failed server comes back online, preventing downtime and lost orders.\nThe load balancer receives requests from the user and distributes them across multiple servers, ensuring all servers handle traffic efficiently.\nHeartbeat signals continuously check if each server is healthy; working servers respond normally (shown with green hearts).",
+    "token_count": 161
+  },
+  {
+    "chunk_id": "system-design_load-balancing_012",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Heartbeat signals continuously check if each server is healthy; working servers respond normally (shown with green hearts).\nIf a server fails (shown with cross), the load balancer detects it through missed heartbeats and stops sending requests to that server, redirecting traffic to healthy ones.\nChallenges and Risks of Load Balancers\nAlthough load balancers improve performance and availability, they also introduce some challenges that must be managed properly.\nSingle Point of Failure:\nIf the load balancer itself fails, it can stop traffic from reaching servers unless backup load balancers are configured.\nPerformance Bottleneck:\nIf the load balancer cannot handle very high traffic, it may slow down request processing.\nConfiguration Complexity:\nSetting up load balancing correctly for large applications can be complex.\nSecurity Risks:\nSince load balancers sit between users and servers, they can become targets for cyber attacks.\nCost:",
+    "token_count": 175
+  },
+  {
+    "chunk_id": "system-design_load-balancing_013",
+    "domain": "system-design",
+    "concept": "load-balancing",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/",
+    "text": "Setting up load balancing correctly for large applications can be complex.\nSecurity Risks:\nSince load balancers sit between users and servers, they can become targets for cyber attacks.\nCost:\nHardware load balancers and high-availability configurations can increase infrastructure costs.",
+    "token_count": 50
+  }
+]

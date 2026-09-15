@@ -1,0 +1,113 @@
+Monolithic Vs Microservices Architecture - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+Software Engineering Tutorial
+Software Development Life Cycle
+Waterfall Model
+Software Requirements
+Software Measurement and Metrics
+Software Design Process
+System configuration management
+Software Maintenance
+Software Development Tutorial
+Software Testing Tutorial
+Product Management Tutorial
+Project Management Tutorial
+Share Your Experiences
+Software Engineering Basics
+Introduction to Software Engineering
+Software Development Life Cycle (SDLC)
+Software Quality - Software Engineering
+ISO/IEC 9126 in Software Engineering
+Boehm's Software Quality Model
+Software Crisis - Software Engineering
+Software Measurement & Metrices
+Software Measurement and Metrics
+People Metrics and Process Metrics in Software Engineering
+Halstead’s Software Metrics - Software Engineering
+Cyclomatic Complexity
+Functional Point (FP) Analysis - Software Engineering
+Lines of Code (LOC) in Software Engineering
+Software Development Models & Agile Methods
+Waterfall Model - Software Engineering
+Spiral Model in Software Engineering
+Prototyping Model - Software Engineering
+Incremental Process Model - Software Engineering
+Rapid Application Development Model (RAD) - Software Engineering
+Coupling and Cohesion - Software Engineering
+Agile Software Development - Software Engineering
+SRS & SPM
+Software Requirement Specification (SRS) Format
+Software Engineering | Quality Characteristics of a good SRS
+Software Project Management (SPM) - Software Engineering
+COCOMO Model - Software Engineering
+Capability Maturity Model (CMM) - Software Engineering
+Integrating Risk Management in SDLC | Set 1
+Software Maintenance - Software Engineering
+Testing & Debugging
+Introduction to  Software Testing
+Types of Software Testing
+Testing Guidelines - Software Engineering
+What is Debugging in Software Engineering?
+Verification & Validation
+Verification and Validation in Software Engineering
+Role of Verification and Validation (V&V) in SDLC
+Requirements Validation Techniques - Software Engineering
+Practice Questions
+Software Engineering Interview Questions and Answers
+Courses
+DSA and System Design Course
+MERN Full Stack Development Course
+DevOps Engineering Course
+Placement 360 Course
+Explore
+Monolithic Vs Microservices Architecture
+Last Updated :
+25 Jun, 2026
+Modern applications can be built using different architectural styles, with Monolithic Architecture and Microservices Architecture being the two most widely adopted approaches. While a monolithic application combines all functionalities into a single deployable unit where as microservices break the application into smaller, independently deployable services.
+Monolithic Architecture organizes all application components within a single codebase and deploys them as one unit.
+Microservices Architecture breaks an application into multiple independent services that can be developed, deployed, and scaled separately.
+Monolithic Architecture
+Monolithic Architecture
+is a traditional software architecture where all application components, such as the user interface, business logic, and data access layer, are developed and deployed as a single application. This approach is simple to build and manage for small to medium-sized applications.
+All application modules are maintained within one project.
+The entire application is typically deployed as one package.
+Development, testing, and deployment are managed from a single application.
+Modules are closely connected, making changes more challenging as the application grows.
+Monolithic
+Microservices Architecture
+Microservices Architecture
+is a software design approach in which an application is divided into multiple small, independent services. Each service focuses on a specific business capability and communicates with other services through lightweight APIs or messaging systems.
+Each service handles a specific business functionality.
+Services operate independently and communicate through APIs or message brokers.
+Individual services can be deployed without affecting other services.
+Services can be scaled based on their specific workload and requirements.
+Different services can use different technologies, databases, or programming languages.
+Monolithic and Microservices Architecture
+Monolithic Architecture
+Microservice Architecture
+Single codebase
+Distributed services
+Built as one large application with tightly coupled components
+Composed of small, loosely coupled services components
+Deployed as a single unit
+Individual services can be deployed independently
+Horizontal scaling can be challenging
+Easier to scale horizontally
+Development is simpler initially
+Development is more complex due to multiple services
+Technology stack choices are usually limited
+Freedom to choose the best technology for each service
+Entire application may fail if a part fails
+Individual services can fail without affecting others
+Easier to maintain due to its simplicity
+Requires more effort to manage multiple services
+Less flexible as all components are tightly coupled
+More flexible as components can be developed, deployed, and scaled independently
+Communication between components is faster
+Communication may be slower due to network calls
+Best Scenarios for Monolithic and Microservices Architecture
+The best scenarios where we can use Monolithic Architecture or Microservices Architecture are:
+Comment

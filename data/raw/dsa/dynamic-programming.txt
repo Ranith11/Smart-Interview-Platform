@@ -1,0 +1,76 @@
+Dynamic programming cheatsheet for coding interviews | Tech Interview Handbook
+Skip to main content
+We collaborated with engineers from Google and Amazon and built the best front end interview preparation platform.
+Check out GreatFrontEnd today
+!
+Tech Interview Handbook
+On this page
+Dynamic programming cheatsheet for coding interviews
+👋 Hi there, I'm Yangshun, an ex-Meta Staff Engineer, author of this handbook and Blind 75. Follow me on
+LinkedIn
+for Software Engineering advice and interview tips!
+Introduction
+​
+Dynamic Programming (DP) is usually used to solve optimization problems. The only way to get better at DP is to practice. It takes some amount of practice to be able to recognize that a problem can be solved by DP.
+Learning resources
+​
+Demystifying Dynamic Programming
+Dynamic Programming – 7 Steps to Solve any DP Interview Problem
+Less Repetition, More Dynamic Programming
+, basecs
+Dynamic Programming
+, James Aspnes, Yale University
+Techniques
+​
+Sometimes you do not need to store the whole DP table in memory, the last two values or the last two rows of the matrix will suffice.
+Essential questions
+​
+These are essential questions to practice if you're studying for this topic.
+Climbing Stairs
+Coin Change
+House Robber
+Longest Increasing Subsequence
+Recommended practice questions
+​
+These are recommended questions to practice after you have studied for the topic and have practiced the essential questions.
+0/1 Knapsack or Partition Equal Subset Sum
+Longest Common Subsequence
+Word Break Problem
+Combination Sum
+House Robber II
+Decode Ways
+Unique Paths
+Jump Game
+Recommended courses
+​
+Grokking Dynamic Programming Patterns for Coding Interviews
+​
+Brought to you by the same folks behind the famous
+"Grokking the Coding Interview"
+, this is one of the rare few courses focused on helping you get better at Dynamic Programming questions. If you are interviewing for companies who are famous for asking Dynamic Programming questions (-cough- Google -cough-), this course should be helpful.
+AlgoMonster
+​
+AlgoMonster aims to help you ace the technical interview
+in the shortest time possible
+. By Google engineers, AlgoMonster uses a data-driven approach to teach you the most useful key question patterns and has contents to help you quickly revise basic data structures and algorithms. Best of all, AlgoMonster is not subscription-based - pay a one-time fee and get
+lifetime access
+.
+Join today for a 70% discount →
+Grokking the Coding Interview: Patterns for Coding Questions
+​
+This course on by Design Gurus expands upon the questions on the recommended practice questions but approaches the practicing from a questions pattern perspective, which is an approach I also agree with for learning and have personally used to get better at coding interviews. The course allows you to practice selected questions in Java, Python, C++, JavaScript and also provides sample solutions in those languages along with step-by-step visualizations.
+Learn and understand patterns, not memorize answers!
+Get lifetime access now →
+Master the Coding Interview: Data Structures + Algorithms
+​
+This Udemy bestseller is one of the highest-rated interview preparation course (4.6 stars, 21.5k ratings, 135k students) and packs
+19 hours
+worth of contents into it. Like Tech Interview Handbook, it goes beyond coding interviews and covers resume, non-technical interviews, negotiations. It's an all-in-one package! Note that JavaScript is being used for the coding demos.
+Check it out →
+Table of Contents
+Introduction
+Learning resources
+Techniques
+Essential questions
+Recommended practice questions
+Recommended courses

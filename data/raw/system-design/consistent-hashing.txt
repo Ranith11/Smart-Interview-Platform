@@ -1,0 +1,1025 @@
+Consistent Hashing - System Design - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+System Design Tutorial
+HLD
+LLD
+Functional and Non Functional
+Life Cycle
+Design Patterns
+UML Diagrams
+System Design Interview Guide
+Scalability
+Databases
+DSA
+Software Engineering
+Share Your Experiences
+Basics
+Introduction
+SDLC
+Components
+Goals & Objectives
+Importance of System Design
+Key Concepts and Terminologies
+Advantages
+Fundamentals
+Monolithic vs Distributed Systems
+Requirements Gathering
+System Analysis vs System Design
+Scaling
+Capacity Estimation
+Answering System Design Problems
+Functional vs Non Functional Requirements
+Web Server and Proxies
+Scalability
+Scalability
+Choosing Scalability Approach
+Scalability Bottlenecks
+Databases in Designing Systems
+Database Design
+SQL vs NoSQL
+File vs Database Storage Systems
+Block, Object and File Storage
+Database Sharding
+Database Replication
+High Level Design(HLD)
+Introduction
+Availability
+Consistency
+Reliability
+CAP Theorem
+API Gateway
+Content Delivery Network
+Load Balancer
+Caching
+Communication Protocols
+Activity Diagrams
+Message Queues
+Low Level Design(LLD)
+LLD
+Authentication vs Authorization
+Optimization Techniques
+OOAD
+DSA for System Design
+Containerization Architecture
+Modularity and Interfaces
+UML Diagrams
+Data Partitioning Techniques
+Prepare for LLD Interviews
+Security Measures
+Design Patterns
+Design Patterns
+Creational Design Patterns
+Structural Design Patterns
+Behavioral Design Patterns
+Cheat Sheet
+Interview Guide for System Design
+Cracking System Design Interviews
+Interview Q & A
+Concepts for Interview Preparation
+Crack LLD Interviews
+System Design Interview Questions & Answers
+Commonly Asked Questions
+Design Dropbox
+Designing Twitter
+Designing Netflix
+Uber App
+Design BookMyShow
+Designing Facebook Messenger
+Roadmap
+System Design Guide for Freshers
+Courses
+System Design Course
+DSA & System Design Course
+Java Backend Development Course
+Summer SkillUp
+Explore
+Consistent Hashing - System Design
+Last Updated :
+4 May, 2026
+Consistent hashing is a technique used in distributed systems and load balancing to distribute data or requests across multiple servers efficiently. It reduces the amount of re-mapping (rehashing) needed when servers are added or removed, improving scalability and stability.
+Servers and requests are mapped onto a virtual hash ring, where each request is assigned to the nearest server in the clockwise direction.
+When servers are added or removed, only a small portion of requests are redistributed, improving scalability and stability.
+Example:
+In a caching system (like Redis cluster), if a new server is added, only some keys move to the new server instead of reassigning all keys, which improves performance and reduces downtime.
+Consistent Hashing
+Note:
+In consistent hashing, a request is mapped to the first server encountered in the clockwise direction on the hash ring after hashing the request key.
+How Requests Are Assigned to Servers
+In consistent hashing, both servers and requests are placed on a virtual ring using a hash function. For any incoming request, the system moves clockwise on the ring and assigns the request to the first server it encounters. This ensures a balanced and predictable distribution of requests.
+Example:
+Imagine a hash ring with three servers placed at different positions: Node 1, Node 2, and Node 5. If a request is hashed to a position between Node 1 and Node 2, it will be handled by Node 2 (the next server in the clockwise direction). If Node 2 goes down, the same request will now be handled by Node 5, minimizing redistribution of other requests.
+Mapping in the Hashing
+Issues with Traditional Hashing Methods
+Here are some key issues with traditional hashing methods explained in easy language:
+Uneven Distribution of Data
+: Data is not evenly spread across servers, causing some servers to be overloaded while others remain underutilized.
+Scalability Problems
+: When servers are added or removed, most of the data needs to be rehashed and redistributed, leading to delays and inefficiency.
+Inflexibility with Changing Servers
+: Traditional hashing does not adapt well to scaling up or down, requiring large-scale data movement.
+Poor Node Failure Handling
+: If a server fails, its data becomes unavailable until it is reassigned or the server recovers.
+High Rehashing Overhead
+: System changes require rehashing of most keys, increasing computational cost and system load.
+Uses
+Consistent hashing is used to efficiently distribute data across servers with minimal re-mapping during changes.
+Used in distributed caching systems to store and retrieve data efficiently.
+Helps in load balancing by evenly distributing requests across servers.
+Supports database sharding for better scalability and performance.
+Improves fault tolerance by limiting impact when a node fails.
+Enables easy scaling by adding or removing servers with minimal data movement.
+Phases/Working of Consistent Hashing
+The following are the phases involved in the process of consistent hashing:
+Phase 1: Hash Function Selection
+: A deterministic hash function is chosen to map both keys and servers to positions on the ring.
+Phase 2: Node Assignment:
+Servers are placed on a virtual ring, and each key is assigned to the nearest server in the clockwise direction.
+Phase 3: Key Replication
+: Data is replicated across multiple nodes to ensure availability in distributed systems. If one node fails, other nodes can still serve the data without interruption.
+Phase 4: Node Addition/Removal
+: When nodes are added or removed, some keys need to be reassigned to maintain balance. Consistent hashing ensures that only a small subset of keys are remapped. This minimizes disruption and improves system stability.
+Phase 5: Load balancing
+: Consistent hashing helps in distributing the load among the network's nodes. To keep the system balanced and effective when a node is overloaded, portions of its keys can be remapped to other nodes.
+Phase 6: Failure Recovery
+: If a node fails, the keys that are assigned to it can be remapped to other nodes in the network. This enables data to remain accurate and always available, even in the case of a node failure.
+Example
+: Let's say we have 5 nodes in the ring and say node 3 fails, then the range of the next server node widens and any request coming in all of this range, goes to the new server node. This shows that due to use of consistent hashing only a small portion of keys are affected.
+Node failure
+Virtual Nodes
+To improve load distribution, each physical server is represented by multiple virtual nodes on the hash ring.
+Prevents uneven data distribution.
+Improves balancing when servers are limited.
+Commonly used in real-world systems. (e.g., distributed caches)
+Implementation of Consistent Hashing algorithm
+Consistent hashing distributes data across servers efficiently while minimizing data movement when nodes are added or removed.
+Step 1: Choose a Hash Function
+: Select a hash function that produces a uniformly distributed range of hash values. Common choices include MD5, SHA-1, or SHA-256.
+Step 2: Define the Hash Ring
+: Represent the range of hash values as a ring. This ring should cover the entire possible range of hash values and be evenly distributed.
+Step 3: Assign Nodes to the Ring
+: Each server is hashed and placed on the ring at a specific position based on its hash value.
+Step 4: Key Mapping:
+Each key is hashed and mapped onto the ring, then assigned to the nearest server in the clockwise direction.
+Step 5: Node Addition
+: When a new node is added, it is placed on the ring, and only a small set of nearby keys are reassigned to it.
+Step 6: Node Removal
+: When a node is removed, its keys are reassigned to the next available node on the ring, ensuring minimal disruption.
+Step 7: Load Balancing
+: The system monitors node load and redistributes keys if needed to maintain an even distribution.
+Implementation
+C++
+#include
+<bits/stdc++.h>
+using
+namespace
+std
+;
+class
+ConsistentHashRing
+{
+private
+:
+map
+<
+int
+,
+string
+>
+ring
+;
+set
+<
+int
+>
+sorted_keys
+;
+int
+replicas
+;
+int
+get_hash
+(
+const
+string
+&
+value
+)
+{
+hash
+<
+string
+>
+hash_function
+;
+return
+hash_function
+(
+value
+);
+}
+public
+:
+ConsistentHashRing
+(
+int
+replicas
+=
+3
+)
+:
+replicas
+(
+replicas
+)
+{}
+// Function to add Node in the ring
+void
+add_node
+(
+const
+string
+&
+node
+)
+{
+for
+(
+int
+i
+=
+0
+;
+i
+<
+replicas
+;
+++
+i
+)
+{
+int
+replica_key
+=
+get_hash
+(
+node
++
+"_"
++
+to_string
+(
+i
+));
+ring
+[
+replica_key
+]
+=
+node
+;
+sorted_keys
+.
+insert
+(
+replica_key
+);
+}
+}
+// Function to remove Node from the ring
+void
+remove_node
+(
+const
+string
+&
+node
+)
+{
+for
+(
+int
+i
+=
+0
+;
+i
+<
+replicas
+;
+++
+i
+)
+{
+int
+replica_key
+=
+get_hash
+(
+node
++
+"_"
++
+to_string
+(
+i
+));
+ring
+.
+erase
+(
+replica_key
+);
+sorted_keys
+.
+erase
+(
+replica_key
+);
+}
+}
+string
+get_node
+(
+const
+string
+&
+key
+)
+{
+if
+(
+ring
+.
+empty
+())
+{
+return
+""
+;
+}
+int
+hash_value
+=
+get_hash
+(
+key
+);
+auto
+it
+=
+sorted_keys
+.
+lower_bound
+(
+hash_value
+);
+if
+(
+it
+==
+sorted_keys
+.
+end
+())
+{
+// Wrap around to the beginning of the ring
+it
+=
+sorted_keys
+.
+begin
+();
+}
+return
+ring
+[
+*
+it
+];
+}
+};
+int
+main
+()
+{
+ConsistentHashRing
+hash_ring
+;
+// Add nodes to the ring
+hash_ring
+.
+add_node
+(
+"Node_A"
+);
+hash_ring
+.
+add_node
+(
+"Node_B"
+);
+hash_ring
+.
+add_node
+(
+"Node_C"
+);
+// Get the node for a key
+string
+key
+=
+"first_key"
+;
+string
+node
+=
+hash_ring
+.
+get_node
+(
+key
+);
+cout
+<<
+"The key '"
+<<
+key
+<<
+"' is mapped to node: "
+<<
+node
+<<
+endl
+;
+return
+0
+;
+}
+Java
+import
+java.util.*
+;
+import
+java.util.stream.*
+;
+class
+ConsistentHashRing
+{
+private
+Map
+<
+Integer
+,
+String
+>
+ring
+=
+new
+HashMap
+<>
+();
+private
+TreeSet
+<
+Integer
+>
+sortedKeys
+=
+new
+TreeSet
+<>
+();
+private
+int
+replicas
+;
+private
+int
+getHash
+(
+String
+value
+)
+{
+return
+value
+.
+hashCode
+();
+}
+public
+ConsistentHashRing
+(
+int
+replicas
+)
+{
+this
+.
+replicas
+=
+replicas
+;
+}
+public
+void
+addNode
+(
+String
+node
+)
+{
+for
+(
+int
+i
+=
+0
+;
+i
+<
+replicas
+;
+++
+i
+)
+{
+int
+replicaKey
+=
+getHash
+(
+node
++
+"_"
++
+i
+);
+ring
+.
+put
+(
+replicaKey
+,
+node
+);
+sortedKeys
+.
+add
+(
+replicaKey
+);
+}
+}
+public
+void
+removeNode
+(
+String
+node
+)
+{
+for
+(
+int
+i
+=
+0
+;
+i
+<
+replicas
+;
+++
+i
+)
+{
+int
+replicaKey
+=
+getHash
+(
+node
++
+"_"
++
+i
+);
+ring
+.
+remove
+(
+replicaKey
+);
+sortedKeys
+.
+remove
+(
+replicaKey
+);
+}
+}
+public
+String
+getNode
+(
+String
+key
+)
+{
+if
+(
+ring
+.
+isEmpty
+())
+{
+return
+""
+;
+}
+int
+hashValue
+=
+getHash
+(
+key
+);
+Integer
+it
+=
+sortedKeys
+.
+ceiling
+(
+hashValue
+);
+if
+(
+it
+==
+null
+)
+{
+it
+=
+sortedKeys
+.
+first
+();
+}
+return
+ring
+.
+get
+(
+it
+);
+}
+}
+public
+class
+Main
+{
+public
+static
+void
+main
+(
+String
+[]
+args
+)
+{
+ConsistentHashRing
+hashRing
+=
+new
+ConsistentHashRing
+(
+3
+);
+hashRing
+.
+addNode
+(
+"Node_A"
+);
+hashRing
+.
+addNode
+(
+"Node_B"
+);
+hashRing
+.
+addNode
+(
+"Node_C"
+);
+String
+key
+=
+"first_key"
+;
+String
+node
+=
+hashRing
+.
+getNode
+(
+key
+);
+System
+.
+out
+.
+println
+(
+"The key '"
++
+key
++
+"' is mapped to node: "
++
+node
+);
+}
+}
+Python
+from
+hashlib
+import
+md5
+from
+bisect
+import
+bisect
+class
+ConsistentHashRing
+:
+def
+__init__
+(
+self
+,
+replicas
+):
+self
+.
+ring
+=
+{}
+self
+.
+sorted_keys
+=
+[]
+self
+.
+replicas
+=
+replicas
+def
+get_hash
+(
+self
+,
+value
+):
+return
+int
+(
+md5
+(
+value
+.
+encode
+())
+.
+hexdigest
+(),
+16
+)
+def
+add_node
+(
+self
+,
+node
+):
+for
+i
+in
+range
+(
+self
+.
+replicas
+):
+replica_key
+=
+self
+.
+get_hash
+(
+node
++
+"_"
++
+str
+(
+i
+))
+self
+.
+ring
+[
+replica_key
+]
+=
+node
+bisect
+(
+self
+.
+sorted_keys
+,
+replica_key
+)
+def
+remove_node
+(
+self
+,
+node
+):
+for
+i
+in
+range
+(
+self
+.
+replicas
+):
+replica_key
+=
+self
+.
+get_hash
+(
+node
++
+"_"
++
+str
+(
+i
+))
+del
+self
+.
+ring
+[
+replica_key
+]
+self
+.
+sorted_keys
+.
+remove
+(
+replica_key
+)
+def
+get_node
+(
+self
+,
+key
+):
+if
+not
+self
+.
+ring
+:
+return
+""
+hash_value
+=
+self
+.
+get_hash
+(
+key
+)
+idx
+=
+bisect
+(
+self
+.
+sorted_keys
+,
+hash_value
+)
+%
+len
+(
+self
+.
+sorted_keys
+)
+return
+self
+.
+ring
+[
+self
+.
+sorted_keys
+[
+idx
+]]
+if
+__name__
+==
+"__main__"
+:
+hash_ring
+=
+ConsistentHashRing
+(
+3
+)
+hash_ring
+.
+add_node
+(
+"Node_A"
+)
+hash_ring
+.
+add_node
+(
+"Node_B"
+)
+hash_ring
+.
+add_node
+(
+"Node_C"
+)
+key
+=
+"first_key"
+node
+=
+hash_ring
+.
+get_node
+(
+key
+)
+print
+(
+f
+'The key '
+{
+key
+}
+' is mapped to node:
+{node}
+'
+)
+Output
+The key 'first_key' is mapped to node: Node_C
+Note:
+This example uses a simple hash function and a binary search to find the position on the ring.
+Advantages
+Consistent hashing provides efficient data distribution and improves system scalability and reliability in distributed environments.
+Load Balancing:
+Distributes workload across nodes to keep the system efficient and responsive as data grows.
+Scalability:
+Adapts easily to changes in nodes or data volume with little impact on performance.
+Failure Tolerance:
+Ensures data remains available by redistributing keys when a node fails.
+Simplified Operations:
+Makes it easier to add or remove nodes and manage large distributed systems.
+Disadvantages
+Despite its benefits, consistent hashing introduces complexity and may have some performance overhead in certain scenarios.
+Hash Function Complexity:
+Requires a good deterministic hash function; poor choice can affect distribution and system efficiency.
+Performance Cost:
+Mapping, replication, and remapping of keys can introduce additional computational overhead.
+Lack of Flexibility:
+May not adapt easily to changing system requirements or dynamic network conditions.
+High Resource Use:
+Adding or removing nodes can sometimes increase resource usage and affect performance.
+Comment

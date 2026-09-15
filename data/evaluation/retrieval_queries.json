@@ -1,0 +1,42 @@
+[
+    {"query": "What is the Domain Name System?", "expected_domain": "cn", "expected_concept": "dns"},
+    {"query": "How is HTTP different from HTTPS?", "expected_domain": "cn", "expected_concept": "http-vs-https"},
+    {"query": "What are the key differences between TCP and UDP protocols?", "expected_domain": "cn", "expected_concept": "tcp-vs-udp"},
+    {"query": "Explain the 7 layers of the OSI model.", "expected_domain": "cn", "expected_concept": "osi-model"},
+    
+    {"query": "What are the ACID properties in database transactions?", "expected_domain": "dbms", "expected_concept": "acid-properties"},
+    {"query": "Why do we use indexing in SQL databases?", "expected_domain": "dbms", "expected_concept": "indexing"},
+    {"query": "Explain primary keys and foreign keys.", "expected_domain": "dbms", "expected_concept": "keys"},
+    {"query": "What is database normalization and why is it used?", "expected_domain": "dbms", "expected_concept": "normalization"},
+
+    {"query": "How does the Factory design pattern work?", "expected_domain": "design-patterns", "expected_concept": "factory"},
+    {"query": "What is the Observer pattern and how does it use publish-subscribe?", "expected_domain": "design-patterns", "expected_concept": "observer"},
+    {"query": "When should you use the Singleton pattern?", "expected_domain": "design-patterns", "expected_concept": "singleton"},
+    {"query": "Explain the Strategy design pattern.", "expected_domain": "design-patterns", "expected_concept": "strategy"},
+
+    {"query": "What is an array and how are elements stored in memory?", "expected_domain": "dsa", "expected_concept": "array"},
+    {"query": "How does a hash table resolve collisions?", "expected_domain": "dsa", "expected_concept": "hash-table"},
+    {"query": "What is the difference between a stack and a queue?", "expected_domain": "dsa", "expected_concept": "stack"},
+    {"query": "How does a binary search tree work?", "expected_domain": "dsa", "expected_concept": "tree"},
+    {"query": "What is dynamic programming?", "expected_domain": "dsa", "expected_concept": "dynamic-programming"},
+
+    {"query": "Explain the bias-variance tradeoff in machine learning.", "expected_domain": "ml-dl", "expected_concept": "bias-variance-tradeoff"},
+    {"query": "What is the difference between linear regression and logistic regression?", "expected_domain": "ml-dl", "expected_concept": "linear-vs-logistic-regression"},
+    {"query": "How do decision trees work in classification?", "expected_domain": "ml-dl", "expected_concept": "decision-trees"},
+    {"query": "What causes overfitting in a neural network model?", "expected_domain": "ml-dl", "expected_concept": "overfitting-vs-underfitting"},
+
+    {"query": "What is the concept of encapsulation in object-oriented programming?", "expected_domain": "oop", "expected_concept": "encapsulation"},
+    {"query": "Explain polymorphism with an example.", "expected_domain": "oop", "expected_concept": "polymorphism"},
+    {"query": "Why should we prefer composition over inheritance?", "expected_domain": "oop", "expected_concept": "composition-inheritance"},
+    {"query": "What is abstraction in OOP?", "expected_domain": "oop", "expected_concept": "abstraction"},
+
+    {"query": "What are the four necessary conditions for a deadlock to occur?", "expected_domain": "os", "expected_concept": "deadlock"},
+    {"query": "What is the difference between a mutex and a semaphore?", "expected_domain": "os", "expected_concept": "mutex-vs-semaphore"},
+    {"query": "How is a process different from a thread?", "expected_domain": "os", "expected_concept": "process-vs-thread"},
+    {"query": "What is virtual memory and paging?", "expected_domain": "os", "expected_concept": "virtual-memory"},
+
+    {"query": "Why do we use caching in distributed systems?", "expected_domain": "system-design", "expected_concept": "caching"},
+    {"query": "Explain the CAP theorem.", "expected_domain": "system-design", "expected_concept": "cap-theorem"},
+    {"query": "How does consistent hashing help with load balancing?", "expected_domain": "system-design", "expected_concept": "consistent-hashing"},
+    {"query": "What are the benefits of microservices over monoliths?", "expected_domain": "system-design", "expected_concept": "microservices-vs-monolith"}
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "chunk_id": "dbms_acid-properties_001",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "Transactions are fundamental operations that allow us to modify and retrieve data. However, to ensure the integrity of a database, it is important that these transactions are executed in a way that maintains consistency, correctness, and reliability even in the case of failures/errors. This is where the ACID properties come into play.\n1. Atomicity\nAtomicity means a transaction is all-or-nothing either all its operations succeed, or none are applied. If any part fails, the entire transaction is rolled back to keep the database consistent.\nCommit\n: If the transaction is successful, the changes are permanently applied.\nAbort/Rollback\n: If the transaction fails, any changes made during the transaction are discarded.\nExample\n: Consider the following transaction\nT\nconsisting of\nT1\nand\nT2\n: Transfer of $100 from account\nX\nto account\nY\n.\nAtomicity",
+    "token_count": 179
+  },
+  {
+    "chunk_id": "dbms_acid-properties_002",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "Example\n: Consider the following transaction\nT\nconsisting of\nT1\nand\nT2\n: Transfer of $100 from account\nX\nto account\nY\n.\nAtomicity\nIf the transaction fails after completion of T1 but before completion of T2, the database would be left in an inconsistent state. With Atomicity, if any part of the transaction fails, the entire process is rolled back to its original state, and no partial changes are made.\n2. Consistency\nConsistency in transactions means that the database must remain in a valid state before and after a transaction.\nA valid state follows all defined rules, constraints, and relationships (like primary keys, foreign keys, etc.).\nIf a transaction violates any of these rules, it is rolled back to prevent corrupt or invalid data.\nIf a transaction deducts money from one account but doesn't add it to another (in a transfer), it violates consistency.\nExample",
+    "token_count": 191
+  },
+  {
+    "chunk_id": "dbms_acid-properties_003",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "If a transaction deducts money from one account but doesn't add it to another (in a transfer), it violates consistency.\nExample\n: Suppose the sum of all balances in a bank system should always be constant. Before a transfer, the total balance is $700. After the transaction, the total balance should remain $700. If the transaction fails in the middle (like updating one account but not the other), the system should maintain its consistency by rolling back the transaction.\nTotal before T occurs\n= 500 + 200 = 700 .\nTotal after T occurs\n= 400 + 300 = 700 .\nConsistency\n3. Isolation\nIsolation ensures that transactions run independently without affecting each other. Changes made by one transaction are not visible to others until they are committed.\nIt ensures that the result of concurrent transactions is the same as if they were run one after another, preventing issues like:\nDirty reads:\nreading uncommitted data\nNon-repeatable reads:\ndata changes between two reads\nPhantom reads:\nnew rows appear during a transaction",
+    "token_count": 217
+  },
+  {
+    "chunk_id": "dbms_acid-properties_004",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "Dirty reads:\nreading uncommitted data\nNon-repeatable reads:\ndata changes between two reads\nPhantom reads:\nnew rows appear during a transaction\nIsolation\nExample\n: Consider two transactions T and T''.\nX = 500\n,\nY = 500\nExplanation:\n1. Transaction T:\nT wants to transfer $50 from X to Y.\nT reads\nY\n(value: 500), deducts $50 from X (new X = 450), and adds $50 to Y (new Y = 550).\n2. Transaction T'':\nT'",
+    "token_count": 117
+  },
+  {
+    "chunk_id": "dbms_acid-properties_005",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "starts and reads X (500) and Y (500).\nIt calculates the sum: 500 + 500 = 1000.\nMeanwhile, values of X and Y change to 450 and 550 respectively.\nSo, the correct sum should be 450 + 550 = 1000.\nIsolation ensures that T'' does not read outdated values while another transaction (T) is still in progress.\nTransactions should be independent, and T'' should access the final values only after T commits.\nThis avoids inconsistent results, like the incorrect sum calculated by T''.\n4. Durability:\nDurability ensures that once a transaction is committed, its changes are permanently saved, even if the system fails. The data is stored in non-volatile memory, so the database can recover to its last committed state without losing data.\nExample\n: After successfully transferring money from Account A to Account B, the changes are stored on disk. Even if there is a crash immediately after the commit, the transfer details will still be intact when the system recovers, ensuring durability.",
+    "token_count": 213
+  },
+  {
+    "chunk_id": "dbms_acid-properties_006",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "How ACID Properties Impact DBMS Design and Operation\nThe\nACID properties, in totality, provide a mechanism to ensure the correctness and consistency of a database in a way such that each transaction is a group of operations that acts as a single unit, produces consistent results, acts in isolation from other operations, and updates that it makes are durably stored.\n1. Data Integrity and Consistency\nACID properties safeguard the data integrity of a DBMS by ensuring that transactions either complete successfully or leave no trace if interrupted. They prevent partial updates from corrupting the data and ensure that the database transitions only between valid states.\n2. Concurrency Control\nACID properties provide a solid framework for managing concurrent transactions. Isolation ensures that transactions do not interfere with each other, preventing data anomalies such as lost updates, temporary inconsistency, and uncommitted data.\n3. Recovery and Fault Tolerance",
+    "token_count": 179
+  },
+  {
+    "chunk_id": "dbms_acid-properties_007",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "3. Recovery and Fault Tolerance\nDurability ensures that even if a system crashes, the database can recover to a consistent state. Thanks to the Atomicity and Durability properties, if a transaction fails midway, the database remains in a consistent state.\nProperty\nResponsibility for maintaining properties\nAtomicity\nTransaction Manager\nConsistency\nApplication programmer\nIsolation\nConcurrency Control Manager\nDurability\nRecovery\nCritical Use Cases for ACID in Databases\nIn modern applications, ensuring the reliability and consistency of data is crucial. ACID properties are fundamental in sectors like:\nBanking\n: Transactions involving money transfers, deposits, or withdrawals must maintain strict consistency and durability to prevent errors and fraud.\nE-commerce\n: Ensuring that inventory counts, orders, and customer details are handled correctly and consistently, even during high traffic, requires ACID compliance.\nHealthcare",
+    "token_count": 175
+  },
+  {
+    "chunk_id": "dbms_acid-properties_008",
+    "domain": "dbms",
+    "concept": "acid-properties",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+    "text": "E-commerce\n: Ensuring that inventory counts, orders, and customer details are handled correctly and consistently, even during high traffic, requires ACID compliance.\nHealthcare\n: Patient records, test results, and prescriptions must adhere to strict consistency, integrity, and security standards.",
+    "token_count": 55
+  }
+]

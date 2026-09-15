@@ -1,0 +1,24 @@
+Introduction
+
+Dynamic Programming (DP) is usually used to solve optimization problems. The only way to get better at DP is to practice. It takes some amount of practice to be able to recognize that a problem can be solved by DP.
+Techniques
+
+Sometimes you do not need to store the whole DP table in memory, the last two values or the last two rows of the matrix will suffice.
+Essential questions
+
+These are essential questions to practice if you're studying for this topic.
+Climbing Stairs
+Coin Change
+House Robber
+Longest Increasing Subsequence
+Recommended practice questions
+
+These are recommended questions to practice after you have studied for the topic and have practiced the essential questions.
+0/1 Knapsack or Partition Equal Subset Sum
+Longest Common Subsequence
+Word Break Problem
+Combination Sum
+House Robber II
+Decode Ways
+Unique Paths
+Jump Game

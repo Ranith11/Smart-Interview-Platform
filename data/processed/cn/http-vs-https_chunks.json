@@ -1,0 +1,47 @@
+[
+  {
+    "chunk_id": "cn_http-vs-https_001",
+    "domain": "cn",
+    "concept": "http-vs-https",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-http-and-https/",
+    "text": "When browsing the internet, you often see website URLs starting with either http:// or https://. These prefixes indicate how data is transferred between your browser and the website’s server. While both HTTP and HTTPS are communication protocols, the key difference lies in security.\nWhat is HTTP?\nHTTP (HyperText Transfer Protocol) is an application-layer protocol used for transferring data over the web. It was introduced by Tim Berners-Lee to enable communication between web browsers and web servers.\nHTTP\ndefines a set of rules that allow clients (browsers) to request resources such as web pages, images, or videos from servers.\nHTTP\nKey Points about HTTPKey:\nUses plain text for data transmission\nDoes not provide encryption or authentication\nVulnerable to data interception and modification\nDefault port number: 80\nNote:\nHTTP does not encrypt data, sensitive information such as passwords or payment details can be easily compromised.\nHow HTTP Works",
+    "token_count": 184
+  },
+  {
+    "chunk_id": "cn_http-vs-https_002",
+    "domain": "cn",
+    "concept": "http-vs-https",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-http-and-https/",
+    "text": "Default port number: 80\nNote:\nHTTP does not encrypt data, sensitive information such as passwords or payment details can be easily compromised.\nHow HTTP Works\nThe client sends an HTTP request (e.g., GET or POST) to the server.\nThe server processes the request.\nThe server sends an HTTP response containing: Status code (e.g., 200, 404), Headers and Response body (data or error message).\nWhat is HTTPS?\nHTTPS\nstands for Hyper Text Transfer Protocol Secure. HTTP Secure (HTTPS), could be a combination of the Hypertext Transfer Protocol with the SSL/\nTLS\nconvention to supply encrypted communication and secure distinguishing proof of an arranged web server. HTTPS is more secure than HTTP because HTTPS is certified by the\nSSL(Secure Socket Layer)\n. Whatever website you are visiting on the internet, if its URL is HTTP, then that website is not secure.\nHTTPS\nWhy HTTPS is Secure\nData is encrypted, preventing eavesdropping\nServer identity is verified using digital certificates\nProtects against man-in-the-middle attacks",
+    "token_count": 212
+  },
+  {
+    "chunk_id": "cn_http-vs-https_003",
+    "domain": "cn",
+    "concept": "http-vs-https",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-http-and-https/",
+    "text": "HTTPS\nWhy HTTPS is Secure\nData is encrypted, preventing eavesdropping\nServer identity is verified using digital certificates\nProtects against man-in-the-middle attacks\nModern browsers clearly mark HTTPS websites as secure, and many features work only over HTTPS.\nHow HTTPS Works\nThe client initiates a secure connection.\nThe server presents its SSL/TLS certificate.\nThe client verifies the certificate with a trusted authority.\nAn encrypted session is established.\nAll HTTP data is transferred securely inside this encrypted channel.\nDefault port used by HTTPS: 443\nDifference Between HTTP and HTTPS\nHTTP\nHTTPS\nHTTP stands for HyperText Transfer Protocol. In HTTP, the URL begins with “http://”.\nHTTPS stands for HyperText Transfer Protocol Secure. In HTTPS, the URL starts with “https://”.\nHTTP uses port number 80 for communication.\nHTTPS uses port number 443 for communication.",
+    "token_count": 177
+  },
+  {
+    "chunk_id": "cn_http-vs-https_004",
+    "domain": "cn",
+    "concept": "http-vs-https",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-http-and-https/",
+    "text": "HTTPS stands for HyperText Transfer Protocol Secure. In HTTPS, the URL starts with “https://”.\nHTTP uses port number 80 for communication.\nHTTPS uses port number 443 for communication.\nHyper-text exchanged using HTTP goes as plain text i.e. anyone between the browser and server can read it relatively easily if one intercepts this exchange of data and due to which it is Insecure.\nHTTPS is considered to be secure but at the cost of processing time because Web Server and Web Browser need to exchange encryption keys using Certificates before actual data can be transferred.\nHTTP Works at the\nApplication Layer\n.\nHTTPS works at\nTransport Layer\n.\nHTTP does not use encryption, which results in low security in comparison to HTTPS.\nHTTPS uses Encryption which results in better security than HTTP.\nHTTP speed is faster than HTTPS.\nHTTPS speed is slower than HTTP.\nHTTP does not use data hashtags to secure data.\nHTTPS will have the data before sending it and returning it to its original state on the receiver side.",
+    "token_count": 201
+  },
+  {
+    "chunk_id": "cn_http-vs-https_005",
+    "domain": "cn",
+    "concept": "http-vs-https",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/difference-between-http-and-https/",
+    "text": "HTTPS speed is slower than HTTP.\nHTTP does not use data hashtags to secure data.\nHTTPS will have the data before sending it and returning it to its original state on the receiver side.\nHTTP is used to transfer text, video, and images via web pages.\nHTTPS is used to transfer data securely via a network.",
+    "token_count": 63
+  }
+]

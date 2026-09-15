@@ -1,0 +1,65 @@
+[
+  {
+    "chunk_id": "dbms_normalization_001",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "Normalization is an important process in database design that helps improve the database's efficiency, consistency, and accuracy. It makes it easier to manage and maintain the data and ensures that the database is adaptable to changing business needs.\nIt is the process of organizing the attributes of the database to reduce or eliminate data redundancy (having the same data in different places), which otherwise unnecessarily increases the size of the database.\nData redundancy leads to inconsistency problems during insert, delete, and update operations, making data management difficult.\nNormalization involves splitting a table into multiple tables, which must be linked each time a query requires data from the split tables.\nBefore Normalization:\nThe table is prone to redundancy and anomalies (insertion, update, and deletion).\nAfter Normalization:\nThe data is divided into logical tables to ensure consistency, avoid redundancy and remove anomalies making the database efficient and reliable.",
+    "token_count": 171
+  },
+  {
+    "chunk_id": "dbms_normalization_002",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "After Normalization:\nThe data is divided into logical tables to ensure consistency, avoid redundancy and remove anomalies making the database efficient and reliable.\nProblems in the Employee_Department Relation\nIf a new department is created but no employee is assigned to it yet, we cannot store its location because we need an employee record to insert. It shows insertion anomaly.\nIf the location of the HR department changes, we must update it in multiple rows (for both Nick Wise and Lily Case). If one row is missed, the data becomes inconsistent.\nIf all employees in the IT department leave, we lose the department information, including its location.\nThe department location is repeated for every employee in the same department. It is data redundant.\nNeed of Normalization\nThe primary objective for normalizing the relations is to eliminate the below\nanomalies\n. Failure to reduce anomalies results in data redundancy, which may threaten data integrity and cause additional issues as the database increases.",
+    "token_count": 190
+  },
+  {
+    "chunk_id": "dbms_normalization_003",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "anomalies\n. Failure to reduce anomalies results in data redundancy, which may threaten data integrity and cause additional issues as the database increases.\nInsertion Anomalies:\nInsertion anomalies occur when it is not possible to insert data into a database because the required fields are missing or because the data is incomplete. For example, if a database requires that every record has a primary key, but no value is provided for a particular record, it cannot be inserted into the database.\nDeletion anomalies:\nDeletion anomalies occur when deleting a record from a database and can result in the unintentional loss of data. For example, if a database contains information about customers and orders, deleting a customer record may also delete all the orders associated with that customer.\nUpdate anomalies:",
+    "token_count": 154
+  },
+  {
+    "chunk_id": "dbms_normalization_004",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "Update anomalies:\nUpdation of anomalies occur when modifying data in a database and can result in inconsistencies or errors. For example, if a database contains information about employees and their salaries, updating an employee’s salary in one record but not in all related records could lead to incorrect calculations and reporting.\nFeatures of Database Normalization\nElimination of Data Redundancy:\nOne of the main features of normalization is to eliminate the data redundancy that can occur in a database. Data redundancy refers to the repetition of data in different parts of the database. Normalization helps in reducing or eliminating this redundancy, which can improve the efficiency and consistency of the database.\nEnsuring Data Consistency:\nNormalization helps in ensuring that the data in the database is consistent and accurate. By eliminating redundancy, normalization helps in preventing inconsistencies and contradictions that can arise due to different versions of the same data.",
+    "token_count": 173
+  },
+  {
+    "chunk_id": "dbms_normalization_005",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "Simplification of Data Management:\nNormalization simplifies the process of managing data in a database. By breaking down a complex data structure into simpler tables, normalization makes it easier to manage the data, update it, and retrieve it.\nImproved Database Design:\nNormalization helps in improving the overall design of the database. By organizing the data in a structured and systematic way, normalization makes it easier to design and maintain the database. It also makes the database more flexible and adaptable to changing business needs.\nStandardization:\nNormalization helps in standardizing the data in the database. By organizing the data into tables and defining relationships between them, normalization helps in ensuring that the data is stored in a consistent and uniform manner.\nNormal Forms in DBMS\nNormal Forms\nDescription of Normal Forms\nFirst Normal Form (1NF)\nA relation is in\nfirst normal form\nif every attribute in that relation is single-valued attribute.\nSecond Normal Form (2NF)",
+    "token_count": 188
+  },
+  {
+    "chunk_id": "dbms_normalization_006",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "Normal Forms\nDescription of Normal Forms\nFirst Normal Form (1NF)\nA relation is in\nfirst normal form\nif every attribute in that relation is single-valued attribute.\nSecond Normal Form (2NF)\nA relation that is in First Normal Form and every non-primary-key attribute is fully functionally dependent on the primary key, then the relation is in\nSecond Normal Form (2NF).\nThird Normal Form (3NF)\nA relation is in the\nthird normal form\n, if there is no transitive dependency for non-prime attributes as well as it is in the second normal form. A relation is in 3NF if at least one of the following conditions holds in every non-trivial function dependency X –> Y.\nX is a super key.\nY is a prime attribute (each element of Y is part of some candidate key).\nBoyce-Codd Normal Form (BCNF)\nFor BCNF the relation should satisfy the below conditions\nThe relation should be in the 3rd\nNormal Form\n.\nX should be a super-key for every functional dependency (FD) X−>Y in a given relation.\nFourth Normal Form (4NF)\nA relation R is in\n4NF",
+    "token_count": 244
+  },
+  {
+    "chunk_id": "dbms_normalization_007",
+    "domain": "dbms",
+    "concept": "normalization",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-database-normalization/",
+    "text": "The relation should be in the 3rd\nNormal Form\n.\nX should be a super-key for every functional dependency (FD) X−>Y in a given relation.\nFourth Normal Form (4NF)\nA relation R is in\n4NF\nif and only if the following conditions are satisfied:\nIt should be in the\nBoyce-Codd Normal Form (BCNF)\n.\nThe table should not have any Multi-valued Dependency.\nFifth Normal Form (5NF)\nA relation R is in\n5NF\nif and only if it satisfies the following conditions:\nR should be already in 4NF.\nIt cannot be further non loss decomposed (join dependency)",
+    "token_count": 138
+  }
+]

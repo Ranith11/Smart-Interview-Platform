@@ -1,0 +1,142 @@
+Recursion cheatsheet for coding interviews | Tech Interview Handbook
+Skip to main content
+We collaborated with engineers from Google and Amazon and built the best front end interview preparation platform.
+Check out GreatFrontEnd today
+!
+Tech Interview Handbook
+On this page
+Recursion cheatsheet for coding interviews
+👋 Hi there, I'm Yangshun, an ex-Meta Staff Engineer, author of this handbook and Blind 75. Follow me on
+LinkedIn
+for Software Engineering advice and interview tips!
+Introduction
+​
+Recursion is a method of solving a computational problem where the solution depends on solutions to smaller instances of the same problem.
+All recursive functions contain two parts:
+A base case (or cases) defined, which defines when the recursion is stopped - otherwise it will go on forever!
+Breaking down the problem into smaller subproblems and invoking the recursive call
+One of the most common example of recursion is the Fibonacci sequence.
+Base cases:
+fib(0) = 0
+and
+fib(1) = 1
+Recurrence relation:
+fib(i) = fib(i-1) + fib(i-2)
+def
+fib
+(
+n
+)
+:
+if
+n
+<=
+1
+:
+return
+n
+return
+fib
+(
+n
+-
+1
+)
++
+fib
+(
+n
+-
+2
+)
+Many algorithms relevant in coding interviews make heavy use of recursion - binary search, merge sort, tree traversal, depth-first search, etc. In this article, we focus on questions which use recursion but aren't part of other well known algorithms.
+Learning resources
+​
+Readings
+Recursion
+, University of Utah
+Videos
+Tail Recursion
+, University of Washington
+Things to look out for during interviews
+​
+Always remember to define a base case so that your recursion will end.
+Recursion is useful for permutation, because it generates all combinations and tree-based questions. You should know how to generate all permutations of a sequence as well as how to handle duplicates.
+Recursion implicitly uses a stack. Hence all recursive approaches can be rewritten iteratively using a stack. Beware of cases where the recursion level goes too deep and causes a stack overflow (the default limit in Python is 1000). You may get bonus points for pointing this out to the interviewer. Recursion will never be O(1) space complexity because a stack is involved, unless there is
+tail-call optimization
+(TCO). Find out if your chosen language supports TCO.
+Number of base cases - In the fibonacci example above, note that one of our recursive calls invoke
+fib(n - 2)
+. This indicates that you should have 2 base cases defined so that your code covers all possible invocations of the function within the input range. If your recursive function only invokes
+fn(n - 1)
+, then only one base case is needed
+Corner cases
+​
+n = 0
+n = 1
+Make sure you have enough base cases to cover all possible invocations of the recursive function
+Techniques
+​
+Memoization
+​
+In some cases, you may be computing the result for previously computed inputs. Let's look at the Fibonacci example again.
+fib(5)
+calls
+fib(4)
+and
+fib(3)
+, and
+fib(4)
+calls
+fib(3)
+and
+fib(2)
+.
+fib(3)
+is being called twice! If the value for
+fib(3)
+is memoized and used again, that greatly improves the efficiency of the algorithm and the time complexity becomes O(n).
+Essential questions
+​
+These are essential questions to practice if you're studying for this topic.
+Generate Parentheses
+Combinations
+Subsets
+Recommended practice questions
+​
+These are recommended questions to practice after you have studied for the topic and have practiced the essential questions.
+Letter Combinations of a Phone Number
+Subsets II
+Permutations
+Sudoku Solver
+Strobogrammatic Number II (LeetCode Premium)
+Recommended courses
+​
+AlgoMonster
+​
+AlgoMonster aims to help you ace the technical interview
+in the shortest time possible
+. By Google engineers, AlgoMonster uses a data-driven approach to teach you the most useful key question patterns and has contents to help you quickly revise basic data structures and algorithms. Best of all, AlgoMonster is not subscription-based - pay a one-time fee and get
+lifetime access
+.
+Join today for a 70% discount →
+Grokking the Coding Interview: Patterns for Coding Questions
+​
+This course on by Design Gurus expands upon the questions on the recommended practice questions but approaches the practicing from a questions pattern perspective, which is an approach I also agree with for learning and have personally used to get better at coding interviews. The course allows you to practice selected questions in Java, Python, C++, JavaScript and also provides sample solutions in those languages along with step-by-step visualizations.
+Learn and understand patterns, not memorize answers!
+Get lifetime access now →
+Master the Coding Interview: Data Structures + Algorithms
+​
+This Udemy bestseller is one of the highest-rated interview preparation course (4.6 stars, 21.5k ratings, 135k students) and packs
+19 hours
+worth of contents into it. Like Tech Interview Handbook, it goes beyond coding interviews and covers resume, non-technical interviews, negotiations. It's an all-in-one package! Note that JavaScript is being used for the coding demos.
+Check it out →
+Table of Contents
+Introduction
+Learning resources
+Things to look out for during interviews
+Corner cases
+Techniques
+Essential questions
+Recommended practice questions
+Recommended courses

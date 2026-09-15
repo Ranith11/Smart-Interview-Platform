@@ -1,0 +1,101 @@
+[
+  {
+    "chunk_id": "system-design_caching_001",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "Caching is a concept that involves storing frequently accessed data in a location that is easily and quickly accessible. The purpose of caching is to improve the performance and efficiency of a system by reducing the amount of time it takes to access frequently accessed data.\nCaching acts as the local store for the data and retrieving the data from this local or temporary storage is easier and faster than retrieving it from the database.\nIn a typical web application, we can add an application server cache and an in-memory store like\nRedis\nalongside our application server.\nExample:\nIn twitter, when a tweet becomes viral, a huge number of clients request the same tweet, so to reduce the number of calls to the database, we can use cache and the tweets can be provided much faster.\nWorking",
+    "token_count": 155
+  },
+  {
+    "chunk_id": "system-design_caching_002",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "Working\nWeb application stores data in a database. Reading data from the database needs network calls and I/O operations which is a time-consuming process. Cache reduces the network calls to the database and speeds up the performance of the system.\nWhen a request is made the first time a call will have to be made to the database to process the query. This is known as a cache miss.\nBefore giving back the result to the user, the result will be saved in the cache.\nWhen the second time a user makes the same request, the application will check your cache first to see if the result for that request is cached or not.\nIf it is then the result will be returned from the cache. This is known as a cache hit.\nThe response time for the second time request will be a lot less than the first time.\nWorking\nChallenges of Storing All Data in Cache",
+    "token_count": 176
+  },
+  {
+    "chunk_id": "system-design_caching_003",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "The response time for the second time request will be a lot less than the first time.\nWorking\nChallenges of Storing All Data in Cache\nAs you know there are many benefits of the cache but that doesn't mean we will store all the information in the cache memory for faster access, we can't do this for multiple reasons, such as:\nHardware of the cache which is much more expensive than a normal database.\nAlso, the search time will increase if you store tons of data in your cache.\nCache is a typically volatile storage, meaning data is lost if the system crashes or restart. For critical and long-term data, storing it only in cache would risk data loss.\nIn short, a cache needs to have the most relevant information according to the request which is going to come in the future.\nTypes of Cache\nIn common there are four types of Cache:\n1. Application Server Cache",
+    "token_count": 180
+  },
+  {
+    "chunk_id": "system-design_caching_004",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "Types of Cache\nIn common there are four types of Cache:\n1. Application Server Cache\nAn Application Server Cache is a storage layer within an application server that temporarily holds frequently accessed data, so it can be quickly retrieved without needing to go back to the main database each time. This helps applications run faster by reducing the load on the database and speeding up response times for users.\nExample:\nWhen an app frequently needs certain data, the application server can store this data in the cache. When users request it, app can instantly provide the cached version instead of processing a full database query.\nApplication Server Cache\nDrawbacks:\nWhen you add multiple servers to handle a high volume of requests.\nWith several servers, a load balancer sends requests to different nodes, but each node only has its own cache and doesn’t know about the cached data on other nodes.\nThis results in many cache misses, meaning the data has to be re-fetched frequently, slowing things down.\nNote:",
+    "token_count": 195
+  },
+  {
+    "chunk_id": "system-design_caching_005",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "This results in many cache misses, meaning the data has to be re-fetched frequently, slowing things down.\nNote:\nTo fix this, there are two main options: Distributed Cache and Global Cache.\n2. Distributed Cache\nIn the\ndistributed cache\n, each node will have a part of the whole cache space and then using the consistent hashing function each request can be routed to where the cache request could be found.\nEach of its nodes will have a small part of the cached data.\nTo identify which node has which request the cache is divided up using a consistent hashing function, so that each request can be routed to where the cached request could be found.\nIf a requesting node is looking for a certain piece of data, it can quickly know where to look within the distributed cache to check if the data is available.\nDistributed Cache\n3. Global Cache",
+    "token_count": 172
+  },
+  {
+    "chunk_id": "system-design_caching_006",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "If a requesting node is looking for a certain piece of data, it can quickly know where to look within the distributed cache to check if the data is available.\nDistributed Cache\n3. Global Cache\nAs the name suggests, you will have a single cache space and all the nodes use this single space. Every request will go to this single cache space. There are two kinds of the global cache.\nFirst, when a cache request is not found in the global cache, it's the responsibility of the cache to find out the missing piece of data from anywhere underlying the store (database, disk, etc).\nSecond, if the request comes and the cache doesn't find the data then the requesting node will directly communicate with the DB or the server to fetch the requested data.\nGlobal Cache\n4. CDN (Content Delivery Network)/ Edge Cache\nA\nCDN\nis essentially a group of servers that are strategically placed across the globe with the purpose of accelerating the delivery of web content. A CDN:",
+    "token_count": 201
+  },
+  {
+    "chunk_id": "system-design_caching_007",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "A\nCDN\nis essentially a group of servers that are strategically placed across the globe with the purpose of accelerating the delivery of web content. A CDN:\nManages servers that are geographically distributed over different locations.\nStores the web content in its servers.\nAttempts to direct each user to a server that is part of the CDN and close to the user so as to deliver content quickly.\nUsed where a large amount of static content is served by the website.\nNote:\nIt can be an HTML, CSS, JavaScript Files, pictures, videos, etc. First, request ask CDN for data, if it exists then the data will be returned. If not, CDN will query the backend servers and then cache it locally.\nCDN\nApplications\nCaching is used in many areas to speed up processes, reduce load and make systems more efficient. Below are some common applications of caching:\nWeb Page Caching",
+    "token_count": 181
+  },
+  {
+    "chunk_id": "system-design_caching_008",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "CDN\nApplications\nCaching is used in many areas to speed up processes, reduce load and make systems more efficient. Below are some common applications of caching:\nWeb Page Caching\n: In order to speed up loading times in the future, browsers save copies of frequently visited websites. This saves bandwidth and shortens the time it takes for a web page to load.\nDatabase Caching\n: Frequent database queries can strain servers and cause lag. Caching allows apps to quickly retrieve frequently used data without repeatedly asking the database by storing it in memory.\nContent Delivery Networks (CDNs)\n: CDNs use caching to keep copies of data (such as pictures and videos) in several places throughout the globe. This enhances website performance by enabling visitors to obtain content more quickly from a nearby server.\nSession Caching\n: Applications store session data in a cache to remember user information (like login status) between visits, making the experience seamless and personalized without needing to re-login.",
+    "token_count": 196
+  },
+  {
+    "chunk_id": "system-design_caching_009",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": ": Applications store session data in a cache to remember user information (like login status) between visits, making the experience seamless and personalized without needing to re-login.\nAPI Response Caching\n: Frequently requested API data, like stock prices or weather data, can be cached so responses are faster, reducing the load on the server and delivering data in real-time.\nCache Invalidation Strategies\nFor systems that use caching to improve performance, cache invalidation is essential. Data is temporarily kept for faster access when it is cached. However, the cached version goes out of date if the original data changes.\nIn order to guarantee that users obtain the most recent information,\ncache invalidation techniques\nmake sure that out-of-date records are either updated or deleted.\nCommon strategies include time-based expiration, where cached data is discarded after a certain time and event-driven invalidation, triggered by changes to the underlying data.",
+    "token_count": 178
+  },
+  {
+    "chunk_id": "system-design_caching_010",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "Common strategies include time-based expiration, where cached data is discarded after a certain time and event-driven invalidation, triggered by changes to the underlying data.\nProper cache invalidation optimizes performance and avoids serving users with obsolete or inaccurate content from the cache.\nEviction Policies\nFor caching systems to effectively manage their limited cache capacity, eviction policies are essential. An\neviction policy\ndecides which existing item to remove when the cache is full and a new item needs to be stored.\nThe Least Recently Used (LRU) policy is a popular strategy that eliminates the item that has been accessed the least recently. According to this assumption, items which have been used recently are more likely to be utilized again shortly.\nAnother method is the Least Frequently Used (LFU) policy, removing the least frequently accessed items.\nAlternatively, there's the First-In-First-Out (FIFO) policy, evicting the oldest cached item.\nPros",
+    "token_count": 188
+  },
+  {
+    "chunk_id": "system-design_caching_011",
+    "domain": "system-design",
+    "concept": "caching",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/caching-system-design-concept-for-beginners/",
+    "text": "Alternatively, there's the First-In-First-Out (FIFO) policy, evicting the oldest cached item.\nPros\nAs it maximizes resource utilization, reduces server loads and enhances overall scalability, caching is a helpful technique in software development.\nReduced load on the original source:\nBy significantly reducing down on the time it takes to get frequently used data, caching can enhance system responsiveness and performance.\nCost savings:\nCaching can reduce the need for expensive hardware or infrastructure upgrades by improving the efficiency of existing resources.\nCons\nDespite its advantages, caching comes with drawbacks also and some of them are:\nData inconsistency:\nIf cache consistency is not maintained properly, caching can introduce issues with data consistency.\nCache eviction issues:\nIf cache eviction policies are not designed properly, caching can result in performance issues or data loss.\nAdditional complexity:",
+    "token_count": 166
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "chunk_id": "cn_ipv4-vs-ipv6_001",
+    "domain": "cn",
+    "concept": "ipv4-vs-ipv6",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-ipv4-and-ipv6/",
+    "text": "The Internet Protocol (IP) assigns a unique address to each device, enabling communication over the internet.\nIPv4, the earlier version, uses 32-bit addresses, providing about 4.3 billion unique addresses, which are now nearly exhausted due to the rapid growth of the internet and IoT devices.\nIPv6, the newer version, uses 128-bit addresses, offering a vastly larger address space to overcome IPv4 exhaustion and support future internet expansion.\nIPV4 Vs IPV6\nDrawbacks of IPv4\nLimited address space:\nThe 32-bit IPv4 address space is insufficient for the growing number of connected devices.\nComplex configuration:\nIPv4 relies on manual setup or DHCP, which can lead to configuration errors.\nInefficient routing:\nVariable and complex headers increase processing overhead.\nLack of built-in security:\nSecurity features are not inherent and require additional mechanisms.\nLimited QoS support:\nTraffic prioritization is weak, affecting real-time applications.\nRouter-based fragmentation:",
+    "token_count": 193
+  },
+  {
+    "chunk_id": "cn_ipv4-vs-ipv6_002",
+    "domain": "cn",
+    "concept": "ipv4-vs-ipv6",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-ipv4-and-ipv6/",
+    "text": "Security features are not inherent and require additional mechanisms.\nLimited QoS support:\nTraffic prioritization is weak, affecting real-time applications.\nRouter-based fragmentation:\nPacket fragmentation by routers reduces efficiency and may cause data loss.\nBroadcast traffic overhead:\nBroadcast communication increases unnecessary network traffic and degrades performance.\nBenefits of IPv6 over IPv4\nThe recent Version of IP IPv6 has a greater advantage over IPv4. Here are some of the mentioned benefits:\nLarger Address Space:\nIPv6 uses 128-bit addresses (vs. 32-bit in IPv4), allowing many more devices to connect.\nImproved Security:\nIPv6 has built-in features like data authentication and encryption, making connections safer..\nSimpler Header:\nIPv6 has a streamlined header, improving speed and reducing processing cost.\nBetter QoS Support:\nIPv6 provides stronger Quality of Service, improving video, audio, and website performance.\nMobile-Friendly:",
+    "token_count": 181
+  },
+  {
+    "chunk_id": "cn_ipv4-vs-ipv6_003",
+    "domain": "cn",
+    "concept": "ipv4-vs-ipv6",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-ipv4-and-ipv6/",
+    "text": "Better QoS Support:\nIPv6 provides stronger Quality of Service, improving video, audio, and website performance.\nMobile-Friendly:\nIPv6 offers better, faster, and more secure support for mobile connections.\nSwitching From IPv4 to IPv6\n: To switch from IPv4 to IPv6, there are several strategies:\nDual Stacking\n: Devices can use both IPv4 and IPv6 at the same time. This way, they can talk to networks and devices using either version.\nTunneling\n: This method allows IPv6 users to send data through an IPv4 network to reach other IPv6 users. Think of it as creating a \"tunnel\" for IPv6 traffic through the older IPv4 system.\nNetwork Address Translation (NAT)\n: NAT helps devices using different versions of IP addresses (IPv4 and IPv6) to communicate with each other by translating the addresses so they understand each other.\nIPv4 vs IPv6\nThe following table summarizes the key differences between IPv4 and IPv6 addressing:\nIPv4\nIPv6\nUses a 32-bit IP address.\nUses a 128-bit IP address.",
+    "token_count": 227
+  },
+  {
+    "chunk_id": "cn_ipv4-vs-ipv6_004",
+    "domain": "cn",
+    "concept": "ipv4-vs-ipv6",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-ipv4-and-ipv6/",
+    "text": "IPv4 vs IPv6\nThe following table summarizes the key differences between IPv4 and IPv6 addressing:\nIPv4\nIPv6\nUses a 32-bit IP address.\nUses a 128-bit IP address.\nUses decimal dot-separated notation (e.g.,\n192.168.0.1\n).\nUses hexadecimal colon-separated notation (e.g.,\n2001:db8::1\n).\nProvides a limited address space of about 4.3 billion addresses.\nProvides an extremely large address space for future growth.\nSupports manual configuration and DHCP.\nSupports SLAAC, DHCPv6, and manual configuration.\nEnd-to-end connectivity is often affected due to NAT.\nEnd-to-end connectivity is restored without NAT.\nIPsec support is optional.\nIPsec support is built into the protocol design.\nFragmentation is performed by both sender and routers.\nFragmentation is performed only by the sender.\nDoes not support flow-based packet identification.\nUses a Flow Label field for packet flow identification.\nIncludes a header checksum.\nDoes not include a header checksum.\nSupports broadcast communication.",
+    "token_count": 213
+  },
+  {
+    "chunk_id": "cn_ipv4-vs-ipv6_005",
+    "domain": "cn",
+    "concept": "ipv4-vs-ipv6",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/differences-between-ipv4-and-ipv6/",
+    "text": "Uses a Flow Label field for packet flow identification.\nIncludes a header checksum.\nDoes not include a header checksum.\nSupports broadcast communication.\nUses multicast and anycast instead of broadcast.\nHeader size is variable (20–60 bytes).\nHeader size is fixed at 40 bytes.\nUses address classes (A, B, C, D, and E).\nDoes not use address classes.\nSupports Variable Length Subnet Masking (VLSM).\nUses prefix-based addressing.\nExample address:\n66.94.29.13\n.\nExample address:\n2001:db8::1\n.",
+    "token_count": 118
+  }
+]

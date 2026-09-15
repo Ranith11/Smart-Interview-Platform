@@ -1,0 +1,29 @@
+[
+  {
+    "chunk_id": "os_deadlock_001",
+    "domain": "os",
+    "concept": "deadlock",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-deadlock-in-operating-system/",
+    "text": "Deadlock is a state in an operating system where two or more processes are stuck forever because each is waiting for a resource held by another. It happens only when four conditions exist: mutual exclusion, hold and wait, no preemption, and circular wait. For example, P1 holds R1 and needs R2, while P2 holds R2 and needs R1, so both wait forever. Deadlock can be handled using prevention, avoidance (Banker’s algorithm), or detection and recovery.\nCauses of Deadlock in Operating System\nA process in an operating system typically uses resources in the following sequence:\nRequest a resource\nUse the resource\nRelease the resource\nDeadlock arises when processes hold some resources while waiting for others.\nExamples of Deadlock\nThere are several examples of deadlock. Some of them are mentioned below.\n1.\nThe system has 2 tape drives. P0 and P1 each hold one tape drive and each needs another one.\n2.\nSemaphores A and B, initialized to 1, P0, and P1 are in deadlock as follows:\nP0 executes wait(A) and preempts.",
+    "token_count": 230
+  },
+  {
+    "chunk_id": "os_deadlock_002",
+    "domain": "os",
+    "concept": "deadlock",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-deadlock-in-operating-system/",
+    "text": "2.\nSemaphores A and B, initialized to 1, P0, and P1 are in deadlock as follows:\nP0 executes wait(A) and preempts.\nP1 executes wait(B).\nNow P0 and P1 enter in deadlock.\nP0 Action\nP1 Action\nwait(A)\nwait(B)\nwait(B)\nwait(A)\n3.\nAssume the space is available for allocation of 200K bytes, and the following sequence of events occurs.\nP0\nP1\nRequest 80KB;\nRequest 70KB;\nRequest 60KB;\nRequest 80KB;\nDeadlock occurs if both processes progress to their second request.\nNecessary Conditions for Deadlock in OS\nDeadlock can arise if the following four conditions hold simultaneously (Necessary Conditions)\nMutual Exclusion:\nOnly one process can use a resource at any given time i.e. the resources are non-sharable.\nHold and Wait:\nA process is holding at least one resource at a time and is waiting to acquire other resources held by some other process.\nNo Preemption:\nA resource cannot be taken from a process unless the process releases the resource.\nCircular Wait:",
+    "token_count": 237
+  },
+  {
+    "chunk_id": "os_deadlock_003",
+    "domain": "os",
+    "concept": "deadlock",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/introduction-of-deadlock-in-operating-system/",
+    "text": "No Preemption:\nA resource cannot be taken from a process unless the process releases the resource.\nCircular Wait:\nset of processes are waiting for each other in a circular fashion. For example, imagine four processes\nP1\n,\nP2\n,\nP3\n, and\nP4\nand four resources\nR1\n,\nR2\n,\nR3\n, and\nR4\n.\nThe above image demonstrates a circular wait deadlock, here's how:\nP1\nis holding\nR1\nand waiting for\nR2\n(which is held by P2).\nP2\nis holding\nR2\nand waiting for\nR3\n(which is held by P3).\nP3\nis holding\nR3\nand waiting for\nR4\n(which is held by P4).\nP4\nis holding\nR4\nand waiting for\nR1\n(which is held by P1).",
+    "token_count": 186
+  }
+]

@@ -1,0 +1,105 @@
+Created At: 2026-09-16T01:55:01+05:30
+Completed At: 2026-09-16T01:55:03+05:30
+
+				The command exited with code 0.
+				Output:
+				=== JD ===
+STRATAFLOW INTELLIGENCE INC. � REQUISITION FILE
+Senior Backend & AI Systems Engineer
+Core Platform & Applied Machine Learning Engineering
+Requisition: REQ-2026-ENG-0842
+Effective: FY2026-Q3
+Status: Active Sourcing
+EMPLOYMENT
+Full-Time | Exempt
+WORK MODEL
+Hybrid (SF) / Remote (NA)
+TARGET COMPENSATION
+$170k � $205k + Equity
+SENIORITY LEVEL
+Senior (Level IC5)
+1. ROLE OVERVIEW
+StrataFlow Intelligence is engineering next-generation autonomous workflow orchestration systems. We are seeking
+a Senior Backend & AI Systems Engineer to architect, scale, and maintain high-concurrency cloud microservices
+integrated with production-grade generative AI and low-latency inference pipelines.
+In this role, you will bridge the gap between traditional distributed systems infrastructure (event-driven microservices,
+high-throughput caching, partitioned databases) and modern LLM application layers (Retrieval-Augmented
+Generation, vector indexes, token optimization, and semantic caching).
+2. KEY RESPONSIBILITIES
+Distributed Backend & Microservices Architecture
+Design, implement, and maintain low-latency REST and gRPC microservices in Go (Golang) and Python (FastAPI).
+Build resilient event streaming pipelines utilizing Apache Kafka or AWS SQS/SNS for asynchronous document parsing
+and ingestion.
+Maintain high operational system availability (99.95%+ uptime) under sustained workloads exceeding 10,000 requests
+per second (RPS).
+AI & LLM Systems Integration
+Architect enterprise RAG pipelines combining embedding models, vector stores (pgvector, Pinecone, or Qdrant), and
+semantic rerankers.
+Implement strict model guardrails, semantic caching via Redis, JSON schema enforcement, and intelligent fallback
+policies for frontier LLM APIs (OpenAI, Anthropic, open-weights models via vLLM).
+Profile and optimize end-to-end token latency, context window allocations, and p99 inference response times across
+multi-step agentic workflows.
+Cloud Infrastructure & Technical Leadership
+Optimize relational databases (PostgreSQL) through schema migrations, query profiling, and connection pooling.
+Author reusable Terraform modules and Helm charts to provision and operate containerized services on Kubernetes
+(EKS).
+Lead technical RFC architectural design reviews, participate in on-call rotations, and mentor junior and mid-level
+software engineers.
+StrataFlow Intelligence Inc. � Proprietary Job Specification
+Page 1 of 2
+
+--- PAGE ---
+3. REQUIRED QUALIFICATIONS
+Professional Experience: 5+ years of software engineering experience designing, deploying, and supporting scalable,
+production-grade distributed backend systems.
+Language Proficiency: Strong production competency in Go (Golang) and/or Python, demonstrating deep familiarity
+with concurrency patterns (goroutines, channels, asyncio), memory management, and asynchronous I/O.
+Applied AI / LLM Engineering: Minimum 1.5+ years of practical experience deploying LLM-backed applications into
+customer-facing environments (RAG architectures, vector search indexing, context window optimization).
+Database & Data Systems: Solid expertise with relational database internals (PostgreSQL query plans, composite
+indexes) and in-memory caches/key-value stores (Redis).
+Cloud & DevOps: Direct experience deploying microservices on AWS or GCP, containerization via Docker,
+orchestration with Kubernetes, and automated CI/CD via GitHub Actions.
+Academic Background: Bachelor�s or Master�s degree in Computer Science, Software Engineering, or equivalent
+practical industry experience.
+4. PREFERRED QUALIFICATIONS
+Experience hosting and serving open-weights foundation models (Llama, Mistral) with high-throughput engines like
+vLLM or Triton Inference Server.
+Hands-on background with LLM observability, telemetry, and evaluation frameworks (e.g., Langfuse, Arize Phoenix,
+DeepEval, or OpenTelemetry).
+Prior experience operating in high-security, compliance-bound environments (SOC 2 Type II, HIPAA, or ISO 27001).
+Experience developing custom Kubernetes operators, advanced service mesh tooling (Istio), or multi-region data
+replication.
+5. CANDIDATE EVALUATION RUBRIC
+Assessment scoring dimensions utilized during technical screening, architectural deep-dive interviews, and evaluation
+pipelines:
+Evaluation Dimension
+Focus Areas & Key Signals
+Weight
+Backend & Concurrency
+Golang/Python idioms, goroutine lifecycle, thread safety, rate-limiting,
+gRPC/REST APIs, memory allocation.
+30%
+AI Systems Engineering
+RAG pipeline construction, vector indexing strategies, context
+management, semantic caching, token optimization.
+25%
+Data & Infrastructure
+PostgreSQL index tuning, Redis caching tiers, Docker/Kubernetes
+deployments, Terraform IaC, automated CI/CD.
+20%
+System Design & Scale
+Microservice partitioning, Kafka event streams, fault-tolerance,
+graceful degradation, 99.95%+ SLA targets.
+15%
+Leadership & Delivery
+RFC authorship, code review quality, mentorship aptitude, operational
+diligence, incident post-mortem analysis.
+10%
+Hiring Process Note: Selected candidates will undergo a 30-minute introductory call, a 60-minute systems design
+architecture review, a 60-minute practical coding session (Go or Python), and a final behavioral & team alignment
+discussion.
+StrataFlow Intelligence Inc. � Proprietary Job Specification
+Page 2 of 2
+
+

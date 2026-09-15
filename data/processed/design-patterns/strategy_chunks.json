@@ -1,0 +1,317 @@
+[
+  {
+    "chunk_id": "design-patterns_strategy_001",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "The Strategy Design Pattern is a\nbehavioral pattern\nthat defines a group of related algorithms, encapsulates each one in a separate class, and makes them interchangeable. It allows the algorithm to vary independently from the client that uses it, enabling behavior changes at runtime without altering existing code.\nEncapsulates different algorithms into separate strategy classes, allowing dynamic selection or switching at runtime.\nPromotes flexibility by reducing complex conditional logic and making code easier to maintain.\nExample:\nA payment system where a user (client) selects a payment method, and the system (context) applies a strategy like Credit Card, UPI, or PayPal to process the payment.\nStrategy Design Pattern\nIn the Diagram\nThe Client interacts with the Context and decides which strategy to use.\nThe Context does not implement the algorithm itself but delegates the task to a selected Strategy (A, B, or C).",
+    "token_count": 174
+  },
+  {
+    "chunk_id": "design-patterns_strategy_002",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "In the Diagram\nThe Client interacts with the Context and decides which strategy to use.\nThe Context does not implement the algorithm itself but delegates the task to a selected Strategy (A, B, or C).\nDifferent strategies can be switched easily without changing the client or context, ensuring flexibility.\nReal-Life Software Applications\nSome real-world examples where the Strategy Pattern is commonly used are:\nMultiple Payment Methods:\nE-commerce platforms use different payment strategies (Credit Card, PayPal, UPI, etc.), each with its own processing logic. The system selects the appropriate strategy at runtime based on user choice.\nFile Compression Tools:\nApplications provide multiple compression options (ZIP, GZIP, TAR), allowing users to choose the desired compression strategy dynamically.\nComponents\nThe Strategy Design Pattern consists of key components that work together to define and use interchangeable algorithms.\nComponents\n1. Context",
+    "token_count": 169
+  },
+  {
+    "chunk_id": "design-patterns_strategy_003",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Components\nThe Strategy Design Pattern consists of key components that work together to define and use interchangeable algorithms.\nComponents\n1. Context\nActs as an intermediary between the client and the strategy, delegating tasks to the selected strategy.\nHolds a reference to a strategy object and uses it to perform operations.\nAllows switching strategies without changing its own code.\n2. Strategy Interface\nDefines a common interface that all concrete strategies must implement.\nEnsures consistency so all strategies are interchangeable.\nPromotes flexibility by decoupling context from implementations.\n3. Concrete Strategies\nProvide specific implementations of the strategy interface with different algorithms or behaviors.\nEncapsulate the actual logic of each algorithm.\nCan be selected and replaced based on requirements.\n4. Client\nResponsible for selecting and configuring the appropriate strategy for the context.\nDecides which strategy to use based on the problem.",
+    "token_count": 170
+  },
+  {
+    "chunk_id": "design-patterns_strategy_004",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Can be selected and replaced based on requirements.\n4. Client\nResponsible for selecting and configuring the appropriate strategy for the context.\nDecides which strategy to use based on the problem.\nPasses the chosen strategy to the context for execution.\nWorking\nThe Strategy pattern works by delegating a specific task to interchangeable algorithm classes.\nA Strategy interface defines a common method for all algorithms.\nConcrete strategy classes implement this interface with different behaviors.\nThe context class holds a reference to a strategy object.\nAt runtime, the client selects or changes the strategy, and the context uses it to perform the task.\nUses\nThe Strategy pattern is used when an application needs to choose different behaviors or algorithms dynamically based on context.\nSelecting different algorithms at runtime (e.g., payment methods, sorting strategies)\nEliminating large conditional statements (if-else or switch cases)\nMaking behavior easily extendable without modifying existing code",
+    "token_count": 178
+  },
+  {
+    "chunk_id": "design-patterns_strategy_005",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Eliminating large conditional statements (if-else or switch cases)\nMaking behavior easily extendable without modifying existing code\nImplementation Example\nProblem Statement\nConsider a sorting application where we need to sort a list of integers. However, the sorting algorithm to be used may vary depending on factors such as the size of the list and the desired performance characteristics.\nChallenges Without Using Strategy Pattern:\nLimited Flexibility\n: Implementing sorting algorithms directly within the main sorting class can make the code inflexible. Adding new sorting algorithms or changing existing ones would require modifying the main class, which violates the Open/Closed Principle.\nCode Duplication\n: Without a clear structure, you may end up duplicating sorting logic to handle different algorithms.\nHard-Coded Logic\n: Implementing sorting logic directly within the main sorting class can make the code rigid and difficult to extend or modify.",
+    "token_count": 172
+  },
+  {
+    "chunk_id": "design-patterns_strategy_006",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Hard-Coded Logic\n: Implementing sorting logic directly within the main sorting class can make the code rigid and difficult to extend or modify.\nBenefits of Using the Strategy Pattern to solve above challenges\nHere's how the Strategy Pattern helps:\nCode Reusability\n: By encapsulating sorting algorithms into separate strategy classes, you can reuse these strategies across different parts of the system. This reduces code duplication and promotes maintainability.\nFlexibility and Extensibility\n: The Strategy Pattern makes it simple to adapt or add new sorting algorithms without changing the existing code. Since each strategy is independent, it is possible to change or expand it without impacting other system components.\nSeparation of Concerns\n: The Strategy Pattern separates sorting logic into distinct strategy classes, which encourages a clear division of responsibilities. As a result, the code is easier to test, and maintain.\nClass Diagram",
+    "token_count": 173
+  },
+  {
+    "chunk_id": "design-patterns_strategy_007",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "public\n:\nvirtual\nvoid\nsort\n(\nint\narr\n[],\nint\nsize\n)\n=\n0\n;\n// pure virtual function\nvirtual\n\nSortingStrategy\n()\n{}\n// virtual destructor\n};\n// Context Class\nclass\nSortingContext\n\nprivate\n:\nSortingStrategy\n*\nsortingStrategy\n;\npublic\n:\n// Constructor\nSortingContext\n(\nSortingStrategy\n*\nstrategy\n)\n\nthis\n->\nsortingStrategy\n=\nstrategy\n;\n\n// Setter to change strategy\nvoid\nsetSortingStrategy\n(\nSortingStrategy\n*\nstrategy\n)\n\nthis\n->\nsortingStrategy\n=\nstrategy\n;\n\n// Perform sort\nvoid\nperformSort\n(\nint\narr\n[],\nint\nsize\n)\n\nif\n(\nsortingStrategy\n)\nsortingStrategy\n->\nsort\n(\narr\n,\nsize\n);\n\n};\nJava\nimport\njava.util.Arrays\n;\n// Strategy Interface (Abstract Class)\ninterface\nSortingStrategy\n\nvoid\nsort\n(\nString\n[]\narr\n,\nint\nsize\n);\n// pure virtual function\n\n// Context Class\nclass\nSortingContext\n\nprivate\nSortingStrategy\nsortingStrategy\n;\n// Constructor\npublic\nSortingContext\n(\nSortingStrategy\nstrategy\n)\n\nthis\n.\nsortingStrategy\n=\nstrategy\n;\n\n// Setter to change strategy\npublic\nvoid\nsetSortingStrategy\n(\nSortingStrategy\nstrategy\n)",
+    "token_count": 265
+  },
+  {
+    "chunk_id": "design-patterns_strategy_008",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "this\n.\nsortingStrategy\n=\nstrategy\n;\n\n// Setter to change strategy\npublic\nvoid\nsetSortingStrategy\n(\nSortingStrategy\nstrategy\n)\n\nthis\n.\nsortingStrategy\n=\nstrategy\n;\n\n// Perform sort\npublic\nvoid\nperformSort\n(\nString\n[]\narr\n,\nint\nsize\n)\n\nif\n(\nsortingStrategy\n!=\nnull\n)\nsortingStrategy\n.\nsort\n(\narr\n,\nsize\n);\n\n// Example concrete strategy\nclass\nAlphabeticalSort\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nString\n[]\narr\n,\nint\nsize\n)\n\nArrays\n.\nsort\n(\narr\n);\n\nPython\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nSortingStrategy\n(\nABC\n):\n@abstractmethod\ndef\nsort\n(\nself\n,\narray\n):\npass\nclass\nSortingContext\n:\ndef\n__init__\n(\nself\n,\nsorting_strategy\n):\nself\n.\nsorting_strategy\n=\nsorting_strategy\ndef\nset_sorting_strategy\n(\nself\n,\nsorting_strategy\n):\nself\n.\nsorting_strategy\n=\nsorting_strategy\ndef\nperform_sort\n(\nself\n,\narray\n):\nself\n.\nsorting_strategy\n.\nsort\n(\narray\n)\nJavaScript\nclass\nSortingStrategy\n\nsort\n(\narray\n)\n\nthrow\nnew\nError\n(\n'sort method must be implemented'\n);\n\nclass\nSortingContext",
+    "token_count": 283
+  },
+  {
+    "chunk_id": "design-patterns_strategy_009",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "sort\n(\narray\n)\n\nthrow\nnew\nError\n(\n'sort method must be implemented'\n);\n\nclass\nSortingContext\n\nconstructor\n(\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;\n\nsetSortingStrategy\n(\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;\n\nperformSort\n(\narray\n)\n\nthis\n.\nsortingStrategy\n.\nsort\n(\narray\n);\n\n2. Strategy Interface(SortingStrategy)\nC++\npublic\ninterface\nSortingStrategy\n\nvoid\nsort\n(\nint\n[]\narray\n);\n\nJava\npublic\ninterface\nSortingStrategy\n\nvoid\nsort\n(\nint\n[]\narray\n);\n// Implement sorting logic here\n\nPython\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nSortingStrategy\n(\nABC\n):\n@abstractmethod\ndef\nsort\n(\nself\n,\narray\n):\npass\n# Implement sorting logic here\ndef\nsort\n(\nself\n,\narray\n):\narray\n.\nsort\n()\nJavaScript\nconst\nSortingStrategy\n=\n\nsort\n:\nfunction\n(\narray\n)\n\n// Implement sorting logic here\narray\n.\nsort\n();",
+    "token_count": 228
+  },
+  {
+    "chunk_id": "design-patterns_strategy_010",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "sort\n:\nfunction\n(\narray\n)\n\n// Implement sorting logic here\narray\n.\nsort\n();\n\n};\n3. Concrete Strategies\nC++\n#include\n<iostream>\nusing\nnamespace\nstd\n;\n// Assuming SortingStrategy is already defined as an abstract class\n// BubbleSortStrategy\nclass\nBubbleSortStrategy\n:\npublic\nSortingStrategy\n\npublic\n:\nvoid\nsort\n(\nint\narr\n[],\nint\nsize\n)\noverride\n\n// Implement Bubble Sort algorithm\ncout\n<<\n\"Sorting using Bubble Sort\"\n<<\nendl\n;\n\n};\n// MergeSortStrategy\nclass\nMergeSortStrategy\n:\npublic\nSortingStrategy\n\npublic\n:\nvoid\nsort\n(\nint\narr\n[],\nint\nsize\n)\noverride\n\n// Implement Merge Sort algorithm\ncout\n<<\n\"Sorting using Merge Sort\"\n<<\nendl\n;\n\n};\n// QuickSortStrategy\nclass\nQuickSortStrategy\n:\npublic\nSortingStrategy\n\npublic\n:\nvoid\nsort\n(\nint\narr\n[],\nint\nsize\n)\noverride\n\n// Implement Quick Sort algorithm\ncout\n<<\n\"Sorting using Quick Sort\"\n<<\nendl\n;\n\n};\nJava\n// BubbleSortStrategy\npublic\nclass\nBubbleSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)",
+    "token_count": 264
+  },
+  {
+    "chunk_id": "design-patterns_strategy_011",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "};\nJava\n// BubbleSortStrategy\npublic\nclass\nBubbleSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Bubble Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Bubble Sort\"\n);\n\n// MergeSortStrategy\npublic\nclass\nMergeSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Merge Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Merge Sort\"\n);\n\n// QuickSortStrategy\npublic\nclass\nQuickSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Quick Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Quick Sort\"\n);",
+    "token_count": 168
+  },
+  {
+    "chunk_id": "design-patterns_strategy_012",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Quick Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Quick Sort\"\n);\n\nPython\nclass\nBubbleSortStrategy\n:\ndef\nsort\n(\nself\n,\narray\n):\n# Implement Bubble Sort algorithm\nprint\n(\n\"Sorting using Bubble Sort\"\n)\nclass\nMergeSortStrategy\n:\ndef\nsort\n(\nself\n,\narray\n):\n# Implement Merge Sort algorithm\nprint\n(\n\"Sorting using Merge Sort\"\n)\nclass\nQuickSortStrategy\n:\ndef\nsort\n(\nself\n,\narray\n):\n# Implement Quick Sort algorithm\nprint\n(\n\"Sorting using Quick Sort\"\n)\nJavaScript\nclass\nBubbleSortStrategy\n\nsort\n(\narray\n)\n\n// Implement Bubble Sort algorithm\nconsole\n.\nlog\n(\n\"Sorting using Bubble Sort\"\n);\n\nclass\nMergeSortStrategy\n\nsort\n(\narray\n)\n\n// Implement Merge Sort algorithm\nconsole\n.\nlog\n(\n\"Sorting using Merge Sort\"\n);\n\nclass\nQuickSortStrategy\n\nsort\n(\narray\n)\n\n// Implement Quick Sort algorithm\nconsole\n.\nlog\n(\n\"Sorting using Quick Sort\"\n);\n\n4. Client Component\nC++\n#include\n<iostream>\nusing\nnamespace\nstd\n;\nint\nmain\n()",
+    "token_count": 259
+  },
+  {
+    "chunk_id": "design-patterns_strategy_013",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "sort\n(\narray\n)\n\n// Implement Quick Sort algorithm\nconsole\n.\nlog\n(\n\"Sorting using Quick Sort\"\n);\n\n4. Client Component\nC++\n#include\n<iostream>\nusing\nnamespace\nstd\n;\nint\nmain\n()\n\n// Create strategies\nSortingStrategy\n*\nbubble\n=\nnew\nBubbleSortStrategy\n();\nSortingStrategy\n*\nmerge\n=\nnew\nMergeSortStrategy\n();\nSortingStrategy\n*\nquick\n=\nnew\nQuickSortStrategy\n();\n// Create SortingContext with BubbleSortStrategy\nSortingContext\nsortingContext\n(\nbubble\n);\nint\narray1\n[]\n=\n\n5\n,\n2\n,\n9\n,\n1\n,\n5\n};\nsortingContext\n.\nperformSort\n(\narray1\n,\n5\n);\n// Output: Sorting using Bubble Sort\n// Change strategy to MergeSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nmerge\n);\nint\narray2\n[]\n=\n\n8\n,\n3\n,\n7\n,\n4\n,\n2\n};\nsortingContext\n.\nperformSort\n(\narray2\n,\n5\n);\n// Output: Sorting using Merge Sort\n// Change strategy to QuickSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nquick\n);\nint\narray3\n[]\n=",
+    "token_count": 250
+  },
+  {
+    "chunk_id": "design-patterns_strategy_014",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "6\n,\n1\n,\n3\n,\n9\n,\n5\n};\nsortingContext\n.\nperformSort\n(\narray3\n,\n5\n);\n// Output: Sorting using Quick Sort\n// Cleanup (important in C++)\ndelete\nbubble\n;\ndelete\nmerge\n;\ndelete\nquick\n;\nreturn\n0\n;\n\nJava\npublic\ninterface\nSortingStrategy\n\nvoid\nsort\n(\nString\n[]\narray\n);\n\nclass\nBubbleSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nString\n[]\narray\n)\n\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Bubble Sort\"\n);\n// Bubble sort implementation\n\nclass\nMergeSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nString\n[]\narray\n)\n\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Merge Sort\"\n);\n// Merge sort implementation\n\nclass\nQuickSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nString\n[]\narray\n)\n\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Quick Sort\"\n);\n// Quick sort implementation\n\nclass\nSortingContext\n\nprivate\nSortingStrategy\nstrategy\n;\npublic\nSortingContext\n(\nSortingStrategy\nstrategy\n)\n\nthis\n.\nstrategy\n=\nstrategy\n;\n\npublic\nvoid\nperformSort\n(\nString\n[]\narray\n)",
+    "token_count": 274
+  },
+  {
+    "chunk_id": "design-patterns_strategy_015",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "class\nSortingContext\n\nprivate\nSortingStrategy\nstrategy\n;\npublic\nSortingContext\n(\nSortingStrategy\nstrategy\n)\n\nthis\n.\nstrategy\n=\nstrategy\n;\n\npublic\nvoid\nperformSort\n(\nString\n[]\narray\n)\n\nstrategy\n.\nsort\n(\narray\n);\n\npublic\nvoid\nsetSortingStrategy\n(\nSortingStrategy\nstrategy\n)\n\nthis\n.\nstrategy\n=\nstrategy\n;\n\npublic\nclass\nClient\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\n// Create SortingContext with BubbleSortStrategy\nSortingContext\nsortingContext\n=\nnew\nSortingContext\n(\nnew\nBubbleSortStrategy\n());\nString\n[]\narray1\n=\n\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n};\nsortingContext\n.\nperformSort\n(\narray1\n);\n// Output: Sorting using Bubble Sort\n// Change strategy to MergeSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nMergeSortStrategy\n());\nString\n[]\narray2\n=",
+    "token_count": 302
+  },
+  {
+    "chunk_id": "design-patterns_strategy_016",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n};\nsortingContext\n.\nperformSort\n(\narray2\n);\n// Output: Sorting using Merge Sort\n// Change strategy to QuickSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy\n());\nString\n[]\narray3\n=\n\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n};\nsortingContext\n.\nperformSort\n(\narray3\n);\n// Output: Sorting using Quick Sort",
+    "token_count": 296
+  },
+  {
+    "chunk_id": "design-patterns_strategy_017",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Python\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nSortingStrategy\n(\nABC\n):\n@abstractmethod\ndef\nsort\n(\nself\n,\narray\n):\npass\nclass\nBubbleSortStrategy\n(\nSortingStrategy\n):\ndef\nsort\n(\nself\n,\narray\n):\nprint\n(\n'Sorting using Bubble Sort'\n)\n# Bubble sort implementation\nclass\nMergeSortStrategy\n(\nSortingStrategy\n):\ndef\nsort\n(\nself\n,\narray\n):\nprint\n(\n'Sorting using Merge Sort'\n)\n# Merge sort implementation\nclass\nQuickSortStrategy\n(\nSortingStrategy\n):\ndef\nsort\n(\nself\n,\narray\n):\nprint\n(\n'Sorting using Quick Sort'\n)\n# Quick sort implementation\nclass\nSortingContext\n:\ndef\n__init__\n(\nself\n,\nstrategy\n):\nself\n.\nstrategy\n=\nstrategy\ndef\nperform_sort\n(\nself\n,\narray\n):\nself\n.\nstrategy\n.\nsort\n(\narray\n)\ndef\nset_sorting_strategy\n(\nself\n,\nstrategy\n):\nself\n.\nstrategy\n=\nstrategy\n# Create SortingContext with BubbleSortStrategy\nsorting_context\n=\nSortingContext\n(\nBubbleSortStrategy\n())\narray1\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,",
+    "token_count": 314
+  },
+  {
+    "chunk_id": "design-patterns_strategy_018",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "=\nSortingContext\n(\nBubbleSortStrategy\n())\narray1\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n]\nsorting_context\n.\nperform_sort\n(\narray1\n)\n# Output: Sorting using Bubble Sort\n# Change strategy to MergeSortStrategy\nsorting_context\n.\nset_sorting_strategy\n(\nMergeSortStrategy\n())\narray2\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n]\nsorting_context\n.\nperform_sort\n(\narray2\n)\n# Output: Sorting using Merge Sort\n# Change strategy to QuickSortStrategy\nsorting_context\n.\nset_sorting_strategy\n(\nQuickSortStrategy\n())\narray3\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,",
+    "token_count": 377
+  },
+  {
+    "chunk_id": "design-patterns_strategy_019",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "# Change strategy to QuickSortStrategy\nsorting_context\n.\nset_sorting_strategy\n(\nQuickSortStrategy\n())\narray3\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n]\nsorting_context\n.\nperform_sort\n(\narray3\n)\n# Output: Sorting using Quick Sort\nJavaScript\nclass\nSortingStrategy",
+    "token_count": 170
+  },
+  {
+    "chunk_id": "design-patterns_strategy_020",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "sort\n(\narray\n)\n{}\n\nclass\nBubbleSortStrategy\nextends\nSortingStrategy\n\nsort\n(\narray\n)\n\nconsole\n.\nlog\n(\n'Sorting using Bubble Sort'\n);\n// Bubble sort implementation\n\nclass\nMergeSortStrategy\nextends\nSortingStrategy\n\nsort\n(\narray\n)\n\nconsole\n.\nlog\n(\n'Sorting using Merge Sort'\n);\n// Merge sort implementation\n\nclass\nQuickSortStrategy\nextends\nSortingStrategy\n\nsort\n(\narray\n)\n\nconsole\n.\nlog\n(\n'Sorting using Quick Sort'\n);\n// Quick sort implementation\n\nclass\nSortingContext\n\nconstructor\n(\nstrategy\n)\n\nthis\n.\nstrategy\n=\nstrategy\n;\n\nperformSort\n(\narray\n)\n\nthis\n.\nstrategy\n.\nsort\n(\narray\n);\n\nsetSortingStrategy\n(\nstrategy\n)\n\nthis\n.\nstrategy\n=\nstrategy\n;",
+    "token_count": 168
+  },
+  {
+    "chunk_id": "design-patterns_strategy_021",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "// Create SortingContext with BubbleSortStrategy\nlet\nsortingContext\n=\nnew\nSortingContext\n(\nnew\nBubbleSortStrategy\n());\nlet\narray1\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray1\n);\n// Output: Sorting using Bubble Sort\n// Change strategy to MergeSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nMergeSortStrategy\n());\nlet\narray2\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray2\n);\n// Output: Sorting using Merge Sort\n// Change strategy to QuickSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy",
+    "token_count": 360
+  },
+  {
+    "chunk_id": "design-patterns_strategy_022",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray2\n);\n// Output: Sorting using Merge Sort\n// Change strategy to QuickSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy\n());\nlet\narray3\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray3\n);\n// Output: Sorting using Quick Sort\nComplete code for the above example\nC++\n#include\n<iostream>\n#include\n<vector>\nclass\nSortingStrategy",
+    "token_count": 217
+  },
+  {
+    "chunk_id": "design-patterns_strategy_023",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "public\n:\nvirtual\nvoid\nsort\n(\nstd\n::\nvector\n<\nstd\n::\nstring\n>&\narray\n)\n=\n0\n;\n};\nclass\nBubbleSortStrategy\n:\npublic\nSortingStrategy\n\npublic\n:\nvoid\nsort\n(\nstd\n::\nvector\n<\nstd\n::\nstring\n>&\narray\n)\noverride\n\nstd\n::\ncout\n<<\n\"Sorting using Bubble Sort\"\n<<\nstd\n::\nendl\n;\n// Actual Bubble Sort Logic here\n\n};\nclass\nMergeSortStrategy\n:\npublic\nSortingStrategy\n\npublic\n:\nvoid\nsort\n(\nstd\n::\nvector\n<\nstd\n::\nstring\n>&\narray\n)\noverride\n\nstd\n::\ncout\n<<\n\"Sorting using Merge Sort\"\n<<\nstd\n::\nendl\n;\n// Actual Merge Sort Logic here\n\n};\nclass\nQuickSortStrategy\n:\npublic\nSortingStrategy\n\npublic\n:\nvoid\nsort\n(\nstd\n::\nvector\n<\nstd\n::\nstring\n>&\narray\n)\noverride\n\nstd\n::\ncout\n<<\n\"Sorting using Quick Sort\"\n<<\nstd\n::\nendl\n;\n// Actual Quick Sort Logic here\n\n};\nclass\nSortingContext\n\nprivate\n:\nSortingStrategy\n*\nsortingStrategy\n;\npublic\n:\nSortingContext\n(\nSortingStrategy\n*\nsortingStrategy\n)\n:\nsortingStrategy\n(\nsortingStrategy\n)\n{}\nvoid\nsetSortingStrategy\n(\nSortingStrategy\n*\nsortingStrategy\n)\n\nthis\n->\nsortingStrategy\n=\nsortingStrategy\n;",
+    "token_count": 299
+  },
+  {
+    "chunk_id": "design-patterns_strategy_024",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "this\n->\nsortingStrategy\n=\nsortingStrategy\n;\n\nvoid\nperformSort\n(\nstd\n::\nvector\n<\nstd\n::\nstring\n>&\narray\n)\n\nsortingStrategy\n->\nsort\n(\narray\n);\n\n};\nint\nmain\n()\n\nstd\n::\nvector\n<\nstd\n::\nstring\n>\narray1\n=\n\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n};\nSortingContext\nsortingContext\n(\nnew\nBubbleSortStrategy\n());\nsortingContext\n.\nperformSort\n(\narray1\n);\n// Output: Sorting using Bubble Sort\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nMergeSortStrategy\n());\nstd\n::\nvector\n<\nstd\n::\nstring\n>\narray2\n=",
+    "token_count": 244
+  },
+  {
+    "chunk_id": "design-patterns_strategy_025",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n};\nsortingContext\n.\nperformSort\n(\narray2\n);\n// Output: Sorting using Merge Sort\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy\n());\nstd\n::\nvector\n<\nstd\n::\nstring\n>\narray3\n=\n\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n};\nsortingContext\n.\nperformSort\n(\narray3\n);\n// Output: Sorting using Quick Sort\nreturn\n0\n;\n\nJava\nclass\nSortingContext\n\nprivate\nSortingStrategy\nsortingStrategy\n;\npublic\nSortingContext\n(\nSortingStrategy\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;",
+    "token_count": 343
+  },
+  {
+    "chunk_id": "design-patterns_strategy_026",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Java\nclass\nSortingContext\n\nprivate\nSortingStrategy\nsortingStrategy\n;\npublic\nSortingContext\n(\nSortingStrategy\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;\n\npublic\nvoid\nsetSortingStrategy\n(\nSortingStrategy\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;\n\npublic\nvoid\nperformSort\n(\nint\n[]\narray\n)\n\nsortingStrategy\n.\nsort\n(\narray\n);\n\n// SortingStrategy.java\ninterface\nSortingStrategy\n\nvoid\nsort\n(\nint\n[]\narray\n);\n\n// BubbleSortStrategy.java\nclass\nBubbleSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Bubble Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Bubble Sort\"\n);\n// Actual Bubble Sort Logic here\n\n// MergeSortStrategy.java\nclass\nMergeSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Merge Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Merge Sort\"\n);\n// Actual Merge Sort Logic here\n\n// QuickSortStrategy.java\nclass\nQuickSortStrategy\nimplements\nSortingStrategy",
+    "token_count": 250
+  },
+  {
+    "chunk_id": "design-patterns_strategy_027",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "// Implement Merge Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Merge Sort\"\n);\n// Actual Merge Sort Logic here\n\n// QuickSortStrategy.java\nclass\nQuickSortStrategy\nimplements\nSortingStrategy\n\n@Override\npublic\nvoid\nsort\n(\nint\n[]\narray\n)\n\n// Implement Quick Sort algorithm\nSystem\n.\nout\n.\nprintln\n(\n\"Sorting using Quick Sort\"\n);\n// Actual Quick Sort Logic here\n\n// Client.java\npublic\nclass\nClient\n\npublic\nstatic\nvoid\nmain\n(\nString\n[]\nargs\n)\n\n// Create SortingContext with BubbleSortStrategy\nSortingContext\nsortingContext\n=\nnew\nSortingContext\n(\nnew\nBubbleSortStrategy\n());\nint\n[]\narray1\n=\n\n5\n,\n2\n,\n9\n,\n1\n,\n5\n};\nsortingContext\n.\nperformSort\n(\narray1\n);\n// Output: Sorting using Bubble Sort\n// Change strategy to MergeSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nMergeSortStrategy\n());\nint\n[]\narray2\n=",
+    "token_count": 217
+  },
+  {
+    "chunk_id": "design-patterns_strategy_028",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "8\n,\n3\n,\n7\n,\n4\n,\n2\n};\nsortingContext\n.\nperformSort\n(\narray2\n);\n// Output: Sorting using Merge Sort\n// Change strategy to QuickSortStrategy\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy\n());\nint\n[]\narray3\n=\n\n6\n,\n1\n,\n3\n,\n9\n,\n5\n};\nsortingContext\n.\nperformSort\n(\narray3\n);\n// Output: Sorting using Quick Sort",
+    "token_count": 100
+  },
+  {
+    "chunk_id": "design-patterns_strategy_029",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Python\nfrom\nabc\nimport\nABC\n,\nabstractmethod\nclass\nSortingStrategy\n(\nABC\n):\n@abstractmethod\ndef\nsort\n(\nself\n,\narray\n):\npass\nclass\nBubbleSortStrategy\n(\nSortingStrategy\n):\ndef\nsort\n(\nself\n,\narray\n):\nprint\n(\n'Sorting using Bubble Sort'\n)\n# Actual Bubble Sort Logic here\nclass\nMergeSortStrategy\n(\nSortingStrategy\n):\ndef\nsort\n(\nself\n,\narray\n):\nprint\n(\n'Sorting using Merge Sort'\n)\n# Actual Merge Sort Logic here\nclass\nQuickSortStrategy\n(\nSortingStrategy\n):\ndef\nsort\n(\nself\n,\narray\n):\nprint\n(\n'Sorting using Quick Sort'\n)\n# Actual Quick Sort Logic here\nclass\nSortingContext\n:\ndef\n__init__\n(\nself\n,\nsorting_strategy\n):\nself\n.\nsorting_strategy\n=\nsorting_strategy\ndef\nset_sorting_strategy\n(\nself\n,\nsorting_strategy\n):\nself\n.\nsorting_strategy\n=\nsorting_strategy\ndef\nperform_sort\n(\nself\n,\narray\n):\nself\n.\nsorting_strategy\n.\nsort\n(\narray\n)\n# Client\narray1\n=\n[\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,",
+    "token_count": 318
+  },
+  {
+    "chunk_id": "design-patterns_strategy_030",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "array\n)\n# Client\narray1\n=\n[\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n]\nsorting_context\n=\nSortingContext\n(\nBubbleSortStrategy\n())\nsorting_context\n.\nperform_sort\n(\narray1\n)\n# Output: Sorting using Bubble Sort\nsorting_context\n.\nset_sorting_strategy\n(\nMergeSortStrategy\n())\narray2\n=\n[\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n]\nsorting_context\n.\nperform_sort\n(\narray2\n)\n# Output: Sorting using Merge Sort\nsorting_context\n.\nset_sorting_strategy\n(\nQuickSortStrategy\n())\narray3\n=\n[\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,",
+    "token_count": 383
+  },
+  {
+    "chunk_id": "design-patterns_strategy_031",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "sorting_context\n.\nset_sorting_strategy\n(\nQuickSortStrategy\n())\narray3\n=\n[\n\"cpp\"\n,\n\"c\"\n,\n\"java\"\n,\n\"python3\"\n,\n\"csharp\"\n,\n\"html\"\n,\n\"css\"\n,\n\"javascript\"\n,\n\"php\"\n,\n\"cpp14\"\n,\n\"cobol\"\n,\n\"dart\"\n,\n\"go\"\n,\n\"julia\"\n,\n\"kotlin\"\n,\n\"lisp\"\n,\n\"matlab\"\n,\n\"node\"\n,\n\"objc\"\n,\n\"perl\"\n,\n\"r\"\n,\n\"rust\"\n,\n\"ruby\"\n,\n\"scala\"\n,\n\"swift\"\n,\n\"solidity\"\n,\n\"xml\"\n]\nsorting_context\n.\nperform_sort\n(\narray3\n)\n# Output: Sorting using Quick Sort\nJavaScript\nclass\nSortingContext",
+    "token_count": 159
+  },
+  {
+    "chunk_id": "design-patterns_strategy_032",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "constructor\n(\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;\n\nsetSortingStrategy\n(\nsortingStrategy\n)\n\nthis\n.\nsortingStrategy\n=\nsortingStrategy\n;\n\nperformSort\n(\narray\n)\n\nthis\n.\nsortingStrategy\n.\nsort\n(\narray\n);\n\nclass\nSortingStrategy\n\nsort\n(\narray\n)\n\nthrow\nnew\nError\n(\n'This method should be overridden!'\n);\n\nclass\nBubbleSortStrategy\nextends\nSortingStrategy\n\nsort\n(\narray\n)\n\nconsole\n.\nlog\n(\n'Sorting using Bubble Sort'\n);\n// Actual Bubble Sort Logic here\n\nclass\nMergeSortStrategy\nextends\nSortingStrategy\n\nsort\n(\narray\n)\n\nconsole\n.\nlog\n(\n'Sorting using Merge Sort'\n);\n// Actual Merge Sort Logic here\n\nclass\nQuickSortStrategy\nextends\nSortingStrategy\n\nsort\n(\narray\n)\n\nconsole\n.\nlog\n(\n'Sorting using Quick Sort'\n);\n// Actual Quick Sort Logic here",
+    "token_count": 194
+  },
+  {
+    "chunk_id": "design-patterns_strategy_033",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "// Client\nconst\nsortingContext\n=\nnew\nSortingContext\n(\nnew\nBubbleSortStrategy\n());\nconst\narray1\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray1\n);\n// Output: Sorting using Bubble Sort\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nMergeSortStrategy\n());\nconst\narray2\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray2\n);\n// Output: Sorting using Merge Sort\nsortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy\n());\nconst\narray3\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,",
+    "token_count": 385
+  },
+  {
+    "chunk_id": "design-patterns_strategy_034",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "sortingContext\n.\nsetSortingStrategy\n(\nnew\nQuickSortStrategy\n());\nconst\narray3\n=\n[\n'cpp'\n,\n'c'\n,\n'java'\n,\n'python3'\n,\n'csharp'\n,\n'html'\n,\n'css'\n,\n'javascript'\n,\n'php'\n,\n'cpp14'\n,\n'cobol'\n,\n'dart'\n,\n'go'\n,\n'julia'\n,\n'kotlin'\n,\n'lisp'\n,\n'matlab'\n,\n'node'\n,\n'objc'\n,\n'perl'\n,\n'r'\n,\n'rust'\n,\n'ruby'\n,\n'scala'\n,\n'swift'\n,\n'solidity'\n,\n'xml'\n];\nsortingContext\n.\nperformSort\n(\narray3\n);\n// Output: Sorting using Quick Sort\nOutput\nSorting using Bubble Sort\nSorting using Merge Sort\nSorting using Quick Sort\nAdvantages\nThis pattern improves flexibility and maintainability by separating behavior from the main logic.\nPromotes open/closed principle by allowing new strategies to be added easily\nMakes code cleaner and easier to maintain\nEnables runtime behavior changes without code modification\nLimitations\nWhile flexible, the pattern can introduce additional complexity in the application design.\nIncreases the number of classes and objects in the system.",
+    "token_count": 254
+  },
+  {
+    "chunk_id": "design-patterns_strategy_035",
+    "domain": "design-patterns",
+    "concept": "strategy",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/strategy-pattern-set-1/",
+    "text": "Limitations\nWhile flexible, the pattern can introduce additional complexity in the application design.\nIncreases the number of classes and objects in the system.\nClients need to understand and select the appropriate strategy implementation.\nMay cause slight performance overhead due to extra object creation and method calls.",
+    "token_count": 53
+  }
+]

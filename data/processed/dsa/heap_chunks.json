@@ -1,0 +1,29 @@
+[
+  {
+    "chunk_id": "dsa_heap_001",
+    "domain": "dsa",
+    "concept": "heap",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/heap/",
+    "text": "Introduction\n\nA heap is a specialized tree-based data structure which is a complete tree that satisfies the heap property.\nMax heap - In a max heap, the value of a node must be greatest among the node values in its entire subtree. The same property must be recursively true for all nodes in the tree.\nMin heap - In a min heap, the value of a node must be smallest among the node values in its entire subtree. The same property must be recursively true for all nodes in the tree.\nIn the context of algorithm interviews, heaps and priority queues can be treated as the same data structure. A heap is a useful data structure when it is necessary to repeatedly remove the object with the highest (or lowest) priority, or when insertions need to be interspersed with removals of the root node.\nImplementations\n\nLanguage\nAPI\nC++\nstd::priority_queue\nJava\njava.util.PriorityQueue\nPython\nheapq\nJavaScript\nN/A\nTime complexity",
+    "token_count": 196
+  },
+  {
+    "chunk_id": "dsa_heap_002",
+    "domain": "dsa",
+    "concept": "heap",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/heap/",
+    "text": "Language\nAPI\nC++\nstd::priority_queue\nJava\njava.util.PriorityQueue\nPython\nheapq\nJavaScript\nN/A\nTime complexity\n\nOperation\nBig-O\nFind max/min\nO(1)\nInsert\nO(log(n))\nRemove\nO(log(n))\nHeapify (create a heap out of given array of elements)\nO(n)\nTechniques\n\nMention of\nk\n\nIf you see a top or lowest\nk\nbeing mentioned in the question, it is usually a signal that a heap can be used to solve the problem, such as in\nTop K Frequent Elements\n.\nIf you require the top\nk\nelements use a Min Heap of size\nk\n. Iterate through each element, pushing it into the heap (for python\nheapq\n, invert the value before pushing to find the max). Whenever the heap size exceeds\nk\n, remove the minimum element, that will guarantee that you have the\nk\nlargest elements.\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nMerge K Sorted Lists\nK Closest Points to Origin\nRecommended practice questions",
+    "token_count": 232
+  },
+  {
+    "chunk_id": "dsa_heap_003",
+    "domain": "dsa",
+    "concept": "heap",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/heap/",
+    "text": "These are essential questions to practice if you're studying for this topic.\nMerge K Sorted Lists\nK Closest Points to Origin\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nTop K Frequent Elements\nFind Median from Data Stream",
+    "token_count": 61
+  }
+]

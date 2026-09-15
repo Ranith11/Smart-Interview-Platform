@@ -1,0 +1,108 @@
+Stack cheatsheet for coding interviews | Tech Interview Handbook
+Skip to main content
+We collaborated with engineers from Google and Amazon and built the best front end interview preparation platform.
+Check out GreatFrontEnd today
+!
+Tech Interview Handbook
+On this page
+Stack cheatsheet for coding interviews
+👋 Hi there, I'm Yangshun, an ex-Meta Staff Engineer, author of this handbook and Blind 75. Follow me on
+LinkedIn
+for Software Engineering advice and interview tips!
+Introduction
+​
+A stack is an abstract data type that supports the operations
+push
+(insert a new element on the top of the stack) and
+pop
+(remove and return the most recently added element, the element at the top of the stack). As an abstract data type, stacks can be implemented using arrays or singly linked lists.
+This behavior is commonly called LIFO (last in, first out). The name "stack" for this type of structure comes from the analogy to a set of physical items stacked on top of each other.
+Stacks are an important way of supporting nested or recursive function calls and is used to implement depth-first search. Depth-first search can be implemented using recursion or a manual stack.
+Learning resources
+​
+Readings
+Stacks and Overflows
+, basecs
+Videos
+Stacks
+, University of California San Diego
+Implementations
+​
+Language
+API
+C++
+std::stack
+Java
+java.util.Stack
+Python
+Simulated using
+List
+JavaScript
+Simulated using
+Array
+Time complexity
+​
+Operation
+Big-O
+Top/Peek
+O(1)
+Push
+O(1)
+Pop
+O(1)
+isEmpty
+O(1)
+Search
+O(n)
+Corner cases
+​
+Empty stack. Popping from an empty stack
+Stack with one item
+Stack with two items
+Essential questions
+​
+These are essential questions to practice if you're studying for this topic.
+Valid Parentheses
+Implement Queue using Stacks
+Recommended practice questions
+​
+These are recommended questions to practice after you have studied for the topic and have practiced the essential questions.
+Implement Stack using Queues
+Min Stack
+Asteroid Collision
+Evaluate Reverse Polish Notation
+Basic Calculator
+Basic Calculator II
+Daily Temperatures
+Trapping Rain Water
+Largest Rectangle in Histogram
+Recommended courses
+​
+AlgoMonster
+​
+AlgoMonster aims to help you ace the technical interview
+in the shortest time possible
+. By Google engineers, AlgoMonster uses a data-driven approach to teach you the most useful key question patterns and has contents to help you quickly revise basic data structures and algorithms. Best of all, AlgoMonster is not subscription-based - pay a one-time fee and get
+lifetime access
+.
+Join today for a 70% discount →
+Grokking the Coding Interview: Patterns for Coding Questions
+​
+This course on by Design Gurus expands upon the questions on the recommended practice questions but approaches the practicing from a questions pattern perspective, which is an approach I also agree with for learning and have personally used to get better at coding interviews. The course allows you to practice selected questions in Java, Python, C++, JavaScript and also provides sample solutions in those languages along with step-by-step visualizations.
+Learn and understand patterns, not memorize answers!
+Get lifetime access now →
+Master the Coding Interview: Data Structures + Algorithms
+​
+This Udemy bestseller is one of the highest-rated interview preparation course (4.6 stars, 21.5k ratings, 135k students) and packs
+19 hours
+worth of contents into it. Like Tech Interview Handbook, it goes beyond coding interviews and covers resume, non-technical interviews, negotiations. It's an all-in-one package! Note that JavaScript is being used for the coding demos.
+Check it out →
+Table of Contents
+Introduction
+Learning resources
+Implementations
+Time complexity
+Corner cases
+Essential questions
+Recommended practice questions
+Recommended courses

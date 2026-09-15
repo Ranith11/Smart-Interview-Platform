@@ -1,0 +1,181 @@
+Matrix cheatsheet for coding interviews | Tech Interview Handbook
+Skip to main content
+We collaborated with engineers from Google and Amazon and built the best front end interview preparation platform.
+Check out GreatFrontEnd today
+!
+Tech Interview Handbook
+On this page
+Matrix cheatsheet for coding interviews
+👋 Hi there, I'm Yangshun, an ex-Meta Staff Engineer, author of this handbook and Blind 75. Follow me on
+LinkedIn
+for Software Engineering advice and interview tips!
+Introduction
+​
+A matrix is a 2-dimensional array. Questions involving matrices are usually related to
+dynamic programming
+or
+graph
+traversal.
+Matrices can be used to represent graphs where each node is a cell on the matrix which has 4 neighbors (except those cells on the edge and corners). This page will focus on questions which don't use matrix as graphs. Questions which are meant to use the matrix as a graph can be found on the
+graph section
+.
+Corner cases
+​
+Empty matrix. Check that none of the arrays are 0 length
+1 x 1 matrix
+Matrix with only one row or column
+Techniques
+​
+Creating an empty N x M matrix
+​
+For questions involving traversal or dynamic programming, you almost always want to make a copy of the matrix with the same size/dimensions that is initialized to empty values to store the visited state or dynamic programming table. Be familiar with such a routine in your language of choice:
+This can be done easily in Python in one line.
+# Assumes that the matrix is non-empty
+zero_matrix
+=
+[
+[
+0
+for
+_
+in
+range
+(
+len
+(
+matrix
+[
+0
+]
+)
+)
+]
+for
+_
+in
+range
+(
+len
+(
+matrix
+)
+)
+]
+Copying a matrix in Python is:
+copied_matrix
+=
+[
+row
+[
+:
+]
+for
+row
+in
+matrix
+]
+Converting between 1D and 2D indices
+​
+An
+m x n
+matrix can be treated as a one-dimensional array with
+m * n
+elements. Given a zero-based index in that array, divide it by the number of columns to get the row and use the remainder to get the column:
+row
+=
+index
+//
+num_columns
+col
+=
+index
+%
+num_columns
+To convert a row and column back into a one-dimensional index:
+index
+=
+row
+*
+num_columns
++
+col
+This technique can be useful when applying algorithms such as binary search to a matrix.
+Transposing a matrix
+​
+The transpose of a matrix is found by interchanging its rows into columns or columns into rows.
+Many grid-based games can be modeled as a matrix, such as Tic-Tac-Toe, Sudoku, Crossword, Connect 4, Battleship, etc. It is not uncommon to be asked to verify the winning condition of the game. For games like Tic-Tac-Toe, Connect 4 and Crosswords, where verification has to be done vertically and horizontally, one trick is to write code to verify the matrix for the horizontal cells, transpose the matrix, and reuse the logic for horizontal verification to verify originally vertical cells (which are now horizontal).
+Transposing a matrix in Python is simply:
+transposed_matrix
+=
+[
+[
+matrix
+[
+i
+]
+[
+j
+]
+for
+i
+in
+range
+(
+len
+(
+matrix
+)
+)
+]
+for
+j
+in
+range
+(
+len
+(
+matrix
+[
+0
+]
+)
+)
+]
+Essential questions
+​
+These are essential questions to practice if you're studying for this topic.
+Set Matrix Zeroes
+Spiral Matrix
+Recommended practice questions
+​
+These are recommended questions to practice after you have studied for the topic and have practiced the essential questions.
+Rotate Image
+Valid Sudoku
+Recommended courses
+​
+AlgoMonster
+​
+AlgoMonster aims to help you ace the technical interview
+in the shortest time possible
+. By Google engineers, AlgoMonster uses a data-driven approach to teach you the most useful key question patterns and has contents to help you quickly revise basic data structures and algorithms. Best of all, AlgoMonster is not subscription-based - pay a one-time fee and get
+lifetime access
+.
+Join today for a 70% discount →
+Grokking the Coding Interview: Patterns for Coding Questions
+​
+This course on by Design Gurus expands upon the questions on the recommended practice questions but approaches the practicing from a questions pattern perspective, which is an approach I also agree with for learning and have personally used to get better at coding interviews. The course allows you to practice selected questions in Java, Python, C++, JavaScript and also provides sample solutions in those languages along with step-by-step visualizations.
+Learn and understand patterns, not memorize answers!
+Get lifetime access now →
+Master the Coding Interview: Data Structures + Algorithms
+​
+This Udemy bestseller is one of the highest-rated interview preparation course (4.6 stars, 21.5k ratings, 135k students) and packs
+19 hours
+worth of contents into it. Like Tech Interview Handbook, it goes beyond coding interviews and covers resume, non-technical interviews, negotiations. It's an all-in-one package! Note that JavaScript is being used for the coding demos.
+Check it out →
+Table of Contents
+Introduction
+Corner cases
+Techniques
+Essential questions
+Recommended practice questions
+Recommended courses

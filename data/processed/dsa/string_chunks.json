@@ -1,0 +1,56 @@
+[
+  {
+    "chunk_id": "dsa_string_001",
+    "domain": "dsa",
+    "concept": "string",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/string/",
+    "text": "Introduction\n\nA string is a sequence of characters. Many tips that apply to arrays also apply to strings. You're recommended to read the page on\nArrays\nbefore reading this page.\nCommon data structures for looking up strings:\nTrie/Prefix Tree\nSuffix Tree\nCommon string algorithms:\nRabin Karp\nfor efficient searching of substring using a rolling hash\nKMP\nfor efficient searching of substring\nTime complexity\n\nA string is an array of characters, so the time complexities of basic string operations will closely resemble that of array operations.\nOperation\nBig-O\nAccess\nO(1)\nSearch\nO(n)\nInsert\nO(n)\nRemove\nO(n)\nOperations involving another string\n\nHere we assume the other string is of length m.\nOperation\nBig-O\nNote\nFind substring\nO(n.m)\nThis is the most naive case. There are more efficient algorithms for string searching such as the\nKMP algorithm\nConcatenating strings\nO(n + m)\nSlice\nO(m)\nSplit (by token)\nO(n + m)\nStrip (remove leading and trailing whitespaces)\nO(n)\nThings to look out for during interviews",
+    "token_count": 232
+  },
+  {
+    "chunk_id": "dsa_string_002",
+    "domain": "dsa",
+    "concept": "string",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/string/",
+    "text": "Ask about input character set and case sensitivity. Usually the characters are limited to lowercase Latin characters, for example a to z.\nCorner cases\n\nEmpty string\nString with 1 or 2 characters\nString with repeated characters\nStrings with only distinct characters\nTechniques\n\nMany string questions fall into one of these buckets.\nCounting characters\n\nOften you will need to count the frequency of characters in a string. The most common way of doing that is by using a hash table/map in your language of choice. If your language has a built-in Counter class like Python, ask if you can use that instead.\nIf you need to keep a counter of characters, a common mistake is to say that the space complexity required for the counter is O(n). The space required for a counter of a string of latin characters is O(1) not O(n). This is because the upper bound is the range of characters, which is usually a fixed constant of 26. The input set is just lowercase Latin characters.\nString of unique characters",
+    "token_count": 206
+  },
+  {
+    "chunk_id": "dsa_string_003",
+    "domain": "dsa",
+    "concept": "string",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/string/",
+    "text": "A neat trick to count the characters in a string of unique characters is to use a 26-bit bitmask to indicate which lower case latin characters are inside the string.\nmask\n=\n0\nfor\nc\nin\nword\n:\nmask\n\n=\n(\n1\n<<\n(\nord\n(\nc\n)\n-\nord\n(\n'a'\n)\n)\n)\nTo determine if two strings have common characters, perform\n\non the two bitmasks. If the result is non-zero, ie.\nmask_a & mask_b > 0\n, then the two strings have common characters.\nAnagram",
+    "token_count": 118
+  },
+  {
+    "chunk_id": "dsa_string_004",
+    "domain": "dsa",
+    "concept": "string",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/string/",
+    "text": "on the two bitmasks. If the result is non-zero, ie.\nmask_a & mask_b > 0\n, then the two strings have common characters.\nAnagram\n\nAn anagram is word switch or word play. It is the result of rearranging the letters of a word or phrase to produce a new word or phrase, while using all the original letters only once. In interviews, usually we are only bothered with words without spaces in them.\nTo determine if two strings are anagrams, there are a few approaches:\nSorting both strings should produce the same resulting string. This takes O(n.log(n)) time and O(n) space.\nIf we map each character to a prime number and we multiply each mapped number together, anagrams should have the same multiple (prime factor decomposition). This takes O(n) time and O(1) space. Examples:\nGroup Anagram\nFrequency counting of characters will help to determine if two strings are anagrams. This also takes O(n) time and O(1) space.\nPalindrome",
+    "token_count": 210
+  },
+  {
+    "chunk_id": "dsa_string_005",
+    "domain": "dsa",
+    "concept": "string",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/string/",
+    "text": "A palindrome is a word, phrase, number, or other sequence of characters which reads the same backward as forward, such as\nmadam\nor\nracecar\n.\nHere are ways to determine if a string is a palindrome:\nReverse the string and it should be equal to itself.\nHave two pointers at the start and end of the string. Move the pointers inward till they meet. At every point in time, the characters at both pointers should match.\nThe order of characters within the string matters, so hash tables are usually not helpful.\nWhen a question is about counting the number of palindromes, a common trick is to have two pointers that move outward, away from the middle. Note that palindromes can be even or odd length. For each middle pivot position, you need to check it twice - once that includes the character and once without the character. This technique is used in\nLongest Palindromic Substring\n.\nFor substrings, you can terminate early once there is no match",
+    "token_count": 206
+  },
+  {
+    "chunk_id": "dsa_string_006",
+    "domain": "dsa",
+    "concept": "string",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/string/",
+    "text": "These are essential questions to practice if you're studying for this topic.\nValid Anagram\nValid Palindrome\nLongest Substring Without Repeating Characters\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nLongest Repeating Character Replacement\nFind All Anagrams in a String\nMinimum Window Substring\nGroup Anagrams\nLongest Palindromic Substring\nEncode and Decode Strings (LeetCode Premium)",
+    "token_count": 97
+  }
+]

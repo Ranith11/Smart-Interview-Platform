@@ -1,0 +1,38 @@
+[
+  {
+    "chunk_id": "oop_encapsulation_001",
+    "domain": "oop",
+    "concept": "encapsulation",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/encapsulation-in-cpp/",
+    "text": "Encapsulation is one of the fundamental concepts of Object-Oriented Programming (OOP) that combines data and member functions into a single class while restricting direct access to the data.\nProvides controlled access to object data through member functions.\nImproves code security, modularity, and maintainability.\nImplementing Encapsulation in C++\nA common way to implement encapsulation is by declaring data members as private and providing public getter and setter functions.\nDeclare data members as private.\nUse getter functions to read data.\nUse setter functions to modify data after validation.\nC++\n#include\n<iostream>\n#include\n<string>\nusing\nnamespace\nstd\n;\nclass\nProgrammer\n\nprivate\n:\nstring\nname\n;\npublic\n:\n// Getter\nstring\ngetName\n()\n\nreturn\nname\n;\n\n// Setter\nvoid\nsetName\n(\nstring\nnewName\n)\n\nname\n=\nnewName\n;\n\n};\nint\nmain\n()\n\nProgrammer\np\n;\np\n.\nsetName\n(\n\"Geek\"\n);\ncout\n<<\n\"Name = \"\n<<\np\n.\ngetName\n();\nreturn\n0\n;",
+    "token_count": 220
+  },
+  {
+    "chunk_id": "oop_encapsulation_002",
+    "domain": "oop",
+    "concept": "encapsulation",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/encapsulation-in-cpp/",
+    "text": "return\nname\n;\n\n// Setter\nvoid\nsetName\n(\nstring\nnewName\n)\n\nname\n=\nnewName\n;\n\n};\nint\nmain\n()\n\nProgrammer\np\n;\np\n.\nsetName\n(\n\"Geek\"\n);\ncout\n<<\n\"Name = \"\n<<\np\n.\ngetName\n();\nreturn\n0\n;\n\nOutput\nName = Geek\nExplanation:\nThe data member name is private, so it cannot be accessed directly from outside the class. Instead, the setName() function updates its value and the getName() function returns it, ensuring controlled access to the object's data.\nGetters and Setters\nGetter and setter\nfunctions provide controlled access to private data members.\nGetter returns the value of a private member.\nSetter modifies the value of a private member.\nSetter functions can validate input before updating the data.\nC++\nvoid\nsetAge\n(\nint\nage\n)\n\nif\n(\nage\n>=\n0\n)\nthis\n->\nage\n=\nage\n;",
+    "token_count": 201
+  },
+  {
+    "chunk_id": "oop_encapsulation_003",
+    "domain": "oop",
+    "concept": "encapsulation",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/encapsulation-in-cpp/",
+    "text": "Here, invalid values are rejected before updating the object's state.\nAdvantages of Encapsulation\nEncapsulation improves the design, safety, and maintainability of C++ programs.\nPrevents unauthorized access to object data.\nAllows validation before modifying data.\nHides implementation details from users of the class.\nImproves code maintainability and modularity.\nMakes classes easier to reuse.\nData Hiding vs Encapsulation\nAlthough the terms are often used together, they are not the same.\nAspect\nData Hiding\nEncapsulation\nDefinition\nRestricting direct access to data.\nWrapping data and methods into a single unit.\nPurpose\nProtect object data.\nOrganize code and provide controlled access to data.\nFocus\nSecurity of data.\nObject design and maintainability.\nAchieved Using\nAccess specifiers such as private and protected.\nClasses, methods, and access specifiers.\nRelationship\nData hiding is a part of encapsulation.\nEncapsulation often uses data hiding to protect data.\nBest Practices",
+    "token_count": 197
+  },
+  {
+    "chunk_id": "oop_encapsulation_004",
+    "domain": "oop",
+    "concept": "encapsulation",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/encapsulation-in-cpp/",
+    "text": "Classes, methods, and access specifiers.\nRelationship\nData hiding is a part of encapsulation.\nEncapsulation often uses data hiding to protect data.\nBest Practices\nFollowing good encapsulation practices makes classes more reliable and easier to maintain.\nKeep data members private whenever possible.\nExpose only the required operations through public member functions.\nValidate data inside setter functions.\nAvoid providing setters for values that should remain constant (such as IDs).\nLimitations of Encapsulation\nAlthough encapsulation is recommended in most cases, there are situations where it may not be the best choice.\nAdditional getter and setter functions may increase code size.\nFunction calls may introduce a small performance overhead in performance-critical code.\nSome applications may require direct data access for maximum flexibility.",
+    "token_count": 146
+  }
+]

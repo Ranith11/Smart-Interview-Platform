@@ -1,0 +1,111 @@
+Process vs Thread - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+OS Tutorial
+Interview Questions
+Quizzes
+Notes
+System Call
+Paging
+Virtual Memory
+Deadlock Handling
+DBMS
+Computer Network
+Digital Electronics
+TOC
+Ace GATE 2027
+Basics
+Operating System
+Types
+Kernel
+System Call
+Boot Process
+Process Management
+Process Management
+CPU Scheduling
+Process Synchronization
+Synchronization Problem Solutions
+IPC Problems
+Deadlock
+Handling Deadlocks
+Multithreading
+Memory Management
+Memory & Memory Units
+Memory Management
+Buddy System
+Overlays
+Virtual Memory
+Page Replacement Algorithms
+OS based Virtualization
+I/O Management
+File Systems
+Directory Management
+Secondary Memory
+Disk Scheduling
+Spooling vs Buffering
+Important Links
+Notes
+Interview Questions
+Courses
+GATE CS-IT & DA Courses
+DSA and System Design Course
+GATE Crash Course
+Explore
+Process vs Thread
+Last Updated :
+9 Apr, 2026
+Modern operating systems are designed to handle multiple tasks efficiently while maintaining good performance and responsiveness. These are mainly achieved through processes and threads.
+Process is the Independent program with its own memory
+Thread is small unit of a process sharing same memory
+Process
+Process
+is a program that is currently in execution within an operating system. It operates in an independent environment and is managed by the OS for proper scheduling and execution. Processes form the basis of program execution in a multitasking system. Its Properties are:
+Each process has a unique Process ID (PID) for identification.
+Every process moves through different states such as new, ready, running, waiting, and terminated.
+Processes communicate with each other using
+Inter-Process Communication (IPC) methods
+.
+Process
+Thread
+Thread
+is a smallest unit of execution within a process. It enables a program to perform multiple tasks concurrently while sharing the same memory and resources. Threads improve application performance and responsiveness in multitasking environments. Its properties are:
+Each thread has its own Thread ID (TID) for identification.
+A thread also moves through states such as new, runnable, running, waiting, and terminated.
+Threads within the same process share memory and resources, enabling faster communication.
+Context switching can occur between threads to allow multiple tasks to execute efficiently.
+Thread
+Similarities Between Threads and Processes
+Units of Execution:
+Both are execution units within an operating system and are part of process management.
+OS Scheduling & Preemption:
+Both are scheduled by the operating system for fair CPU allocation, and can be preempted for multitasking.
+Own Execution Context:
+Each has its own execution context, including program counter, CPU registers, and stack space.
+Creation During Runtime:
+Both can create child entities during their execution lifecycle.
+Communication & Resource Release:
+Both can communicate using IPC mechanisms, and upon termination, their allocated resources are released back to the operating system
+Process vs Thread
+Process
+Thread
+Program in execution
+Part of a process
+Takes more time to create & terminate
+Takes less time to create & terminate
+Context switching is slow
+Context switching is fast
+Heavyweight
+Lightweight
+Less efficient communication
+More efficient communication
+Blocking one process doesn’t affect others
+Blocking a user-level thread may block all
+Uses system calls
+Created using APIs (may not need OS call)
+Has its own PCB, stack, address space
+Shares PCB & address space, has own TCB & stack
+Does not share data
+Shares data with other threads
+Comment

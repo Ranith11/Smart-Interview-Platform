@@ -1,0 +1,20 @@
+[
+  {
+    "chunk_id": "dsa_binary_001",
+    "domain": "dsa",
+    "concept": "binary",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/binary/",
+    "text": "Introduction\n\nKnowledge of binary number system and bit manipulation is less important in coding interviews as most Software Engineers do not have to deal with bits, which is more commonly used when dealing with lower level systems and programming languages. They are still asked sometimes, so you should at least still know how to convert a number from decimal form into binary form (and vice versa) in your chosen programming language.\nCorner cases\n\nBe aware and check for overflow/underflow\nNegative numbers\nTechniques\n\nQuestions involving binary representations and bitwise operations are asked sometimes and you must be absolutely familiar with how to convert a number from decimal form into binary form (and vice versa) in your chosen programming language.\nSome helpful utility snippets:\nTechnique\nCode\nTest k\nth\nbit is set\nnum & (1 << k) != 0\nSet k\nth\nbit\nnum",
+    "token_count": 174
+  },
+  {
+    "chunk_id": "dsa_binary_002",
+    "domain": "dsa",
+    "concept": "binary",
+    "source": "tech-interview-handbook",
+    "source_url": "https://www.techinterviewhandbook.org/algorithms/binary/",
+    "text": "= (1\n<\n<\nk)\nTurn off k\nth\nbit\nnum &= ~(1 << k)\nToggle the k\nth\nbit\nnum ^= (1 << k)\nMultiply by 2\nk\nnum << k\nDivide by 2\nk\nnum >> k\nCheck if a number is a power of 2\n(num & num - 1) == 0\nor\n(num & (-num)) == num\nSwapping two variables\nnum1 ^= num2; num2 ^= num1; num1 ^= num2\nEssential questions\n\nThese are essential questions to practice if you're studying for this topic.\nSum of Two Integers\nNumber of 1 Bits\nRecommended practice questions\n\nThese are recommended questions to practice after you have studied for the topic and have practiced the essential questions.\nCounting Bits\nMissing Number\nReverse Bits\nSingle Number",
+    "token_count": 182
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "chunk_id": "ml-dl_linear-vs-logistic-regression_001",
+    "domain": "ml-dl",
+    "concept": "linear-vs-logistic-regression",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/ml-linear-regression-vs-logistic-regression/",
+    "text": "Linear Regression and Logistic Regression are two widely used supervised machine learning algorithms. Although they sound similar, they are used for completely different purposes.\nLinear Regression is used for predicting continuous numerical values.\nLogistic Regression is used for predicting categorical outputs, mostly binary classification.\nBoth techniques analyse relationships between independent variables and dependent variables, but differ in usage, output form, mathematics and evaluation metrics.\nUnderstanding Linear Regression\nLinear Regression\nis used when the output is a continuous number. The model tries to find a straight line (or a plane in higher dimensions) that best fits the data. It predicts values by calculating a weighted sum of input features. It is mainly used to estimate quantities such as price, marks, salary or temperature.\nPredicts a continuous value\nUses a straight-line relationship between input and output\nMinimizes error using methods like Least Squares",
+    "token_count": 169
+  },
+  {
+    "chunk_id": "ml-dl_linear-vs-logistic-regression_002",
+    "domain": "ml-dl",
+    "concept": "linear-vs-logistic-regression",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/ml-linear-regression-vs-logistic-regression/",
+    "text": "Predicts a continuous value\nUses a straight-line relationship between input and output\nMinimizes error using methods like Least Squares\nWorks well when data follows a linear trend\nApplications\nHouse price prediction\nSales forecasting\nTemperature prediction\nCost estimation\nAdvantages\nSimple to understand and implement\nFast training and prediction\nWorks well for problems with linear patterns\nProvides insights into feature importance through coefficient values.\nLess computational cost compared to complex ML algorithms.\nLimitations\nCannot capture nonlinear patterns, leading to poor accuracy in complex datasets.\nSensitive to outliers, which can distort predictions.\nPerforms poorly when multicollinearity exists among features.\nOverfits easily if the dataset contains many irrelevant features.\nUnderstanding Logistic Regression\nLogistic Regression",
+    "token_count": 146
+  },
+  {
+    "chunk_id": "ml-dl_linear-vs-logistic-regression_003",
+    "domain": "ml-dl",
+    "concept": "linear-vs-logistic-regression",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/ml-linear-regression-vs-logistic-regression/",
+    "text": "Performs poorly when multicollinearity exists among features.\nOverfits easily if the dataset contains many irrelevant features.\nUnderstanding Logistic Regression\nLogistic Regression\nis used when the output is categorical, usually binary (0 or 1). Instead of predicting a straight-line value, it predicts the probability of an event happening using the sigmoid function which forms a S-shaped curve graph and it converts any number into a value between 0 and 1.\nIt is used for classification tasks such as spam detection or whether a student will pass or fail.\nPredicts probability of a class\nUses a sigmoid function to squash values between 0 and 1\nGood for binary classification\nCan be extended to multi-class classification using Softmax function\nApplications\nSpam email classification\nDisease prediction\nCustomer churn prediction\nLoan approval classification\nAdvantages\nWorks well for classification problems\nEasy to interpret\nOutputs probabilities which are useful for decision-making",
+    "token_count": 186
+  },
+  {
+    "chunk_id": "ml-dl_linear-vs-logistic-regression_004",
+    "domain": "ml-dl",
+    "concept": "linear-vs-logistic-regression",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/ml-linear-regression-vs-logistic-regression/",
+    "text": "Customer churn prediction\nLoan approval classification\nAdvantages\nWorks well for classification problems\nEasy to interpret\nOutputs probabilities which are useful for decision-making\nProvides feature importance through coefficient weights.\nLimitations\nCannot efficiently solve problems requiring complex nonlinear boundaries.\nAccuracy drops with large feature interaction or noisy data.\nSensitive to imbalanced datasets; may bias majority class.\nNeeds feature scaling for better performance.\nDifference between Linear Regression and Logistic Regression\nHere we compare linear regression and logistic regression\nFeature\nLinear Regression\nLogistic Regression\nType\nSupervised regression model\nSupervised classification model\nPrediction\nContinuous numeric values\nCategorical values\nActivation Function\nNot used\nSigmoid function converts linear output to probability\nThreshold Value\nNot required\nRequired to classify output into classes\nEvaluation Metric\nRoot Mean Square Error\nPrecision, Recall, Accuracy, F1-score\nAssumption",
+    "token_count": 173
+  },
+  {
+    "chunk_id": "ml-dl_linear-vs-logistic-regression_005",
+    "domain": "ml-dl",
+    "concept": "linear-vs-logistic-regression",
+    "source": "geeksforgeeks",
+    "source_url": "https://www.geeksforgeeks.org/ml-linear-regression-vs-logistic-regression/",
+    "text": "Threshold Value\nNot required\nRequired to classify output into classes\nEvaluation Metric\nRoot Mean Square Error\nPrecision, Recall, Accuracy, F1-score\nAssumption\nDependent variable follows normal/Gaussian distribution\nDependent variable follows binomial distribution\nDependent Variable\nNumeric and continuous\nCategorical (binary or multinomial)\nWhen to Use Linear Regression\nSuitable for problems that show a linear relationship between input features and the target variable.\nBest for datasets that are simple and not overly complex.\nWorks effectively if features are not highly correlated with each other.\nPreferred in situations where model interpretability is important.\nWhen to Use Logistic Regression\nBest suited for classification tasks with discrete output values.\nWorks well for datasets where the relationship between features and outcome is monotonic.\nSuitable when output probability and interpretability are required.\nEffective when feature count is moderate and dataset is not extremely large.",
+    "token_count": 178
+  }
+]

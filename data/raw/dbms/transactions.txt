@@ -1,0 +1,145 @@
+Concurrency Control in DBMS - GeeksforGeeks
+Courses
+Tutorials
+Practice
+Jobs
+DBMS Tutorial
+Interview Questions
+Quizzes
+Acid Properties
+ER Model
+Data Warehousing
+Notes
+Indexing
+SQL
+Compiler Design
+Computer Network
+Digital Electronics
+Ace GATE 2027
+Basics of DBMS
+Introduction of DBMS
+History of DBMS
+Types of DBMS Architecture
+Difference between File System and DBMS
+ER & Relational Model
+Introduction of ER Model
+Structural Constraints of Relationships in ER Model
+Generalization, Specialization and Aggregation in ER Model
+Introduction of Relational Model and Codd Rules in DBMS
+Keys in Relational Model
+Mapping from ER Model to Relational Model
+Strategies for Schema design in DBMS
+Relational Algebra
+Introduction to Relational Algebra in DBMS
+SQL Joins (Inner, Left, Right and Full Join)
+Join Operation vs Nested Query in DBMS
+Tuple Relational Calculus (TRC) in DBMS
+Domain Relational Calculus in DBMS
+Functional Dependencies & Normalisation
+Attribute Closure in DBMS
+Armstrong's Axioms in Functional Dependency in DBMS
+Canonical Cover of Functional Dependencies in DBMS
+Normal Forms in DBMS
+The Problem of Redundancy in Database
+Lossless Join and Dependency Preserving Decomposition
+Denormalization in Databases
+Transactions & Concurrency Control
+ACID Properties in DBMS
+Types of Schedules in DBMS
+Concurrency Control in DBMS
+Graph Based Concurrency Control Protocol in DBMS
+Multiple Granularity Locking in DBMS
+Database Recovery Techniques in DBMS
+Deadlock in DBMS
+Advanced DBMS
+Indexing in Databases
+Introduction of B Tree
+Introduction of B+ Tree
+Bitmap Indexing in DBMS
+Inverted Index
+SQL Queries on Clustered and Non-Clustered Indexes
+File Organization in DBMS
+Practice Questions
+Last Minute Notes - DBMS
+DBMS Interview Questions with Answers
+Commonly asked DBMS Interview Questions | Set 2
+Database Management System - GATE CSE Previous Year Questions
+Courses
+GATE CS/IT/DA Courses
+DSA and System Design Course
+Summer SkillUp
+Explore
+Concurrency Control in DBMS
+Last Updated :
+27 Oct, 2025
+In a Database Management System (DBMS), Concurrency control is a mechanism in DBMS that allows simultaneous execution of transactions while maintaining ACID properties - Atomicity, Consistency, Isolation and Durability. It maintains the integrity, accuracy and reliability of data when multiple users or processes perform read/write operations concurrently. It helps manage issues like:
+Conflicting operations on shared data
+Inconsistent database states
+Lost or incorrect updates
+Note:
+By implementing concurrency control techniques such as locking or timestamp ordering, DBMS ensures that transactions are executed safely and independently, even when they overlap in time.
+Need of Concurrency Control
+Concurrency control is essential to:
+Concurrency Control
+Prevent conflicts between simultaneous transactions.
+Maintain data consistency and accuracy in multi-user environments.
+Avoid problems such as dirty reads, lost updates and inconsistent reads.
+Example:
+Without concurrency control:
+Two users update the same record simultaneously and one update overwrites the other.
+With concurrency control:
+The DBMS uses locks or timestamps to ensure updates occur sequentially and data remains correct.
+Concurrency Problems in DBMS
+When multiple transactions execute concurrently, several problems may occur:
+Dirty Read:
+A transaction reads uncommitted data from another transaction that may later roll back.
+Lost Update:
+Two transactions update the same data and one update overwrites the other.
+Inconsistent Read:
+A transaction reads the same data multiple times and the data changes in between reads.
+Concurrency Control Protocols
+Concurrency control protocols define rules to ensure correct and consistent execution of transactions. The main protocols are:
+Concurrency Control Protocols
+1. Lock-Based Concurrency Control:
+Uses locks to restrict access to data items during a transaction. Common types include shared locks (read) and exclusive locks (write).
+Ensures serializability and prevents conflicts.
+Example:
+Two-Phase Locking (2PL) guarantees that once a transaction releases a lock, it cannot obtain any new locks.
+2. Timestamp-Based Concurrency Control:
+Each transaction is assigned a timestamp.
+The DBMS uses these timestamps to order transactions and prevent conflicts based on their start time.
+Read more about
+Locked based concurrency control protocol
+&
+Timestamp based concurrency control protocol
+Recoverable and Cascadeless Schedules
+Concurrency control also ensures proper scheduling of transactions:
+Recoverable Schedules:
+A transaction commits only if all transactions it depends on have committed.
+Prevents inconsistencies caused by dependent transactions.
+Example:
+Strict 2PL ensures recoverability by delaying commits until all dependent transactions commit.
+Cascadeless Schedules:
+Avoids cascading rollbacks, where one failed transaction causes others to fail.
+Achieved by allowing transactions to read data only after the previous transaction commits.
+Advantages of Concurrency Control
+Reduced Waiting Time:
+Multiple transactions can proceed simultaneously, reducing idle time.
+Improved Response Time:
+Faster access and interaction with the database.
+Better Resource Utilization:
+Hardware and database resources are efficiently shared.
+Increased System Efficiency:
+Higher throughput and better overall performance.
+Disadvantages of Concurrency Control
+Overhead:
+Managing locks and timestamps adds system overhead.
+Deadlocks:
+Circular waits between transactions can halt progress.
+Reduced Concurrency:
+Locking can limit the number of simultaneous transactions.
+Complexity:
+Implementation in distributed or large systems can be difficult.
+Inconsistencies:
+Rollbacks or long waits may cause temporary data inaccuracy or staleness.
+Comment
