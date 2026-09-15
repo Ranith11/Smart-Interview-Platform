@@ -33,6 +33,14 @@ from app.services.adaptive_engine import (
 )
 from app.services.evaluation_service import evaluate_answer, EvaluationResult
 
+from app.services.syllabus_engine import (
+    initialize_syllabus_state, SyllabusState, calculate_syllabus_summary as calc_syllabus_summary
+)
+from app.services.syllabus_rag_service import (
+    create_temporary_rag, merge_temporary_to_permanent, delete_temporary_rag
+)
+from app.services.question_service import generate_syllabus_question
+
 MAX_ADAPTIVE_QUESTIONS = 30  # Safety limit for infinite loops
 
 
@@ -46,6 +54,7 @@ def create_interview_session(
     question_type: str | None,
     question_count: int | None,
     selected_skills: list[str] | None,
+    **kwargs
 ) -> dict:
     """
     Create a new ADAPTIVE interview session and generate the FIRST question only.
@@ -73,7 +82,82 @@ def create_interview_session(
         if not selected_skills:
             selected_skills = None  # Fall back to all skills
 
-    use_skills = selected_skills or skills
+    use_skills = selected_skills if selected_skills else skills
+
+    # Check mode
+    mode = kwargs.get("mode", "normal")
+    syllabus_id = kwargs.get("syllabus_id")
+    selected_topics = kwargs.get("selected_topics")
+
+    if mode == "syllabus":
+        if not syllabus_id or not selected_topics:
+            raise ValueError("Syllabus Mode requires syllabus_id and selected_topics")
+            
+        # We need the session ID first to create the temp RAG collection named temp_syllabus_<id>
+        session = InterviewSession(
+            user_id=user_id,
+            resume_id=resume_id,
+            difficulty=difficulty or "medium",
+            question_type=question_type or "mixed",
+            question_count=question_count or len(selected_topics) * 2,
+            selected_skills=use_skills,
+            status="in_progress",
+            is_adaptive=False,
+            mode="syllabus",
+            syllabus_id=syllabus_id,
+        )
+        db.add(session)
+        db.commit()
+        db.refresh(session)
+        
+        # Temporary RAG was already created during the upload-syllabus step.
+        # Do NOT recreate it here to avoid overwriting processed material.
+        
+        # Default to roughly 10 questions total if not specified
+        q_per_topic = (question_count or 10) // len(selected_topics)
+        q_per_topic = max(1, q_per_topic)
+        syllabus_state = initialize_syllabus_state(
+            selected_topics=selected_topics,
+            questions_per_topic=q_per_topic,
+            difficulty=difficulty or "medium"
+        )
+        session.syllabus_state = syllabus_state.serialize()
+        db.commit()
+        
+        # Generate first question — use syllabus_id UUID for the collection name
+        q_data = generate_syllabus_question(
+            syllabus_id=syllabus_id,
+            topic=syllabus_state.current_topic,
+            difficulty=syllabus_state.difficulty,
+            question_type=question_type or "conceptual",
+            previous_questions=[],
+        )
+        
+        question = InterviewQuestion(
+            session_id=session.id,
+            question_number=1,
+            skill=q_data["skill"],
+            question_type=q_data["question_type"],
+            difficulty=q_data["difficulty"],
+            question_text=q_data["question_text"],
+            rag_context=q_data.get("rag_context"),
+            project_context=q_data.get("project_context"),
+        )
+        db.add(question)
+        
+        syllabus_state.previous_questions.append(q_data["question_text"])
+        session.syllabus_state = syllabus_state.serialize()
+        db.commit()
+        db.refresh(session)
+        db.refresh(question)
+        
+        return {
+            "session": session,
+            "current_question": question,
+            "rag_context_full": q_data.get("rag_context_full"),
+        }
+        
+    # --- Normal Adaptive Mode Below ---
 
     # Use defaults for open-ended interviews
     difficulty = difficulty or "medium"
@@ -104,6 +188,7 @@ def create_interview_session(
         is_adaptive=True,
         adaptive_state=adaptive_state.serialize(),
         current_bloom_level=decision.bloom_level.id,
+        mode="normal"
     )
     db.add(session)
     db.commit()
@@ -257,6 +342,72 @@ def submit_and_evaluate(
     db.commit()
     db.refresh(evaluation)
 
+    # ── Step 4: Update state & generate next (Adaptive or Syllabus) ──
+    if session.mode == "syllabus":
+        state = SyllabusState.deserialize(session.syllabus_state)
+        state.record_score(question.skill, eval_result.overall_score)
+        state.advance()
+        
+        is_complete = state.is_complete
+        next_question_data = None
+        
+        if not is_complete:
+            # Generate next question for syllabus
+            q_data = generate_syllabus_question(
+                syllabus_id=session.syllabus_id,
+                topic=state.current_topic,
+                difficulty=state.difficulty,
+                question_type=session.question_type or "conceptual",
+                previous_questions=state.previous_questions,
+            )
+            next_q_number = state.questions_answered_total + 1
+            
+            if q_data["question_text"] and q_data["question_text"] != "[GENERATION FAILED]":
+                state.previous_questions.append(q_data["question_text"])
+                
+            next_question = InterviewQuestion(
+                session_id=session.id,
+                question_number=next_q_number,
+                skill=q_data["skill"],
+                question_type=q_data["question_type"],
+                difficulty=q_data["difficulty"],
+                question_text=q_data["question_text"],
+                rag_context=q_data.get("rag_context"),
+                project_context=None,
+            )
+            db.add(next_question)
+            next_question_data = next_question
+        else:
+            summary = calc_syllabus_summary(state)
+            session.status = "completed"
+            session.completed_at = datetime.now(timezone.utc)
+            session.completion_reason = "assessment_complete"
+            session.final_recommendations = summary.get("recommendations")
+            
+            # Merge and delete temporary RAG upon natural completion
+            try:
+                merge_temporary_to_permanent(session.syllabus_id)
+                delete_temporary_rag(session.syllabus_id)
+            except Exception as e:
+                print(f"[InterviewService] Warning: Syllabus completion merge error: {e}")
+            
+        session.syllabus_state = state.serialize()
+        db.commit()
+        if next_question_data:
+            db.refresh(next_question_data)
+            
+        return {
+            "evaluation": eval_result.to_dict(),
+            "next_question": next_question_data,
+            "is_complete": is_complete,
+            "questions_answered": state.questions_answered_total,
+            "questions_remaining": (len(state.selected_topics) * state.questions_per_topic) - state.questions_answered_total,
+            "current_bloom_level": None,
+            "current_difficulty": state.difficulty,
+        }
+    
+    # --- Normal Adaptive Flow ---
+    
     # ── Step 4: Update adaptive state ─────────────────────
     state = AdaptiveState.deserialize(session.adaptive_state)
     state.questions_answered += 1
@@ -396,8 +547,21 @@ def complete_interview(db: Session, user_id: int, session_id: int, completion_re
     if session.status == "completed":
         return session
 
+    # For syllabus sessions, merge and cleanup
+    if session.mode == "syllabus" and session.syllabus_id:
+        try:
+            merge_temporary_to_permanent(session.syllabus_id)
+            delete_temporary_rag(session.syllabus_id)
+
+            if session.syllabus_state:
+                state = SyllabusState.deserialize(session.syllabus_state)
+                summary = calc_syllabus_summary(state)
+                session.final_recommendations = summary.get("recommendations")
+        except Exception as e:
+            print(f"[InterviewService] Warning: Syllabus completion error: {e}")
+
     # For adaptive sessions, generate final recommendations
-    if session.is_adaptive and session.adaptive_state:
+    elif session.is_adaptive and session.adaptive_state:
         try:
             state = AdaptiveState.deserialize(session.adaptive_state)
             summary = calculate_session_summary(state)

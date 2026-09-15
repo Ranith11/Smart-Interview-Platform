@@ -9,6 +9,9 @@ class StartInterviewRequest(BaseModel):
     question_type: Optional[str] = Field(default="mixed")
     question_count: Optional[int] = Field(default=None) # Ignored for adaptive, kept for legacy
     selected_skills: Optional[List[str]] = None
+    mode: Optional[str] = Field(default="normal", pattern="^(normal|syllabus)$")
+    syllabus_id: Optional[str] = None
+    selected_topics: Optional[List[str]] = None
 
 
 # ── Evaluation (Week 9) ──────────────────────────────────
@@ -72,6 +75,9 @@ class SessionResponse(BaseModel):
     completion_reason: Optional[str] = None
     is_adaptive: Optional[bool] = None
     current_bloom_level: Optional[str] = None
+    mode: Optional[str] = None
+    syllabus_id: Optional[str] = None
+    syllabus_state: Optional[Dict[str, Any]] = None
     questions: List[QuestionResponse] = []
 
     class Config:

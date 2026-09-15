@@ -13,10 +13,13 @@ Endpoints:
 CORRECTION 1: Uses question_id (database ID) consistently in the adaptive answer endpoint.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+import os
+import uuid
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.config import SYLLABUS_UPLOAD_DIR
 from app.dependencies.auth import get_current_user
 from app.models.user import User
 from app.models.interview import InterviewSession
@@ -43,6 +46,105 @@ from app.services.interview_service import (
 router = APIRouter(prefix="/api/interviews", tags=["interviews"])
 
 
+ALLOWED_SYLLABUS_EXTENSIONS = {".pdf", ".txt", ".docx"}
+MAX_SYLLABUS_FILE_SIZE = 20 * 1024 * 1024  # 20 MB per file
+
+
+@router.post("/upload-syllabus", status_code=status.HTTP_200_OK)
+async def upload_syllabus(
+    files: list[UploadFile] = File(...),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Upload one or more syllabus / reference files (PDF or TXT).
+    Extracts content, creates a temporary RAG, detects topics,
+    and returns a unique syllabus_id + topic list for the frontend.
+    """
+    from app.services.syllabus_rag_service import (
+        create_temporary_rag_from_files,
+        extract_topics_from_chunks,
+        infer_subject_from_text,
+        extract_text_from_file,
+        chunk_text,
+    )
+
+    if not files:
+        raise HTTPException(status_code=400, detail="No files provided")
+
+    saved_paths: list[str] = []
+    all_text_sample = ""
+    filename_hints: list[str] = []
+
+    for upload in files:
+        # Validate extension
+        _, ext = os.path.splitext(upload.filename or "")
+        if ext.lower() not in ALLOWED_SYLLABUS_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported file type '{ext}'. Allowed: PDF, TXT",
+            )
+
+        # Prevent path traversal — strip any directory components
+        safe_name = os.path.basename(upload.filename or "file")
+        if not safe_name or safe_name in (".", ".."):
+            safe_name = "upload"
+
+        content = await upload.read()
+        if len(content) == 0:
+            raise HTTPException(status_code=400, detail=f"File '{safe_name}' is empty")
+        if len(content) > MAX_SYLLABUS_FILE_SIZE:
+            raise HTTPException(
+                status_code=400,
+                detail=f"File '{safe_name}' exceeds 20 MB limit",
+            )
+
+        # Save with a unique prefix to avoid collisions
+        unique_name = f"{current_user.id}_{uuid.uuid4().hex[:8]}_{safe_name}"
+        file_path = os.path.join(str(SYLLABUS_UPLOAD_DIR), unique_name)
+        with open(file_path, "wb") as f:
+            f.write(content)
+
+        saved_paths.append(file_path)
+        filename_hints.append(safe_name)
+
+    # Generate a unique temp_id for this upload session
+    temp_id = uuid.uuid4().hex
+
+    # Infer subject from combined content
+    try:
+        first_text = extract_text_from_file(saved_paths[0])
+        all_text_sample = first_text[:3000]
+        subject = infer_subject_from_text(all_text_sample, filename_hints[0])
+    except Exception:
+        subject = os.path.splitext(filename_hints[0])[0].replace("_", " ").title()
+
+    # Build temp RAG
+    try:
+        create_temporary_rag_from_files(
+            temp_id=temp_id,
+            file_paths=saved_paths,
+            subject=subject,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to process uploaded material: {e}")
+
+    # Dynamically detect topics from the chunks
+    try:
+        all_chunks: list[str] = []
+        for fp in saved_paths:
+            raw = extract_text_from_file(fp)
+            all_chunks.extend(chunk_text(raw))
+        topics = extract_topics_from_chunks(all_chunks, subject)
+    except Exception as e:
+        topics = [subject]
+
+    return {
+        "syllabus_id": temp_id,
+        "subject": subject,
+        "topics": topics,
+        "files_processed": len(saved_paths),
+    }
+
 @router.post("/start", status_code=status.HTTP_201_CREATED)
 def start_interview(
     req: StartInterviewRequest,
@@ -59,6 +161,9 @@ def start_interview(
             question_type=req.question_type,
             question_count=req.question_count,
             selected_skills=req.selected_skills,
+            mode=req.mode,
+            syllabus_id=req.syllabus_id,
+            selected_topics=req.selected_topics,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -75,7 +180,9 @@ def start_interview(
         "question_count": session.question_count,
         "selected_skills": session.selected_skills,
         "status": session.status,
-        "is_adaptive": True,
+        "is_adaptive": session.is_adaptive,
+        "mode": session.mode,
+        "syllabus_id": session.syllabus_id,
         "current_bloom_level": session.current_bloom_level,
         "current_question": {
             "id": question.id,
@@ -249,7 +356,7 @@ def answer_question(
     if not session:
         raise HTTPException(status_code=404, detail="Interview session not found")
 
-    if session.is_adaptive:
+    if session.is_adaptive or session.mode == "syllabus":
         # Adaptive flow: evaluate + generate next
         try:
             result = submit_and_evaluate(
@@ -397,6 +504,9 @@ def _build_session_response(db: Session, session: InterviewSession) -> dict:
         "completed_at": session.completed_at.isoformat() if session.completed_at else None,
         "completion_reason": session.completion_reason,
         "is_adaptive": session.is_adaptive,
+        "mode": session.mode,
+        "syllabus_id": session.syllabus_id,
+        "syllabus_state": session.syllabus_state,
         "current_bloom_level": session.current_bloom_level,
         "questions": q_responses,
     }

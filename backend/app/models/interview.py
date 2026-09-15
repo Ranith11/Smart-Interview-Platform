@@ -24,6 +24,11 @@ class InterviewSession(Base):
     final_recommendations = Column(JSON, nullable=True)     # generated at completion
     completion_reason = Column(String(50), nullable=True)   # manual, assessment_complete, max_questions_safety_limit
 
+    # Syllabus Mode fields
+    mode = Column(String(50), nullable=False, default="normal") # "normal" or "syllabus"
+    syllabus_id = Column(String(100), nullable=True)
+    syllabus_state = Column(JSON, nullable=True) # serialized SyllabusState
+
     user = relationship("User", back_populates="sessions")
     resume = relationship("Resume", back_populates="sessions")
     questions = relationship("InterviewQuestion", back_populates="session", cascade="all, delete-orphan")

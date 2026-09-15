@@ -11,3 +11,4 @@ groq
 sentence-transformers==3.4.1
 chromadb==0.6.3
 pymupdf
+python-docx==1.2.0

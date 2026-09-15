@@ -222,6 +222,83 @@ def generate_single_question(
 
     return result
 
+def generate_syllabus_question(
+    syllabus_id: str,
+    topic: str,
+    difficulty: str,
+    question_type: str,
+    previous_questions: list[str] | None = None,
+) -> dict:
+    """
+    Generate a question for Syllabus Mode grounded in the temporary RAG collection.
+    syllabus_id is the UUID string returned from the upload-syllabus endpoint.
+    """
+    _init_rag()
+    _init_groq()
+    prompts = _get_prompts()
+    previous_questions = previous_questions or []
+
+    # Get temporary ChromaDB collection keyed by syllabus_id (UUID)
+    import chromadb
+    client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+    collection_name = f"temp_syllabus_{syllabus_id}"
+    try:
+        temp_collection = client.get_collection(name=collection_name)
+    except Exception:
+        raise ValueError(f"Temporary syllabus RAG not found: {collection_name}")
+
+    # Retrieve context
+    query = f"{topic} explanation concepts examples"
+    query_embedding = _embedding_model.encode(query, convert_to_numpy=True).tolist()
+    
+    results = temp_collection.query(
+        query_embeddings=[query_embedding],
+        n_results=3,
+        include=["documents", "metadatas"]
+    )
+    
+    rag_chunks = []
+    if results and results["ids"]:
+        for i, doc in enumerate(results["documents"][0]):
+            meta = results["metadatas"][0][i] if results["metadatas"] else {}
+            rag_chunks.append({
+                "chunk_id": results["ids"][0][i],
+                "domain": meta.get("domain", ""),
+                "concept": meta.get("concept", ""),
+                "text": doc
+            })
+
+    # Use the existing prompt builder
+    system_prompt, user_prompt = build_prompt(
+        skill=topic,
+        rag_chunks=rag_chunks,
+        project_context=None,
+        difficulty=difficulty,
+        question_type=question_type,
+        previous_questions=previous_questions,
+        prompts=prompts,
+    )
+
+    # Call Groq
+    question_text = call_groq(system_prompt, user_prompt, _groq_client, _groq_model)
+
+    rag_meta = None
+    rag_context_full = None
+    if rag_chunks:
+        rag_meta = [{"chunk_id": c["chunk_id"], "domain": c["domain"], "concept": c["concept"]} for c in rag_chunks]
+        rag_context_full = [{"chunk_id": c["chunk_id"], "domain": c["domain"], "concept": c["concept"], "text": c.get("text", "")} for c in rag_chunks]
+
+    return {
+        "skill": topic,  # Map topic to skill field for compatibility
+        "question_type": question_type,
+        "difficulty": difficulty,
+        "question_text": question_text or "[GENERATION FAILED]",
+        "rag_context": rag_meta,
+        "rag_context_full": rag_context_full,
+        "project_context": None,
+        "bloom_level": None,
+        "bloom_level_number": None,
+    }
 
 # ── Batch Question Generation (Week 7 — Legacy) ─────────
 
