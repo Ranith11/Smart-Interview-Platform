@@ -2,10 +2,10 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 import uuid
 import os
-import pymupdf
+from app.config import CHROMA_DB_DIR
 
 def setup_test_kb():
-    client = chromadb.PersistentClient(path='chroma_db')
+    client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
     try:
         client.delete_collection('technical_kb')
     except:
