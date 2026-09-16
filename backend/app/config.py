@@ -30,6 +30,9 @@ GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 UPLOAD_DIR = PROJECT_ROOT / "uploads"
 UPLOAD_DIR.mkdir(exist_ok=True)
 
+SYLLABUS_UPLOAD_DIR = PROJECT_ROOT / "uploads" / "syllabi"
+SYLLABUS_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
 CHROMA_DB_DIR = str(PROJECT_ROOT / "chroma_db")
 PROMPTS_FILE = str(PROJECT_ROOT / "prompts" / "question_generation.json")
 SCRIPTS_DIR = str(PROJECT_ROOT / "scripts")

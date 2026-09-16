@@ -343,3 +343,127 @@ def generate_questions(
             time.sleep(1)
 
     return generated
+
+
+# ── Syllabus Question Generation (Shared Adaptive Engine) ─
+
+def generate_syllabus_question(
+    topic: str,
+    difficulty: str,
+    question_type: str,
+    syllabus_id: str,
+    bloom_level=None,
+    previous_questions: list[str] | None = None,
+) -> dict:
+    """
+    Generate ONE interview question for Syllabus Mode strictly grounded in
+    the temporary RAG collection (temp_syllabus_<syllabus_id>).
+
+    Follows the shared adaptive architecture:
+    - Topic: Provided by SyllabusState.
+    - Difficulty & Bloom Level: Provided by the shared Adaptive Engine.
+    - Grounding: Strictly constrained to retrieved document chunks.
+    """
+    import chromadb
+
+    _init_rag()
+    _init_groq()
+    prompts = _get_prompts()
+    previous_questions = previous_questions or []
+
+    # 1. Connect to isolated temporary collection
+    client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+    collection_name = f"temp_syllabus_{syllabus_id}"
+    try:
+        temp_collection = client.get_collection(name=collection_name)
+    except Exception:
+        raise ValueError(f"Temporary syllabus RAG collection not found: {collection_name}")
+
+    # 2. Semantic query strictly within temporary collection
+    query = f"{topic} definitions mechanisms concepts principles examples"
+    query_embedding = _embedding_model.encode(query, convert_to_numpy=True).tolist()
+
+    results = temp_collection.query(
+        query_embeddings=[query_embedding],
+        n_results=3,
+        include=["documents", "metadatas"],
+    )
+
+    rag_chunks = []
+    if results and results.get("ids") and results["ids"][0]:
+        for i, doc in enumerate(results["documents"][0]):
+            meta = results["metadatas"][0][i] if results.get("metadatas") and results["metadatas"][0] else {}
+            rag_chunks.append({
+                "chunk_id": results["ids"][0][i],
+                "domain": meta.get("domain", "Syllabus"),
+                "concept": topic,
+                "text": doc,
+            })
+
+    # 3. Build strictly source-grounded prompt
+    if rag_chunks:
+        rag_parts = [f"[Excerpt {j+1} - {c['domain']}]:\n{c['text'][:500]}" for j, c in enumerate(rag_chunks)]
+        rag_text = "\n---\n".join(rag_parts)
+    else:
+        rag_text = "No excerpts found."
+
+    diff_instruction = prompts.get("difficulty_instructions", {}).get(
+        difficulty, "Ask a clear, practical technical question."
+    )
+    type_instruction = prompts.get("question_types", {}).get(
+        question_type, "Test comprehension and technical understanding."
+    )
+
+    dedup_section = ""
+    if previous_questions:
+        prev_list = "\n".join([f"- {q}" for q in previous_questions[-5:]])
+        dedup_section = f"\nDo NOT repeat or closely rephrase any of these previous questions:\n{prev_list}\n"
+
+    bloom_guidance = ""
+    if bloom_level is not None:
+        bloom_guidance = (
+            f"\nCognitive Level: {bloom_level.name.upper()}\n"
+            f"{bloom_level.question_guidance}\n"
+            f"The question MUST test the candidate at the '{bloom_level.name}' cognitive level.\n"
+        )
+
+    system_prompt = (
+        "You are an expert technical interviewer assessing a candidate on specific course syllabus material.\n"
+        "STRICT SOURCE-GROUNDING RULE: Formulate your question directly and strictly based on the technical context excerpts provided below. "
+        "Do NOT invent facts or test technologies/concepts not mentioned in the excerpts.\n"
+        "Return ONLY the question text without preamble, pleasantries, or numbering."
+    )
+
+    user_prompt = f"""Target Topic: {topic}
+Difficulty: {difficulty}
+{diff_instruction}
+
+Question Type: {question_type}
+{type_instruction}
+{bloom_guidance}
+Retrieved Syllabus Excerpts:
+{rag_text}
+{dedup_section}
+Formulate ONE interview question:"""
+
+    # 4. Call Groq
+    question_text = call_groq(system_prompt, user_prompt, _groq_client, _groq_model)
+
+    rag_meta = None
+    rag_context_full = None
+    if rag_chunks:
+        rag_meta = [{"chunk_id": c["chunk_id"], "domain": c["domain"], "concept": topic} for c in rag_chunks]
+        rag_context_full = [{"chunk_id": c["chunk_id"], "domain": c["domain"], "concept": topic, "text": c.get("text", "")} for c in rag_chunks]
+
+    return {
+        "skill": topic,
+        "question_type": question_type,
+        "difficulty": difficulty,
+        "question_text": question_text or "[GENERATION FAILED]",
+        "rag_context": rag_meta,
+        "rag_context_full": rag_context_full,
+        "project_context": None,
+        "bloom_level": bloom_level.id if bloom_level else None,
+        "bloom_level_number": bloom_level.order if bloom_level else None,
+    }
+

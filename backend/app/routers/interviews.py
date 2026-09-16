@@ -13,9 +13,12 @@ Endpoints:
 CORRECTION 1: Uses question_id (database ID) consistently in the adaptive answer endpoint.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+import os
+import uuid
 from sqlalchemy.orm import Session
 
+from app.config import SYLLABUS_UPLOAD_DIR
 from app.database import get_db
 from app.dependencies.auth import get_current_user
 from app.models.user import User
@@ -39,8 +42,93 @@ from app.services.interview_service import (
     complete_interview,
     get_session_results,
 )
+from app.services.syllabus_rag_service import process_and_create_syllabus_rag
 
 router = APIRouter(prefix="/api/interviews", tags=["interviews"])
+
+ALLOWED_SYLLABUS_EXTENSIONS = {".pdf", ".txt", ".docx"}
+MAX_SYLLABUS_FILE_SIZE = 20 * 1024 * 1024  # 20 MB
+
+# In-memory active syllabus state per user
+_active_user_syllabus: dict[int, dict] = {}
+
+
+@router.post("/upload-syllabus", status_code=status.HTTP_200_OK)
+async def upload_syllabus(
+    files: list[UploadFile] = File(...),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Upload course syllabus or reference materials (PDF, TXT, DOCX).
+    Single-pass extraction, embedding, and temporary RAG creation.
+    Returns syllabus_id, subject, topics, and stage-by-stage timing metrics.
+    """
+    if not files:
+        raise HTTPException(status_code=400, detail="No files provided")
+
+    saved_paths = []
+    filename_hints = []
+
+    for upload in files:
+        _, ext = os.path.splitext(upload.filename or "")
+        if ext.lower() not in ALLOWED_SYLLABUS_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported file type '{ext}'. Allowed: PDF, TXT, DOCX",
+            )
+
+        safe_name = os.path.basename(upload.filename or "syllabus_file")
+        content = await upload.read()
+        if len(content) == 0:
+            raise HTTPException(status_code=400, detail=f"File '{safe_name}' is empty")
+        if len(content) > MAX_SYLLABUS_FILE_SIZE:
+            raise HTTPException(status_code=400, detail=f"File '{safe_name}' exceeds 20 MB limit")
+
+        unique_name = f"{current_user.id}_{uuid.uuid4().hex[:8]}_{safe_name}"
+        file_path = os.path.join(str(SYLLABUS_UPLOAD_DIR), unique_name)
+        with open(file_path, "wb") as f:
+            f.write(content)
+
+        saved_paths.append(file_path)
+        filename_hints.append(safe_name)
+
+    temp_id = uuid.uuid4().hex
+
+    try:
+        result = process_and_create_syllabus_rag(
+            temp_id=temp_id,
+            file_paths=saved_paths,
+            filename_hints=filename_hints,
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to process syllabus: {str(e)}")
+
+    payload = {
+        "syllabus_id": result["syllabus_id"],
+        "subject": result["subject"],
+        "topics": result["topics"],
+        "chunks_count": result["chunks_count"],
+        "files_processed": len(saved_paths),
+        "filename": filename_hints[0] if filename_hints else "syllabus.pdf",
+        "metrics": result["metrics"],
+    }
+    _active_user_syllabus[current_user.id] = payload
+    return payload
+
+
+@router.get("/syllabus/current", status_code=status.HTTP_200_OK)
+def get_current_syllabus(current_user: User = Depends(get_current_user)):
+    """Retrieve active uploaded syllabus session and topics for the current user."""
+    if current_user.id in _active_user_syllabus:
+        return _active_user_syllabus[current_user.id]
+    return {
+        "syllabus_id": None,
+        "subject": None,
+        "topics": [],
+        "files_processed": 0,
+    }
 
 
 @router.post("/start", status_code=status.HTTP_201_CREATED)
@@ -59,6 +147,9 @@ def start_interview(
             question_type=req.question_type,
             question_count=req.question_count,
             selected_skills=req.selected_skills,
+            mode=req.mode or "normal",
+            syllabus_id=req.syllabus_id,
+            selected_topics=req.selected_topics,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -78,6 +169,8 @@ def start_interview(
         "status": session.status,
         "is_adaptive": True,
         "current_bloom_level": session.current_bloom_level,
+        "mode": session.mode,
+        "syllabus_id": session.syllabus_id,
         "current_question": {
             "id": question.id,
             "question_number": question.question_number,

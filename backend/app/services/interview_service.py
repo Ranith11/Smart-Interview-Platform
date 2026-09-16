@@ -34,6 +34,13 @@ from app.services.adaptive_engine import (
 from app.services.evaluation_service import evaluate_answer, EvaluationResult
 from app.models.job_description import JobDescription
 from app.services.jd_service import map_skills
+from app.services.syllabus_engine import (
+    SyllabusState,
+    initialize_syllabus_state,
+    calculate_syllabus_summary,
+)
+from app.services.syllabus_rag_service import delete_temporary_rag
+from app.services.question_service import generate_syllabus_question
 
 MAX_ADAPTIVE_QUESTIONS = 30  # Safety limit for infinite loops
 
@@ -43,20 +50,113 @@ MAX_ADAPTIVE_QUESTIONS = 30  # Safety limit for infinite loops
 def create_interview_session(
     db: Session,
     user_id: int,
-    resume_id: int,
-    difficulty: str | None,
-    question_type: str | None,
-    question_count: int | None,
-    selected_skills: list[str] | None,
+    resume_id: int | None = None,
+    difficulty: str | None = None,
+    question_type: str | None = None,
+    question_count: int | None = None,
+    selected_skills: list[str] | None = None,
+    mode: str = "normal",
+    syllabus_id: str | None = None,
+    selected_topics: list[str] | None = None,
 ) -> dict:
     """
     Create a new ADAPTIVE interview session and generate the FIRST question only.
-
-    Returns dict with session info and the first question.
-    Remaining questions are generated one-at-a-time after each answer evaluation.
+    Supports both Normal Mode (Resume + JD) and Syllabus Mode (Coursework RAG).
     """
 
-    # Validate resume belongs to user
+    # ── Syllabus Mode Branch ──────────────────────────────────────────────────
+    if mode == "syllabus":
+        if not syllabus_id:
+            raise ValueError("syllabus_id is required for Syllabus Mode")
+        if not selected_topics:
+            raise ValueError("At least one topic must be selected for Syllabus Mode")
+
+        # Resolve resume_id (optional for syllabus mode)
+        if not resume_id or resume_id <= 0:
+            latest_resume = (
+                db.query(Resume)
+                .filter(Resume.user_id == user_id)
+                .order_by(Resume.uploaded_at.desc())
+                .first()
+            )
+            resume_id = latest_resume.id if latest_resume else None
+
+        use_skills = selected_topics
+        difficulty = difficulty or "medium"
+        question_type = question_type or "mixed"
+        internal_question_count = question_count if question_count else MAX_ADAPTIVE_QUESTIONS
+
+        # Initialize shared adaptive state for Bloom & difficulty progression
+        adaptive_state = initialize_state(
+            selected_skills=use_skills,
+            difficulty=difficulty,
+            question_type=question_type,
+            question_count=internal_question_count,
+        )
+        decision = get_initial_decision(adaptive_state)
+
+        # Initialize syllabus state for adaptive topic progression
+        syllabus_state = initialize_syllabus_state(selected_topics=selected_topics)
+
+        session = InterviewSession(
+            user_id=user_id,
+            resume_id=resume_id,
+            difficulty=difficulty,
+            question_type=question_type,
+            question_count=question_count or 0,
+            selected_skills=use_skills,
+            status="in_progress",
+            is_adaptive=True,
+            adaptive_state=adaptive_state.serialize(),
+            current_bloom_level=decision.bloom_level.id,
+            mode="syllabus",
+            syllabus_id=syllabus_id,
+            syllabus_state=syllabus_state.serialize(),
+        )
+        db.add(session)
+        db.commit()
+        db.refresh(session)
+
+        # Generate first question strictly from syllabus RAG
+        q_data = generate_syllabus_question(
+            topic=syllabus_state.current_topic,
+            difficulty=decision.difficulty,
+            question_type=decision.question_type,
+            syllabus_id=syllabus_id,
+            bloom_level=decision.bloom_level,
+            previous_questions=[],
+        )
+
+        question = InterviewQuestion(
+            session_id=session.id,
+            question_number=1,
+            skill=q_data["skill"],
+            question_type=q_data["question_type"],
+            difficulty=q_data["difficulty"],
+            question_text=q_data["question_text"],
+            rag_context=q_data.get("rag_context"),
+            project_context=None,
+            bloom_level=q_data.get("bloom_level"),
+            bloom_level_number=q_data.get("bloom_level_number"),
+        )
+        db.add(question)
+
+        adaptive_state.questions_generated = 1
+        if q_data["question_text"] and q_data["question_text"] != "[GENERATION FAILED]":
+            adaptive_state.previous_questions.append(q_data["question_text"])
+        session.adaptive_state = adaptive_state.serialize()
+
+        db.commit()
+        db.refresh(session)
+        db.refresh(question)
+
+        return {
+            "session": session,
+            "current_question": question,
+            "rag_context_full": q_data.get("rag_context_full"),
+        }
+
+    # ── Normal Mode Branch (Resume + Job Description) ─────────────────────────
     resume = db.query(Resume).filter(
         Resume.id == resume_id, Resume.user_id == user_id
     ).first()
@@ -255,7 +355,7 @@ def submit_and_evaluate(
     # Retrieve RAG context for evaluation (re-fetch from question's stored context)
     rag_context_for_eval = question.rag_context  # stored as metadata only
     # We need full text for evaluation — re-retrieve from ChromaDB if possible
-    rag_full = _get_rag_context_for_eval(question)
+    rag_full = _get_rag_context_for_eval(question, session)
 
     eval_result = evaluate_answer(
         question_text=question.question_text,
@@ -292,27 +392,61 @@ def submit_and_evaluate(
     state = AdaptiveState.deserialize(session.adaptive_state)
     state.questions_answered += 1
 
-    # Check if interview is complete (only based on safety limit)
-    is_complete = state.questions_answered >= MAX_ADAPTIVE_QUESTIONS
+    # Shared Adaptive Decision (Bloom + difficulty update)
+    decision = decide_next(state, eval_result.overall_score)
+
+    # ── Strict Evidence-Based Auto-Stop ───────────────────
+    # Auto-stop only triggers when ALL of the following are met:
+    # 1. Minimum 5 questions answered
+    # 2. Current difficulty has reached "easy"
+    # 3. Candidate has 3 consecutive fails (< 40%) at easy level
+    # 4. Clear evidence that candidate cannot handle fundamental level
+    is_auto_stop = False
+    if state.questions_answered >= 5 and decision.difficulty == "easy":
+        recent_evals = (
+            db.query(AnswerEvaluation.overall_score)
+            .join(Answer, AnswerEvaluation.answer_id == Answer.id)
+            .filter(Answer.session_id == session.id)
+            .order_by(Answer.id.desc())
+            .limit(3)
+            .all()
+        )
+        if len(recent_evals) == 3 and all(ev[0] < 40.0 for ev in recent_evals):
+            is_auto_stop = True
+
+    is_complete = is_auto_stop or (state.questions_answered >= MAX_ADAPTIVE_QUESTIONS)
 
     next_question_data = None
 
     if not is_complete:
-        # ── Step 5: Adaptive decision ─────────────────────
-        decision = decide_next(state, eval_result.overall_score)
+        if session.mode == "syllabus":
+            # Adaptive topic selection with syllabus coverage constraints
+            s_state = SyllabusState.deserialize(session.syllabus_state)
+            s_state.record_score(question.skill, eval_result.overall_score)
+            next_topic = s_state.select_next_topic()
+            session.syllabus_state = s_state.serialize()
 
-        # ── Step 6: Generate next question ────────────────
-        resume = db.query(Resume).filter(Resume.id == session.resume_id).first()
-        projects = resume.projects if resume else []
+            q_data = generate_syllabus_question(
+                topic=next_topic,
+                difficulty=decision.difficulty,
+                question_type=decision.question_type,
+                syllabus_id=session.syllabus_id,
+                bloom_level=decision.bloom_level,
+                previous_questions=state.previous_questions,
+            )
+        else:
+            # ── Step 6: Generate next question for Normal Mode ──
+            resume = db.query(Resume).filter(Resume.id == session.resume_id).first()
+            projects = resume.projects if resume else []
 
-        q_data = generate_single_question(
-            skill=decision.skill,
-            difficulty=decision.difficulty,
-            question_type=decision.question_type,
-            bloom_level=decision.bloom_level,
-            projects=projects,
-            previous_questions=state.previous_questions,
-        )
+            q_data = generate_single_question(
+                skill=decision.skill,
+                difficulty=decision.difficulty,
+                question_type=decision.question_type,
+                bloom_level=decision.bloom_level,
+                projects=projects,
+                previous_questions=state.previous_questions,
+            )
 
         next_q_number = state.questions_generated + 1
         state.questions_generated = next_q_number
@@ -340,12 +474,21 @@ def submit_and_evaluate(
         next_question_data = next_question
 
     else:
-        # Interview complete (safety limit reached)
-        summary = calculate_session_summary(state)
+        # Interview complete (auto-stop or safety limit reached)
         session.status = "completed"
         session.completed_at = datetime.now(timezone.utc)
-        session.completion_reason = "max_questions_safety_limit"
-        session.final_recommendations = summary.get("recommendations")
+        session.completion_reason = "auto_stop_fundamental_struggle" if is_auto_stop else "max_questions_safety_limit"
+
+        if session.mode == "syllabus":
+            if session.syllabus_state:
+                s_state = SyllabusState.deserialize(session.syllabus_state)
+                s_summary = calculate_syllabus_summary(s_state)
+                session.final_recommendations = s_summary.get("recommendations")
+            # Lifecycle cleanup
+            delete_temporary_rag(session.syllabus_id)
+        else:
+            summary = calculate_session_summary(state)
+            session.final_recommendations = summary.get("recommendations")
 
     # Persist adaptive state
     session.adaptive_state = state.serialize()
@@ -428,7 +571,18 @@ def complete_interview(db: Session, user_id: int, session_id: int, completion_re
         return session
 
     # For adaptive sessions, generate final recommendations
-    if session.is_adaptive and session.adaptive_state:
+    if session.mode == "syllabus":
+        if session.syllabus_state:
+            try:
+                s_state = SyllabusState.deserialize(session.syllabus_state)
+                s_summary = calculate_syllabus_summary(s_state)
+                session.final_recommendations = s_summary.get("recommendations")
+            except Exception as e:
+                print(f"[InterviewService] Warning: Could not generate syllabus recommendations: {e}")
+        # Lifecycle cleanup: delete temporary Chroma collection
+        if session.syllabus_id:
+            delete_temporary_rag(session.syllabus_id)
+    elif session.is_adaptive and session.adaptive_state:
         try:
             state = AdaptiveState.deserialize(session.adaptive_state)
             summary = calculate_session_summary(state)
@@ -730,18 +884,24 @@ def get_session_results(db: Session, user_id: int, session_id: int) -> dict:
 
 # ── RAG Context Helper ───────────────────────────────────
 
-def _get_rag_context_for_eval(question: InterviewQuestion) -> list[dict] | None:
+def _get_rag_context_for_eval(question: InterviewQuestion, session: InterviewSession | None = None) -> list[dict] | None:
     """
     Re-retrieve RAG chunks with full text for evaluation.
-    The question stores only metadata (chunk_id, domain, concept) to keep DB clean.
-    For evaluation, we need the full text content.
+    Supports both permanent technical_kb and temporary syllabus collections.
     """
     if not question.rag_context:
         return None
 
     try:
-        from app.services.question_service import get_chroma_collection
-        collection = get_chroma_collection()
+        import chromadb
+        from app.config import CHROMA_DB_DIR
+        client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+
+        if session and session.mode == "syllabus" and session.syllabus_id:
+            collection = client.get_collection(f"temp_syllabus_{session.syllabus_id}")
+        else:
+            from app.services.question_service import get_chroma_collection
+            collection = get_chroma_collection()
 
         chunk_ids = [c["chunk_id"] for c in question.rag_context if "chunk_id" in c]
         if not chunk_ids:
@@ -750,13 +910,13 @@ def _get_rag_context_for_eval(question: InterviewQuestion) -> list[dict] | None:
         results = collection.get(ids=chunk_ids, include=["documents", "metadatas"])
 
         chunks = []
-        if results and results["ids"]:
+        if results and results.get("ids"):
             for i, cid in enumerate(results["ids"]):
                 chunks.append({
                     "chunk_id": cid,
-                    "domain": results["metadatas"][i].get("domain", "") if results["metadatas"] else "",
-                    "concept": results["metadatas"][i].get("concept", "") if results["metadatas"] else "",
-                    "text": results["documents"][i] if results["documents"] else "",
+                    "domain": results["metadatas"][i].get("domain", "") if results.get("metadatas") else "",
+                    "concept": results["metadatas"][i].get("concept", "") if results.get("metadatas") else "",
+                    "text": results["documents"][i] if results.get("documents") else "",
                 })
         return chunks if chunks else None
 

@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ResumeUpload from './pages/ResumeUpload';
+import SyllabusUpload from './pages/SyllabusUpload';
 import InterviewSetup from './pages/InterviewSetup';
 import Interview from './pages/Interview';
 import Results from './pages/Results';
@@ -42,6 +43,7 @@ export default function App() {
           {/* Protected */}
           <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
           <Route path="/resume" element={<ProtectedRoute><AppLayout><ResumeUpload /></AppLayout></ProtectedRoute>} />
+          <Route path="/syllabus" element={<ProtectedRoute><AppLayout><SyllabusUpload /></AppLayout></ProtectedRoute>} />
           <Route path="/setup" element={<ProtectedRoute><AppLayout><InterviewSetup /></AppLayout></ProtectedRoute>} />
           <Route path="/interview/:id" element={<ProtectedRoute><Interview /></ProtectedRoute>} />
           <Route path="/results/:id" element={<ProtectedRoute><AppLayout><Results /></AppLayout></ProtectedRoute>} />

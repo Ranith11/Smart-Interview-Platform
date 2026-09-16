@@ -4,11 +4,14 @@ from datetime import datetime
 
 
 class StartInterviewRequest(BaseModel):
-    resume_id: int
+    resume_id: Optional[int] = None
     difficulty: Optional[str] = Field(default="medium", pattern="^(easy|medium|hard)$")
     question_type: Optional[str] = Field(default="mixed")
-    question_count: Optional[int] = Field(default=None) # Ignored for adaptive, kept for legacy
+    question_count: Optional[int] = Field(default=None)  # Ignored for adaptive, kept for legacy
     selected_skills: Optional[List[str]] = None
+    mode: Optional[str] = "normal"  # "normal" or "syllabus"
+    syllabus_id: Optional[str] = None
+    selected_topics: Optional[List[str]] = None
 
 
 # ── Evaluation (Week 9) ──────────────────────────────────

@@ -8,7 +8,7 @@ class InterviewSession(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    resume_id = Column(Integer, ForeignKey("resumes.id", ondelete="CASCADE"), nullable=False)
+    resume_id = Column(Integer, ForeignKey("resumes.id", ondelete="CASCADE"), nullable=True)
     difficulty = Column(Enum("easy", "medium", "hard"), nullable=False, default="medium")
     question_type = Column(String(50), nullable=False, default="mixed")
     question_count = Column(Integer, nullable=False, default=5)
@@ -24,6 +24,11 @@ class InterviewSession(Base):
     final_recommendations = Column(JSON, nullable=True)     # generated at completion
     completion_reason = Column(String(50), nullable=True)   # manual, assessment_complete, max_questions_safety_limit
     job_description_id = Column(Integer, ForeignKey("job_descriptions.id", ondelete="SET NULL"), nullable=True)
+
+    # Syllabus Mode fields
+    mode = Column(String(50), nullable=False, default="normal")  # "normal" or "syllabus"
+    syllabus_id = Column(String(100), nullable=True)
+    syllabus_state = Column(JSON, nullable=True)  # serialized SyllabusState
 
     user = relationship("User", back_populates="sessions")
     resume = relationship("Resume", back_populates="sessions")

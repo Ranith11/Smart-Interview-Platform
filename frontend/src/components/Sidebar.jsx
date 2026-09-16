@@ -1,12 +1,13 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, FileText, Clock, BarChart3, LogOut, BrainCircuit, Menu, X, User } from 'lucide-react';
+import { LayoutDashboard, FileText, Clock, BarChart3, LogOut, BrainCircuit, Menu, X, User, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 
 const mainMenuItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/history', label: 'Interviews', icon: Clock },
   { to: '/resume', label: 'Resume & Skills', icon: FileText },
+  { to: '/syllabus', label: 'Syllabus & Course', icon: BookOpen },
   { to: '/performance', label: 'Analytics', icon: BarChart3 },
   { to: '/profile', label: 'Profile', icon: User },
 ];
