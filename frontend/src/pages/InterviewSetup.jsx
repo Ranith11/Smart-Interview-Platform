@@ -248,7 +248,7 @@ export default function InterviewSetup() {
                 <BookOpen size={20} className="text-indigo-600 shrink-0" />
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">Upload Syllabus / Reference Material</h2>
-                  <p className="text-sm text-slate-500 mt-0.5">PDF or TXT files · Up to 20 MB each · Multiple files supported</p>
+                  <p className="text-sm text-slate-500 mt-0.5">PDF, TXT, or DOCX files · Up to 20 MB each · Multiple files supported</p>
                 </div>
               </div>
 
@@ -260,12 +260,12 @@ export default function InterviewSetup() {
               >
                 <UploadCloud size={32} />
                 <span className="font-medium text-sm">Click to select files</span>
-                <span className="text-xs">PDF, TXT</span>
+                <span className="text-xs">PDF, TXT, DOCX</span>
               </button>
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.txt"
+                accept=".pdf,.txt,.docx"
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}

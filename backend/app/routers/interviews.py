@@ -61,7 +61,7 @@ async def upload_syllabus(
     and returns a unique syllabus_id + topic list for the frontend.
     """
     from app.services.syllabus_rag_service import (
-        create_temporary_rag_from_files,
+        create_temporary_rag_from_chunks,
         extract_topics_from_chunks,
         infer_subject_from_text,
         extract_text_from_file,
@@ -81,7 +81,7 @@ async def upload_syllabus(
         if ext.lower() not in ALLOWED_SYLLABUS_EXTENSIONS:
             raise HTTPException(
                 status_code=400,
-                detail=f"Unsupported file type '{ext}'. Allowed: PDF, TXT",
+                detail=f"Unsupported file type '{ext}'. Allowed: PDF, TXT, DOCX",
             )
 
         # Prevent path traversal — strip any directory components
@@ -110,30 +110,47 @@ async def upload_syllabus(
     # Generate a unique temp_id for this upload session
     temp_id = uuid.uuid4().hex
 
-    # Infer subject from combined content
+    # 1. Extract and chunk everything exactly once
+    all_chunks: list[str] = []
+    source_labels: list[str] = []
+    first_text = ""
+    
+    for idx, fp in enumerate(saved_paths):
+        try:
+            text = extract_text_from_file(fp)
+            if idx == 0:
+                first_text = text
+            file_chunks = chunk_text(text)
+            all_chunks.extend(file_chunks)
+            source_labels.extend([os.path.basename(fp)] * len(file_chunks))
+        except Exception as e:
+            print(f"[Syllabus Upload] Failed to extract {fp}: {e}")
+            
+    if not all_chunks:
+        raise HTTPException(status_code=400, detail="No text could be extracted from the uploaded files.")
+
+    # 2. Infer subject from the reused extracted text
     try:
-        first_text = extract_text_from_file(saved_paths[0])
         all_text_sample = first_text[:3000]
         subject = infer_subject_from_text(all_text_sample, filename_hints[0])
+        if not subject:
+            subject = os.path.splitext(filename_hints[0])[0].replace("_", " ").title()
     except Exception:
         subject = os.path.splitext(filename_hints[0])[0].replace("_", " ").title()
 
-    # Build temp RAG
+    # 3. Build temp RAG using the reused chunks
     try:
-        create_temporary_rag_from_files(
+        create_temporary_rag_from_chunks(
             temp_id=temp_id,
-            file_paths=saved_paths,
+            all_chunks=all_chunks,
+            source_labels=source_labels,
             subject=subject,
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process uploaded material: {e}")
 
-    # Dynamically detect topics from the chunks
+    # 4. Extract topics using the reused chunks
     try:
-        all_chunks: list[str] = []
-        for fp in saved_paths:
-            raw = extract_text_from_file(fp)
-            all_chunks.extend(chunk_text(raw))
         topics = extract_topics_from_chunks(all_chunks, subject)
     except Exception as e:
         topics = [subject]
