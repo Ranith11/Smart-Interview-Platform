@@ -204,29 +204,15 @@ def infer_subject_from_text(text: str, filename_hint: str = "") -> str:
         return name.replace("_", " ").replace("-", " ").title() or "Technical Material"
 
 
-def create_temporary_rag_from_files(temp_id: str, file_paths: list[str], subject: str) -> str:
+def create_temporary_rag_from_chunks(temp_id: str, all_chunks: list[str], source_labels: list[str], subject: str) -> str:
     """
-    Given a list of file paths (PDF or TXT), extract text, chunk, embed,
-    and store in a temporary ChromaDB collection named temp_syllabus_<temp_id>.
-
-    Returns the collection name.
+    Given a list of chunks and their source labels, embed them and store them in a 
+    temporary ChromaDB collection named temp_syllabus_<temp_id>.
     """
     import chromadb
 
-    all_chunks: list[str] = []
-    source_labels: list[str] = []
-
-    for fp in file_paths:
-        try:
-            text = extract_text_from_file(fp)
-            file_chunks = chunk_text(text)
-            all_chunks.extend(file_chunks)
-            source_labels.extend([os.path.basename(fp)] * len(file_chunks))
-        except Exception as e:
-            print(f"[SyllabusRAG] Failed to extract {fp}: {e}")
-
     if not all_chunks:
-        raise ValueError("No text could be extracted from the uploaded files.")
+        raise ValueError("No text provided to create temporary RAG.")
 
     embedding_model = get_embedding_model()
     embeddings = embedding_model.encode(all_chunks, convert_to_numpy=True).tolist()
@@ -268,6 +254,29 @@ def create_temporary_rag_from_files(temp_id: str, file_paths: list[str], subject
         )
 
     return collection_name
+
+
+def create_temporary_rag_from_files(temp_id: str, file_paths: list[str], subject: str) -> str:
+    """
+    Legacy compatible: Given a list of file paths (PDF, TXT, DOCX), extract text, chunk, 
+    and store in a temporary ChromaDB collection.
+    """
+    all_chunks: list[str] = []
+    source_labels: list[str] = []
+
+    for fp in file_paths:
+        try:
+            text = extract_text_from_file(fp)
+            file_chunks = chunk_text(text)
+            all_chunks.extend(file_chunks)
+            source_labels.extend([os.path.basename(fp)] * len(file_chunks))
+        except Exception as e:
+            print(f"[SyllabusRAG] Failed to extract {fp}: {e}")
+
+    if not all_chunks:
+        raise ValueError("No text could be extracted from the uploaded files.")
+
+    return create_temporary_rag_from_chunks(temp_id, all_chunks, source_labels, subject)
 
 
 # Legacy: kept so existing test scripts don't break.
