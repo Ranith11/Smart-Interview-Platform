@@ -266,12 +266,12 @@ while not is_complete and q_num <= 30:
         current_q_id = nq["id"]
         new_topic = nq["skill"]
         if new_topic != prev_topic:
-            print(f"  ↳ Topic progressed: {prev_topic} → {new_topic}")
+            print(f"  -> Topic progressed: {prev_topic} -> {new_topic}")
         topic_transitions.append(new_topic)
         prev_topic = new_topic
         q_num += 1
     else:
-        print(f"  ↳ Interview COMPLETE after Q{q_num}")
+        print(f"  -> Interview COMPLETE after Q{q_num}")
 
 record("All questions answered", is_complete, f"{q_num} questions answered")
 record("Evaluation scores received", len(evaluation_scores) > 0,
