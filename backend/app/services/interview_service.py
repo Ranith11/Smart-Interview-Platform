@@ -624,13 +624,13 @@ def get_user_performance(db: Session, user_id: int) -> dict:
     Get aggregated performance data for the user across all evaluated interviews.
     Returns ONLY real data — no fake percentages or placeholders.
     """
-    # Get all completed adaptive sessions
+    # Get all completed normal mode sessions (Syllabus mode is explicitly excluded)
     sessions = (
         db.query(InterviewSession)
         .filter(
             InterviewSession.user_id == user_id,
             InterviewSession.status == "completed",
-            InterviewSession.is_adaptive == True,
+            InterviewSession.mode == "normal",
         )
         .order_by(InterviewSession.completed_at.desc())
         .all()
@@ -648,43 +648,71 @@ def get_user_performance(db: Session, user_id: int) -> dict:
             "recent_interviews": [],
         }
 
-    # Aggregate per-skill performance
+    session_ids = [s.id for s in sessions]
+
+    # Batch fetch questions and evaluations to avoid N+1 query problems
+    questions = (
+        db.query(InterviewQuestion)
+        .filter(InterviewQuestion.session_id.in_(session_ids))
+        .all()
+    )
+    question_map = {q.id: q for q in questions}
+
+    evaluations = (
+        db.query(AnswerEvaluation)
+        .join(InterviewQuestion, AnswerEvaluation.question_id == InterviewQuestion.id)
+        .filter(InterviewQuestion.session_id.in_(session_ids))
+        .all()
+    )
+
+    # Group evaluations by session_id
+    evals_by_session = {sid: [] for sid in session_ids}
+    for ev in evaluations:
+        q = question_map.get(ev.question_id)
+        if q:
+            evals_by_session[q.session_id].append((ev, q))
+
+    # Group questions by session_id for bloom progression
+    questions_by_session = {sid: [] for sid in session_ids}
+    for q in questions:
+        questions_by_session[q.session_id].append(q)
+
     skill_data = {}  # skill -> {total_score, count, bloom_levels}
     all_recommendations = []
     recent_interviews = []
     bloom_progression = []
+    bloom_data = {}  # bloom_level -> {total_score, count}
 
     for sess in sessions:
-        # Get evaluations for this session
-        evaluations = (
-            db.query(AnswerEvaluation)
-            .join(InterviewQuestion, AnswerEvaluation.question_id == InterviewQuestion.id)
-            .filter(InterviewQuestion.session_id == sess.id)
-            .all()
-        )
-
-        questions = (
-            db.query(InterviewQuestion)
-            .filter(InterviewQuestion.session_id == sess.id)
-            .order_by(InterviewQuestion.question_number)
-            .all()
-        )
-
+        session_evals = evals_by_session[sess.id]
         session_scores = []
-        for ev in evaluations:
-            q = db.query(InterviewQuestion).filter(InterviewQuestion.id == ev.question_id).first()
-            if q:
-                skill = q.skill
-                if skill not in skill_data:
-                    skill_data[skill] = {"total_score": 0, "count": 0, "bloom_levels": []}
-                skill_data[skill]["total_score"] += ev.overall_score
-                skill_data[skill]["count"] += 1
-                if q.bloom_level:
-                    skill_data[skill]["bloom_levels"].append(q.bloom_level_number or 1)
-                session_scores.append(ev.overall_score)
+        sess_skill_data = {}
+        
+        for ev, q in session_evals:
+            skill = q.skill
+            if skill not in skill_data:
+                skill_data[skill] = {"total_score": 0, "count": 0, "bloom_levels": []}
+            skill_data[skill]["total_score"] += ev.overall_score
+            skill_data[skill]["count"] += 1
+            
+            if skill not in sess_skill_data:
+                sess_skill_data[skill] = {"total_score": 0, "count": 0}
+            sess_skill_data[skill]["total_score"] += ev.overall_score
+            sess_skill_data[skill]["count"] += 1
+            
+            if q.bloom_level:
+                bl = q.bloom_level.capitalize()
+                if bl not in bloom_data:
+                    bloom_data[bl] = {"total_score": 0, "count": 0}
+                bloom_data[bl]["total_score"] += ev.overall_score
+                bloom_data[bl]["count"] += 1
+                skill_data[skill]["bloom_levels"].append(q.bloom_level_number or 1)
+            
+            session_scores.append(ev.overall_score)
 
         # Track bloom progression per question in session
-        for q in questions:
+        sess_questions = sorted(questions_by_session[sess.id], key=lambda x: x.question_number)
+        for q in sess_questions:
             if q.bloom_level_number:
                 bloom_progression.append({
                     "session_id": sess.id,
@@ -695,12 +723,30 @@ def get_user_performance(db: Session, user_id: int) -> dict:
 
         # Session summary for recent interviews
         avg = round(sum(session_scores) / len(session_scores), 1) if session_scores else 0
+        
+        sess_strengths = []
+        sess_focus = []
+        for s, s_data in sess_skill_data.items():
+            if s_data["count"] > 0:
+                s_avg = s_data["total_score"] / s_data["count"]
+                if s_avg >= 75:
+                    sess_strengths.append(s)
+                elif s_avg < 50:
+                    sess_focus.append(s)
+                    
+        # Instead of sess.selected_skills, we use the actual skills tested in the interview
+        actual_skills_tested = list(sess_skill_data.keys())
+        
         recent_interviews.append({
             "id": sess.id,
             "date": sess.completed_at.isoformat() if sess.completed_at else None,
             "average_score": avg,
             "question_count": sess.question_count,
             "difficulty": sess.difficulty,
+            "mode": sess.mode,
+            "skills": actual_skills_tested if actual_skills_tested else (sess.selected_skills or []),
+            "strong_areas": sess_strengths,
+            "focus_next": sess_focus,
         })
 
         # Collect recommendations
@@ -731,6 +777,10 @@ def get_user_performance(db: Session, user_id: int) -> dict:
     total_score = sum(d["total_score"] for d in skill_data.values())
     total_count = sum(d["count"] for d in skill_data.values())
     overall_avg = round(total_score / total_count, 1) if total_count > 0 else 0
+    
+    bloom_performance = {}
+    for bl, data in bloom_data.items():
+        bloom_performance[bl] = round(data["total_score"] / data["count"], 1) if data["count"] > 0 else 0
 
     # Deduplicate recommendations — keep most recent per skill
     seen_skills = set()
@@ -746,10 +796,11 @@ def get_user_performance(db: Session, user_id: int) -> dict:
         "overall_average": overall_avg,
         "skill_performance": skill_performance,
         "bloom_progression": bloom_progression[:50],  # limit for payload size
+        "bloom_performance": bloom_performance,
         "strengths": strengths,
         "weak_areas": weak_areas,
         "recommendations": unique_recs[:10],
-        "recent_interviews": recent_interviews[:10],
+        "recent_interviews": recent_interviews,
     }
 
 
