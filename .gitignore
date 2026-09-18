@@ -40,4 +40,4 @@ uploads/
 dummy.pdf
 *.pdf
 # ChromaDB
-chroma_db/
+# chroma_db/

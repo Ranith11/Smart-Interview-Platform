@@ -1,0 +1,6 @@
+rrency
+A thread is the smallest unit of execution within a process. Threads share the process address
+space but have their own stack and registers. Multithreading allows parallel execution of multiple
+tasks within a single process. User-level threads are managed by user libraries. Kernel-level
+threads are managed by the operating system. Thread synchronization is critical to avoid race
+Properties"
