@@ -73,7 +73,7 @@ export default function History() {
                       <span className="mx-2">•</span>
                       {s.questions_answered} {s.question_count > 0 ? `/ ${s.question_count}` : ''} answered
                     </div>
-                    {s.selected_skills && (
+                    {s.is_adaptive !== false && s.selected_skills && s.selected_skills.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
                         {s.selected_skills.slice(0, 4).map(sk => (
                           <span key={sk} className="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded-md border border-slate-200 text-slate-600">{sk}</span>

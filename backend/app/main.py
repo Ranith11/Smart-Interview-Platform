@@ -5,7 +5,7 @@ SmartInterview — FastAPI Application Entry Point
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import auth, resumes, interviews, users
+from app.routers import auth, resumes, interviews, users, speech
 
 app = FastAPI(
     title="SmartInterview API",
@@ -27,6 +27,7 @@ app.include_router(auth.router)
 app.include_router(resumes.router)
 app.include_router(interviews.router)
 app.include_router(users.router)
+app.include_router(speech.router)
 
 
 @app.get("/api/health")
