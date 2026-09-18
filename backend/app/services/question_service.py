@@ -36,6 +36,7 @@ build_prompt = _gen_mod.build_prompt
 call_groq = _gen_mod.call_groq
 QUESTION_TYPES = _gen_mod.QUESTION_TYPES
 SKILL_DOMAIN_MAP = _gen_mod.SKILL_DOMAIN_MAP
+normalize_domain = _gen_mod.normalize_domain
 
 # ── Lazy-initialized singletons ──────────────────────────
 _lock = threading.Lock()

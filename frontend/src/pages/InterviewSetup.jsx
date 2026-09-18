@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import { Play, Settings, AlertCircle, ArrowRight, UploadCloud, FileText, X, CheckSquare, Square, Loader2, BookOpen } from 'lucide-react';
 
@@ -9,9 +9,10 @@ export default function InterviewSetup() {
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState('');
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get('mode') === 'syllabus' ? 'syllabus' : 'normal';
 
   // Syllabus Mode state
-  const [mode, setMode] = useState('normal');
   const [uploadedFiles, setUploadedFiles] = useState([]);       // File objects staged for upload
   const [processing, setProcessing] = useState(false);          // Upload/processing in progress
   const [processingStatus, setProcessingStatus] = useState(''); // Status message during processing
@@ -32,6 +33,10 @@ export default function InterviewSetup() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    setError('');
+  }, [mode]);
 
   const toggleSkill = (skill) => {
     setSelectedSkills(prev =>
@@ -174,11 +179,17 @@ export default function InterviewSetup() {
     <div className="max-w-2xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-          <Settings className="text-indigo-600" size={28} />
-          Interview Setup
+          {mode === 'syllabus' ? (
+            <BookOpen className="text-indigo-600" size={28} />
+          ) : (
+            <Settings className="text-indigo-600" size={28} />
+          )}
+          {mode === 'syllabus' ? 'Syllabus Mode' : 'Interview Setup'}
         </h1>
         <p className="text-slate-500 mt-2 text-base">
-          Choose Normal Adaptive Mode for an open-ended interview based on your resume, or Syllabus Mode for a structured interview on any uploaded reference material.
+          {mode === 'syllabus'
+            ? 'Upload reference material for a structured interview based on specific topics.'
+            : 'Configure your open-ended adaptive interview based on your resume.'}
         </p>
       </div>
 
@@ -187,21 +198,6 @@ export default function InterviewSetup() {
           {error}
         </div>
       )}
-
-      <div className="mb-8 flex space-x-4 border-b border-slate-200">
-        <button
-          className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors ${mode === 'normal' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}`}
-          onClick={() => { setMode('normal'); setError(''); }}
-        >
-          Normal (Adaptive) Mode
-        </button>
-        <button
-          className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors ${mode === 'syllabus' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}`}
-          onClick={() => { setMode('syllabus'); setError(''); }}
-        >
-          Syllabus Mode
-        </button>
-      </div>
 
       <div className="space-y-6">
         {mode === 'normal' ? (

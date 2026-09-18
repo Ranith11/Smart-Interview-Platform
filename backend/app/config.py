@@ -36,3 +36,8 @@ SYLLABUS_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 CHROMA_DB_DIR = str(PROJECT_ROOT / "chroma_db")
 PROMPTS_FILE = str(PROJECT_ROOT / "prompts" / "question_generation.json")
 SCRIPTS_DIR = str(PROJECT_ROOT / "scripts")
+
+# ── Speech to Text ───────────────────────────────────────
+STT_MODEL_SIZE = os.getenv("STT_MODEL_SIZE", "tiny.en")
+STT_DEVICE = os.getenv("STT_DEVICE", "cpu")
+STT_COMPUTE_TYPE = os.getenv("STT_COMPUTE_TYPE", "int8")

@@ -5,12 +5,17 @@ import api from '../services/api';
 import { 
   Search, Bell, Plus, Zap, FileText, CheckCircle2, 
   HelpCircle, TrendingUp, ChevronRight, BarChart3, 
-  AlertCircle, Clock, Play, BrainCircuit
+  AlertCircle, Clock, Play, BrainCircuit, LogOut
 } from 'lucide-react';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
   const [stats, setStats] = useState(null);
   const [history, setHistory] = useState([]);
   const [resume, setResume] = useState(null);
@@ -61,6 +66,13 @@ export default function Dashboard() {
              </div>
              <span className="text-sm font-semibold text-slate-700">{user?.name}</span>
           </div>
+          <button 
+            onClick={handleLogout}
+            className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+            title="Log out"
+          >
+            <LogOut size={20} />
+          </button>
         </div>
       </header>
 
@@ -75,10 +87,7 @@ export default function Dashboard() {
           
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-indigo-200 text-xs font-bold uppercase tracking-wider mb-4 backdrop-blur-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                AI Coach Ready
-              </div>
+
               <h1 className="text-4xl font-extrabold text-white tracking-tight mb-4">
                 Welcome back, {user?.name?.split(' ')[0] || 'User'}!
               </h1>

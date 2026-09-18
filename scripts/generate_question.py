@@ -108,6 +108,46 @@ DOMAIN_QUERY_TEMPLATES = {
 }
 
 
+def normalize_domain(subject: str) -> str:
+    """
+    Normalizes an inferred syllabus subject to one of the canonical domains 
+    used in Normal Mode RAG filtering.
+    """
+    import re
+    subject_clean = subject.strip().lower()
+    
+    # Direct canonical check
+    canonical_domains = {"dbms", "oop", "dsa", "design-patterns", "system-design", "os", "cn", "ml-dl"}
+    if subject_clean in canonical_domains:
+        return subject_clean
+
+    # Exact or bounded keyword mapping
+    mapping = {
+        "dbms": ["database", "database management", "database management systems", "sql", "dbms"],
+        "oop": ["object oriented", "object oriented programming", "object-oriented programming", "oop"],
+        "dsa": ["data structure", "data structures", "algorithm", "algorithms", "data structures and algorithms", "dsa"],
+        "design-patterns": ["design pattern", "design patterns", "software design patterns"],
+        "system-design": ["system design", "systems design"],
+        "os": ["operating system", "operating systems", "os"],
+        "cn": ["network", "networks", "networking", "computer network", "computer networks", "computer networking", "cn"],
+        "ml-dl": ["machine learning", "deep learning", "artificial intelligence", "ml", "ai"]
+    }
+
+    # First check for exact matches in the lists
+    for domain, keywords in mapping.items():
+        if subject_clean in keywords:
+            return domain
+
+    # Bounded regex search for robust substring matching
+    for domain, keywords in mapping.items():
+        for keyword in keywords:
+            pattern = r'\b' + re.escape(keyword) + r'\b'
+            if re.search(pattern, subject_clean):
+                return domain
+
+    return subject  # Fallback to the original subject
+
+
 def load_prompts():
     """Load prompt templates from the prompt library."""
     with open(PROMPTS_FILE, "r", encoding="utf-8") as f:

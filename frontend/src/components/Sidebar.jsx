@@ -1,10 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, FileText, Clock, BarChart3, LogOut, BrainCircuit, Menu, X, User } from 'lucide-react';
+import { LayoutDashboard, FileText, Clock, BarChart3, LogOut, BrainCircuit, Menu, X, User, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 
 const mainMenuItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/setup?mode=syllabus', label: 'Syllabus Mode', icon: BookOpen },
   { to: '/history', label: 'Interviews', icon: Clock },
   { to: '/resume', label: 'Resume & Skills', icon: FileText },
   { to: '/performance', label: 'Analytics', icon: BarChart3 },
@@ -40,7 +41,9 @@ export default function Sidebar() {
           <h3 className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Main Menu</h3>
           <div className="space-y-1">
             {mainMenuItems.map(({ to, label, icon: Icon }) => {
-              const isActive = location.pathname.startsWith(to);
+              const isActive = to.includes('?') 
+                ? location.pathname + location.search === to
+                : (location.pathname.startsWith(to) && to !== '/dashboard') || (to === '/dashboard' && location.pathname === '/dashboard');
               return (
                 <Link
                   key={to}
@@ -61,17 +64,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Prep Status */}
-        <div className="px-4">
-          <h3 className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Prep Status</h3>
-          <div className="px-3 py-2.5 flex items-center justify-between text-sm rounded-lg border border-slate-100 bg-slate-50">
-            <div className="flex items-center gap-2 text-slate-700 font-medium">
-              <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-              AI Coach Ready
-            </div>
-            <span className="text-xs font-bold text-emerald-600 uppercase">Online</span>
-          </div>
-        </div>
+
       </div>
 
       {/* User Profile Footer */}

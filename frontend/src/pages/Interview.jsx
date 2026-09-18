@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Send, CheckCircle, AlertCircle, Loader2, Brain, BarChart3, Flag } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Loader2, Brain, BarChart3, Flag, Mic } from 'lucide-react';
 import api from '../services/api';
+import useSpeechToText from '../hooks/useSpeechToText';
 
 export default function Interview() {
   const { id } = useParams();
@@ -15,6 +16,27 @@ export default function Interview() {
   const [submitting, setSubmitting] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const [error, setError] = useState('');
+
+  const handleTranscriptComplete = (text) => {
+    if (!text.trim()) return;
+    setAnswer(prev => {
+      const separator = prev.trim() ? ' ' : '';
+      return prev + separator + text.trim();
+    });
+  };
+
+  const {
+    status: speechStatus,
+    interimTexts,
+    error: speechError,
+    startRecording,
+    stopRecording,
+    reset: resetSpeech
+  } = useSpeechToText(handleTranscriptComplete);
+
+  const isRecording = speechStatus === 'recording';
+  const isTranscribing = speechStatus === 'transcribing';
+  const isSpeechActive = isRecording || isTranscribing;
 
   // Adaptive state
   const [evaluation, setEvaluation] = useState(null);
@@ -83,10 +105,12 @@ export default function Interview() {
       if (data.is_complete) {
         setIsComplete(true);
         setTimeout(() => {
+          resetSpeech();
           navigate(`/results/${id}`);
         }, 4000);
       } else if (data.next_question) {
         setTimeout(() => {
+          resetSpeech(); // Ensure microphone stops and pending requests are invalidated
           setCurrentQuestion(data.next_question);
           setAnswer('');
           setShowEvaluation(false);
@@ -195,84 +219,18 @@ export default function Interview() {
         {/* Evaluation Overlay */}
         {showEvaluation && evaluation && (
           <div className="card mb-8 overflow-hidden animate-[fadeIn_0.4s_ease-out]">
-            <div className={`p-1 ${getScoreColorClass(evaluation.overall_score).split(' ')[1]}`}></div>
             <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <BarChart3 size={20} className={getScoreTextColor(evaluation.overall_score)} />
-                  Evaluation
-                </h3>
-                <span className={`text-3xl font-extrabold tracking-tight ${getScoreTextColor(evaluation.overall_score)}`}>
-                  {evaluation.overall_score}%
-                </span>
-              </div>
-
-              {/* Score breakdown */}
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
-                {[
-                  { label: 'Technical', value: evaluation.technical_score },
-                  { label: 'Completeness', value: evaluation.completeness_score },
-                  { label: 'Relevance', value: evaluation.relevance_score },
-                  { label: 'Similarity', value: evaluation.semantic_similarity_score },
-                  { label: 'Concepts', value: evaluation.concept_coverage_score },
-                ].map(s => (
-                  <div key={s.label} className="bg-slate-50 border border-slate-100 rounded-lg p-3 text-center flex flex-col items-center justify-center shadow-sm">
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">{s.label}</div>
-                    <div className={`text-xl font-bold ${getScoreTextColor(s.value)}`}>{s.value}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Feedback */}
-              {evaluation.feedback && (
-                <div className="mb-6 p-4 rounded-lg bg-indigo-50/50 border border-indigo-100">
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    {evaluation.feedback}
-                  </p>
-                </div>
-              )}
-
-              {/* Strengths / Weaknesses */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {evaluation.strengths?.length > 0 && (
-                  <div>
-                    <div className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                      Strengths
-                    </div>
-                    <ul className="space-y-1.5 pl-3">
-                      {evaluation.strengths.map((s, i) => (
-                        <li key={i} className="text-sm text-slate-600 list-disc list-outside marker:text-emerald-400">{s}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {evaluation.weaknesses?.length > 0 && (
-                  <div>
-                    <div className="text-xs font-bold text-red-500 uppercase tracking-wider mb-2 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                      Areas to Improve
-                    </div>
-                    <ul className="space-y-1.5 pl-3">
-                      {evaluation.weaknesses.map((w, i) => (
-                        <li key={i} className="text-sm text-slate-600 list-disc list-outside marker:text-red-400">{w}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
               {isComplete && (
-                <div className="mt-8 p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-center shadow-sm">
-                  <CheckCircle size={24} className="text-emerald-600 mx-auto mb-2" />
-                  <p className="text-sm font-bold text-emerald-800">Interview complete! Redirecting to results...</p>
+                <div className="py-8 p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-center shadow-sm">
+                  <CheckCircle size={32} className="text-emerald-600 mx-auto mb-3" />
+                  <p className="text-base font-bold text-emerald-800">Interview complete! Redirecting to results...</p>
                 </div>
               )}
 
               {!isComplete && (
-                <div className="mt-8 text-center text-sm font-medium text-slate-400 flex items-center justify-center gap-2">
-                  <Loader2 size={16} className="animate-spin" />
-                  Generating your next adaptive question...
+                <div className="py-12 text-center text-base font-medium text-slate-500 flex flex-col items-center justify-center gap-4">
+                  <Loader2 size={32} className="animate-spin text-indigo-500" />
+                  Submitting answer & generating your next question...
                 </div>
               )}
             </div>
@@ -282,20 +240,7 @@ export default function Interview() {
         {/* Question Card */}
         {!showEvaluation && currentQuestion && (
           <div className="flex flex-col flex-1 animate-[fadeIn_0.3s_ease-out]">
-            {/* Question metadata */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="badge bg-slate-200 text-slate-800 font-semibold shadow-sm">{currentQuestion.skill}</span>
-              <span className="badge bg-emerald-100 text-emerald-800 font-semibold shadow-sm capitalize">{currentQuestion.difficulty}</span>
-              <span className="badge bg-amber-100 text-amber-800 font-semibold shadow-sm capitalize">
-                {(currentQuestion.question_type || '').replace(/_/g, ' ')}
-              </span>
-              {currentQuestion.bloom_level && (
-                <span className="badge bg-purple-100 text-purple-800 font-semibold shadow-sm flex items-center gap-1">
-                  <Brain size={12} />
-                  {getBloomLabel(currentQuestion.bloom_level)}
-                </span>
-              )}
-            </div>
+            {/* Question metadata hidden per user request */}
 
             {/* Question */}
             <div className="card p-6 md:p-8 mb-6 shadow-sm border-t-4 border-t-indigo-600">
@@ -309,15 +254,69 @@ export default function Interview() {
 
             {/* Answer */}
             <div className="card p-4 md:p-6 shadow-sm flex-1 flex flex-col mb-4">
-              <label className="text-sm font-bold text-slate-700 mb-2 block" htmlFor="answer-input">Your Answer</label>
-              <textarea
-                id="answer-input"
-                className="input flex-1 resize-y min-h-[200px] md:min-h-[250px] text-base leading-relaxed bg-slate-50 focus:bg-white"
-                value={answer}
-                onChange={e => { setAnswer(e.target.value); setError(''); }}
-                placeholder="Type your answer here..."
-                disabled={submitting}
-              />
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-bold text-slate-700 block" htmlFor="answer-input">Your Answer</label>
+                <button
+                  type="button"
+                  onClick={isRecording ? stopRecording : startRecording}
+                  disabled={submitting || isTranscribing}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    isRecording 
+                      ? 'bg-red-100 text-red-700 border border-red-200 hover:bg-red-200' 
+                      : isTranscribing
+                      ? 'bg-amber-100 text-amber-700 border border-amber-200 cursor-wait'
+                      : 'bg-indigo-50 text-indigo-700 border border-indigo-100 hover:bg-indigo-100'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  {isRecording ? (
+                    <>
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                      </span>
+                      Stop Speaking
+                    </>
+                  ) : isTranscribing ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin text-amber-600" />
+                      <span className="text-amber-700">Transcribing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Mic size={16} />
+                      Start Speaking
+                    </>
+                  )}
+                </button>
+              </div>
+              {/* Render active interim texts in chronological order */}
+              {(() => {
+                const activeInterims = Array.from(interimTexts.entries())
+                  .sort((a, b) => a[0] - b[0])
+                  .map(entry => entry[1])
+                  .filter(text => text.trim().length > 0)
+                  .join(' ');
+                
+                const isReceivingInterim = activeInterims.length > 0;
+                // If answer is non-empty and activeInterims is non-empty, insert a space
+                const displayedValue = activeInterims 
+                  ? answer + (answer.trim() ? " " : "") + activeInterims 
+                  : answer;
+
+                return (
+                  <textarea
+                    id="answer-input"
+                    className={`input flex-1 resize-y min-h-[200px] md:min-h-[250px] text-base leading-relaxed ${isSpeechActive ? 'bg-slate-100 border-indigo-200 ring-1 ring-indigo-200' : 'bg-slate-50 focus:bg-white'}`}
+                    value={displayedValue}
+                    onChange={e => { setAnswer(e.target.value); setError(''); }}
+                    placeholder="Type your answer here or click Start Speaking..."
+                    disabled={submitting}
+                    // Only lock the textarea if words are actively flashing on screen. 
+                    // This allows manual typing during natural pauses without stopping the mic!
+                    readOnly={isReceivingInterim}
+                  />
+                );
+              })()}
               
               <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4">
                 <span className="text-xs font-medium text-slate-400">
@@ -326,7 +325,7 @@ export default function Interview() {
                 <button
                   className="btn btn-primary shadow-md px-8 py-3 w-full sm:w-auto text-base"
                   onClick={handleSubmitAnswer}
-                  disabled={submitting || !answer.trim()}
+                  disabled={submitting || isSpeechActive || !answer.trim()}
                 >
                   {submitting ? (
                     <>
@@ -346,6 +345,12 @@ export default function Interview() {
                 <div className="mt-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm font-medium flex items-center gap-2">
                   <AlertCircle size={16} />
                   {error}
+                </div>
+              )}
+              {speechError && (
+                <div className="mt-4 p-3 rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-sm font-medium flex items-center gap-2">
+                  <AlertCircle size={16} />
+                  {speechError}
                 </div>
               )}
             </div>

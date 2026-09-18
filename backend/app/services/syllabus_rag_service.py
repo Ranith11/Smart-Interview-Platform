@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 
 from app.config import CHROMA_DB_DIR
-from app.services.question_service import get_embedding_model, get_chroma_collection, get_groq_client, get_groq_model_name
+from app.services.question_service import get_embedding_model, get_chroma_collection, get_groq_client, get_groq_model_name, normalize_domain
 
 
 def extract_text_from_file(file_path: str) -> str:
@@ -223,10 +223,12 @@ def create_temporary_rag_from_chunks(temp_id: str, all_chunks: list[str], source
     ids = []
     documents = []
 
+    normalized_domain = normalize_domain(subject)
+
     for i, chunk in enumerate(all_chunks):
         concept = concepts[i] if i < len(concepts) else subject
         metadatas.append({
-            "domain": subject,
+            "domain": normalized_domain,
             "concept": concept,
             "source": source_labels[i],
             "source_url": source_labels[i],
