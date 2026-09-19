@@ -65,6 +65,7 @@ class AdaptiveAnswerResponse(BaseModel):
 
 class SessionResponse(BaseModel):
     id: int
+    mode: Optional[str] = "normal"
     difficulty: str
     question_type: str
     question_count: int
@@ -86,6 +87,7 @@ class SessionResponse(BaseModel):
 class AdaptiveStartResponse(BaseModel):
     """Response for starting a new adaptive interview."""
     session_id: int
+    mode: Optional[str] = "normal"
     difficulty: str
     question_type: str
     question_count: int

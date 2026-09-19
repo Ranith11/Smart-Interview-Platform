@@ -39,7 +39,7 @@ from app.services.syllabus_engine import (
     initialize_syllabus_state,
     calculate_syllabus_summary,
 )
-from app.services.syllabus_rag_service import delete_temporary_rag
+from app.services.syllabus_rag_service import delete_temporary_rag, merge_temporary_to_permanent_kb
 from app.services.question_service import generate_syllabus_question
 
 MAX_ADAPTIVE_QUESTIONS = 30  # Safety limit for infinite loops
@@ -433,6 +433,7 @@ def submit_and_evaluate(
                 syllabus_id=session.syllabus_id,
                 bloom_level=decision.bloom_level,
                 previous_questions=state.previous_questions,
+                previous_topic=question.skill,
             )
         else:
             # ── Step 6: Generate next question for Normal Mode ──
@@ -446,6 +447,7 @@ def submit_and_evaluate(
                 bloom_level=decision.bloom_level,
                 projects=projects,
                 previous_questions=state.previous_questions,
+                previous_skill=question.skill,
             )
 
         next_q_number = state.questions_generated + 1
@@ -484,8 +486,13 @@ def submit_and_evaluate(
                 s_state = SyllabusState.deserialize(session.syllabus_state)
                 s_summary = calculate_syllabus_summary(s_state)
                 session.final_recommendations = s_summary.get("recommendations")
-            # Lifecycle cleanup
-            delete_temporary_rag(session.syllabus_id)
+            # Knowledge Ingestion with Deduplication (post-interview only)
+            if session.syllabus_id:
+                try:
+                    merge_temporary_to_permanent_kb(session.syllabus_id)
+                except Exception as e:
+                    print(f"[InterviewService] Warning: Post-interview syllabus merge error: {e}")
+                delete_temporary_rag(session.syllabus_id)
         else:
             summary = calculate_session_summary(state)
             session.final_recommendations = summary.get("recommendations")
@@ -579,8 +586,12 @@ def complete_interview(db: Session, user_id: int, session_id: int, completion_re
                 session.final_recommendations = s_summary.get("recommendations")
             except Exception as e:
                 print(f"[InterviewService] Warning: Could not generate syllabus recommendations: {e}")
-        # Lifecycle cleanup: delete temporary Chroma collection
+        # Lifecycle cleanup: merge new syllabus knowledge into technical_kb then delete temporary Chroma collection
         if session.syllabus_id:
+            try:
+                merge_temporary_to_permanent_kb(session.syllabus_id)
+            except Exception as e:
+                print(f"[InterviewService] Warning: Post-interview syllabus merge error: {e}")
             delete_temporary_rag(session.syllabus_id)
     elif session.is_adaptive and session.adaptive_state:
         try:

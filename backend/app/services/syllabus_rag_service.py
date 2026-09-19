@@ -137,7 +137,7 @@ def infer_subject_and_topics(text: str, chunks: list[str], filename_hint: str = 
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.0,
-            max_tokens=400,
+            max_tokens=1500,
         )
 
         content = response.choices[0].message.content.strip()
@@ -261,6 +261,160 @@ def process_and_create_syllabus_rag(
         "topics": topics,
         "chunks_count": len(all_chunks),
         "metrics": stage_timings,
+    }
+
+
+CANONICAL_DOMAINS = {
+    "cn": ["cn", "computer network", "computer networks", "networking"],
+    "os": ["os", "operating system", "operating systems"],
+    "dbms": ["dbms", "database", "databases", "database management", "sql"],
+    "dsa": ["dsa", "data structure", "data structures", "algorithm", "algorithms"],
+    "oop": ["oop", "object oriented", "object-oriented"],
+    "system-design": ["system design", "system-design", "distributed systems"],
+    "design-patterns": ["design pattern", "design patterns", "design-patterns"],
+    "ml-dl": ["ml-dl", "machine learning", "deep learning", "artificial intelligence", "ai"],
+}
+
+
+def resolve_kb_domain(subject: str) -> str:
+    """Map subject string to technical_kb canonical domains or clean slug."""
+    subj_lower = subject.lower().strip()
+    for canon, aliases in CANONICAL_DOMAINS.items():
+        if subj_lower == canon:
+            return canon
+        for alias in aliases:
+            if alias in subj_lower:
+                return canon
+    slug = subj_lower.replace(" ", "-").replace("/", "-").strip("-_")
+    return slug or "general"
+
+
+def merge_temporary_to_permanent_kb(temp_id: str) -> dict:
+    """
+    Post-Interview Knowledge Ingestion with Two-Layer Deduplication:
+    1. Exact Data Deduplication: Normalized text content hashing (SHA-256).
+    2. Semantic Near-Duplicate Filtering: Vector distance check against existing KB vectors (< 0.10).
+    
+    Merges genuinely new technical knowledge from temp_syllabus_{temp_id} into technical_kb.
+    Preserves exact technical_kb schema and metadata so merged knowledge works normally.
+    """
+    if not temp_id:
+        return {"merged_count": 0, "exact_skipped": 0, "semantic_skipped": 0}
+
+    import chromadb
+    import hashlib
+
+    client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+    collection_name = f"temp_syllabus_{temp_id}"
+
+    try:
+        temp_col = client.get_collection(name=collection_name)
+    except Exception as e:
+        print(f"[SyllabusRAG] Temporary collection {collection_name} not found for merging: {e}")
+        return {"merged_count": 0, "exact_skipped": 0, "semantic_skipped": 0}
+
+    try:
+        perm_col = client.get_collection(name="technical_kb")
+    except Exception as e:
+        print(f"[SyllabusRAG] Permanent collection technical_kb not found: {e}")
+        return {"merged_count": 0, "exact_skipped": 0, "semantic_skipped": 0}
+
+    temp_data = temp_col.get(include=["documents", "metadatas", "embeddings"])
+    if not temp_data or not temp_data.get("documents"):
+        return {"merged_count": 0, "exact_skipped": 0, "semantic_skipped": 0}
+
+    docs = temp_data["documents"]
+    metas = temp_data["metadatas"]
+    embeddings = temp_data["embeddings"]
+
+    embedding_model = None
+
+    merged_ids = []
+    merged_docs = []
+    merged_metas = []
+    merged_embs = []
+
+    exact_skipped = 0
+    semantic_skipped = 0
+
+    for i, doc in enumerate(docs):
+        if not doc or not doc.strip():
+            continue
+
+        raw_meta = metas[i] if metas and i < len(metas) else {}
+        subject = raw_meta.get("domain", "General Technical")
+        source = raw_meta.get("source", "syllabus")
+        emb = embeddings[i] if embeddings is not None and i < len(embeddings) else None
+
+        if emb is None:
+            if embedding_model is None:
+                embedding_model = get_embedding_model()
+            emb = embedding_model.encode(doc, convert_to_numpy=True).tolist()
+
+        # Clean / normalize text for exact content fingerprinting
+        norm_text = " ".join(doc.strip().split()).lower()
+        chunk_hash = hashlib.sha256(norm_text.encode("utf-8")).hexdigest()[:16]
+        
+        # Canonical domain mapping matching technical_kb 8 core domains or clean slug
+        clean_domain = resolve_kb_domain(subject)
+        chunk_id = f"syllabus_{clean_domain}_{chunk_hash}"
+
+        # --- Layer 1: Exact Content-Hash Deduplication ---
+        existing_exact = perm_col.get(ids=[chunk_id])
+        if existing_exact and existing_exact.get("ids"):
+            exact_skipped += 1
+            continue
+
+        # --- Layer 2: Semantic Near-Duplicate Filtering ---
+        if emb is not None:
+            near_results = perm_col.query(
+                query_embeddings=[emb],
+                n_results=1,
+                include=["distances"]
+            )
+            if near_results and near_results.get("distances") and near_results["distances"][0]:
+                top_distance = near_results["distances"][0][0]
+                # Distance < 0.10 means > 95% semantic similarity with existing knowledge
+                if top_distance < 0.10:
+                    semantic_skipped += 1
+                    continue
+
+        # Genuinely new technical knowledge — prepare metadata matching technical_kb schema
+        kb_meta = {
+            "concept": subject[:50],
+            "domain": clean_domain[:30],
+            "source": str(source)[:100],
+            "source_url": "",
+            "token_count": len(doc.split()),
+        }
+
+        merged_ids.append(chunk_id)
+        merged_docs.append(doc)
+        merged_metas.append(kb_meta)
+        if emb is not None:
+            merged_embs.append(emb)
+
+    # Upsert in batches of 100
+    if merged_ids:
+        batch_size = 100
+        for b in range(0, len(merged_ids), batch_size):
+            b_ids = merged_ids[b:b + batch_size]
+            b_docs = merged_docs[b:b + batch_size]
+            b_metas = merged_metas[b:b + batch_size]
+            b_embs = merged_embs[b:b + batch_size] if merged_embs else None
+            
+            perm_col.upsert(
+                ids=b_ids,
+                documents=b_docs,
+                metadatas=b_metas,
+                embeddings=b_embs,
+            )
+
+    print(f"[SyllabusRAG] Merged to technical_kb: {len(merged_ids)} new chunks added, {exact_skipped} exact duplicates skipped, {semantic_skipped} semantic near-duplicates skipped.")
+    return {
+        "merged_count": len(merged_ids),
+        "exact_skipped": exact_skipped,
+        "semantic_skipped": semantic_skipped,
     }
 
 

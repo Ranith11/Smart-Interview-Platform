@@ -6,6 +6,7 @@ from datetime import datetime
 class ResumeResponse(BaseModel):
     id: int
     filename: str
+    name: Optional[str] = None
     skills: Optional[List[str]] = None
     projects: Optional[List[Any]] = None
     experience: Optional[List[Any]] = None

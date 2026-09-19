@@ -19,7 +19,7 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 @router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
 def register(req: RegisterRequest, db: Session = Depends(get_db)):
-    if req.password != req.confirm_password:
+    if req.confirm_password is not None and req.password != req.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
     try:

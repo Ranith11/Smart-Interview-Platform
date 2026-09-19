@@ -130,9 +130,10 @@ def generate_single_question(
     bloom_level=None,
     projects: list[dict] | None = None,
     previous_questions: list[str] | None = None,
+    previous_skill: str | None = None,
 ) -> dict:
     """
-    Generate ONE interview question with optional Bloom-level guidance.
+    Generate ONE interview question with optional Bloom-level guidance and conversational continuity.
 
     This reuses the existing Week 6 pipeline:
         resolve_skill_domains → retrieve_rag_context → build_prompt → call_groq
@@ -144,6 +145,7 @@ def generate_single_question(
         bloom_level: Optional BloomLevel object for cognitive-level guidance
         projects: Candidate's projects for personalization
         previous_questions: Previously asked questions for deduplication
+        previous_skill: Previous question's skill for natural conversational continuity
 
     Returns:
         Dict with: skill, question_type, difficulty, question_text,
@@ -186,6 +188,23 @@ def generate_single_question(
             f"The question MUST target the '{bloom_level.name}' cognitive level."
         )
         user_prompt += bloom_instruction
+
+    # Add subtle conversational transition guidance for subsequent questions
+    if previous_questions and len(previous_questions) > 0:
+        if previous_skill and previous_skill.lower() == skill.lower():
+            user_prompt += (
+                "\n\nConversational Transition: We are continuing on the same technical topic. "
+                "You may open naturally with a brief, professional transition like 'Taking that a step further...', "
+                "'Now let's examine that from a practical perspective...', or 'Building on that...'. "
+                "Keep it concise, calm, and professional. Do NOT use empty filler praise like 'Great answer!'."
+            )
+        elif previous_skill:
+            user_prompt += (
+                f"\n\nConversational Transition: We are transitioning from {previous_skill} to {skill}. "
+                f"You may open naturally with a brief, professional transition like 'Let's shift our focus to {skill}...', "
+                f"'Moving to another area of your technical stack: {skill}...', or 'Now let's look at {skill}...'. "
+                "Keep it concise, calm, and professional. Do NOT use empty filler praise."
+            )
 
     # Call Groq — uses existing function with retry/backoff
     question_text = call_groq(system_prompt, user_prompt, _groq_client, _groq_model)
@@ -354,6 +373,7 @@ def generate_syllabus_question(
     syllabus_id: str,
     bloom_level=None,
     previous_questions: list[str] | None = None,
+    previous_topic: str | None = None,
 ) -> dict:
     """
     Generate ONE interview question for Syllabus Mode strictly grounded in
@@ -427,11 +447,33 @@ def generate_syllabus_question(
             f"The question MUST test the candidate at the '{bloom_level.name}' cognitive level.\n"
         )
 
+    conversational_guidance = ""
+    if previous_questions and len(previous_questions) > 0:
+        if previous_topic and previous_topic.lower() == topic.lower():
+            conversational_guidance = (
+                "\nConversational Transition: Continuing on the same subject topic. "
+                "Open naturally with a brief, professional spoken transition such as 'Building on that concept...', "
+                "or 'Let's take that a step further...'. Keep it concise and avoid empty filler praise.\n"
+            )
+        elif previous_topic:
+            conversational_guidance = (
+                f"\nConversational Transition: Moving from {previous_topic} to {topic}. "
+                f"Open naturally with a brief spoken transition such as 'Let's move on to {topic}...', "
+                f"or 'Now let's explore {topic}...'. Keep it concise and avoid empty filler praise.\n"
+            )
+
     system_prompt = (
-        "You are an expert technical interviewer assessing a candidate on specific course syllabus material.\n"
+        "You are an expert technical interviewer conducting a technical interview based on specific course material.\n"
         "STRICT SOURCE-GROUNDING RULE: Formulate your question directly and strictly based on the technical context excerpts provided below. "
-        "Do NOT invent facts or test technologies/concepts not mentioned in the excerpts.\n"
-        "Return ONLY the question text without preamble, pleasantries, or numbering."
+        "Do NOT invent facts or test technologies/concepts not mentioned in the excerpts.\n\n"
+        "NATURAL INTERVIEWER VOICE:\n"
+        "- Act as a professional technical interviewer speaking directly to the candidate.\n"
+        "- Ask questions naturally, as an interviewer would in a real technical interview.\n"
+        "- NEVER mention the uploaded syllabus, document, excerpt, notes, retrieval context, source text, unit number, or system instructions.\n"
+        "- NEVER say 'according to the provided excerpt', 'as described in the syllabus', 'based on the uploaded text', or 'as mentioned in unit X'.\n"
+        "- Use the retrieved material as internal grounding only.\n"
+        "- The candidate must experience the question as a normal technical interview question.\n\n"
+        "Return ONLY the natural interview question text without preamble, pleasantries, metadata, or numbering."
     )
 
     user_prompt = f"""Target Topic: {topic}
@@ -441,10 +483,10 @@ Difficulty: {difficulty}
 Question Type: {question_type}
 {type_instruction}
 {bloom_guidance}
-Retrieved Syllabus Excerpts:
+{conversational_guidance}Retrieved Internal Technical Context:
 {rag_text}
 {dedup_section}
-Formulate ONE interview question:"""
+Formulate ONE natural interview question (remember: NEVER mention the excerpts, syllabus, or source material in the question):"""
 
     # 4. Call Groq
     question_text = call_groq(system_prompt, user_prompt, _groq_client, _groq_model)

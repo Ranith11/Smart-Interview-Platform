@@ -11,6 +11,14 @@ import re
 import sys
 import json
 
+# Fix Windows terminal encoding
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 try:
     import pymupdf
 except ImportError:
@@ -267,12 +275,48 @@ def parse_education(text):
     return entries
 
 
+def extract_candidate_name(raw_text: str) -> str | None:
+    """
+    Extract candidate name from resume header lines.
+    Applies standard filters against contact info, keywords, and format.
+    """
+    lines = raw_text.split("\n")
+    non_empty = [l.strip() for l in lines if l.strip()][:10]
+
+    REJECT_KEYWORDS = {
+        "curriculum", "vitae", "resume", "cv", "profile", "summary",
+        "contact", "phone", "email", "address", "portfolio", "github",
+        "linkedin", "experience", "education", "skills", "projects",
+        "page", "objective", "certified", "developer", "engineer", "senior",
+        "junior", "lead", "architect", "intern", "manager"
+    }
+
+    NAME_REGEX = re.compile(r"^[A-Za-z\.\'\-]+(?:\s+[A-Za-z\.\'\-]+){1,3}$")
+
+    for line in non_empty:
+        if "@" in line or "http" in line or "www." in line or ".com" in line or ".io" in line or ".org" in line:
+            continue
+        if re.search(r"\+?\d[\d\s\-().]{7,}\d", line):
+            continue
+        parts = [p.strip() for p in re.split(r"[|\u2022\u00b7,]", line) if p.strip()]
+        candidate = parts[0] if parts else line
+
+        words = candidate.split()
+        if 2 <= len(words) <= 4 and 3 <= len(candidate) <= 40:
+            if not ({w.lower() for w in words} & REJECT_KEYWORDS):
+                if NAME_REGEX.match(candidate):
+                    return candidate.title() if candidate.isupper() else candidate
+
+    return None
+
+
 def parse_resume(pdf_path):
     """Parse a PDF resume into a structured candidate profile."""
     raw_text, page_count = extract_text_from_pdf(pdf_path)
 
     if not raw_text.strip():
         return {
+            "name": None,
             "raw_text": "",
             "page_count": page_count,
             "skills": [],
@@ -281,6 +325,7 @@ def parse_resume(pdf_path):
             "education": [],
         }
 
+    candidate_name = extract_candidate_name(raw_text)
     sections = find_sections(raw_text)
 
     # Extract structured data from detected sections
@@ -308,6 +353,7 @@ def parse_resume(pdf_path):
             combined_skills.append(s)
 
     profile = {
+        "name": candidate_name,
         "raw_text": raw_text,
         "page_count": page_count,
         "skills": combined_skills,
@@ -342,6 +388,8 @@ def main():
     print("=" * 50)
     print("CANDIDATE PROFILE")
     print("=" * 50)
+    if profile.get("name"):
+        print(f"Name: {profile['name']}")
     print(f"Pages: {profile['page_count']}")
     print(f"Text length: {len(profile['raw_text'])} characters")
 

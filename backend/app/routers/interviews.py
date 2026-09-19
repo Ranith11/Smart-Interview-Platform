@@ -13,10 +13,18 @@ Endpoints:
 CORRECTION 1: Uses question_id (database ID) consistently in the adaptive answer endpoint.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Response
+from pydantic import BaseModel
 import os
 import uuid
 from sqlalchemy.orm import Session
+
+from app.services.voice_service import (
+    generate_question_speech,
+    synthesize_speech_bytes,
+    transcribe_audio_bytes,
+    DEFAULT_VOICE,
+)
 
 from app.config import SYLLABUS_UPLOAD_DIR
 from app.database import get_db
@@ -43,6 +51,7 @@ from app.services.interview_service import (
     get_session_results,
 )
 from app.services.syllabus_rag_service import process_and_create_syllabus_rag
+from app.services.report_service import generate_interview_pdf_report
 
 router = APIRouter(prefix="/api/interviews", tags=["interviews"])
 
@@ -260,6 +269,34 @@ def get_results(
         raise HTTPException(status_code=404, detail=str(e))
 
     return results
+
+
+@router.get("/{session_id}/report/pdf")
+def download_pdf_report(
+    session_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Generate and stream downloadable technical interview performance report PDF.
+    Dynamically populated from the actual completed interview session data.
+    """
+    try:
+        pdf_bytes = generate_interview_pdf_report(db, current_user, session_id)
+        filename = f"SmartInterview_Report_Session_{session_id}.pdf"
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f'attachment; filename="{filename}"',
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+            },
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to generate report PDF: {str(e)}")
 
 
 @router.get("/{session_id}/questions/{question_num}", response_model=QuestionResponse)
@@ -482,6 +519,7 @@ def _build_session_response(db: Session, session: InterviewSession) -> dict:
 
     return {
         "id": session.id,
+        "mode": session.mode or "normal",
         "difficulty": session.difficulty,
         "question_type": session.question_type,
         "question_count": session.question_count,
@@ -494,3 +532,87 @@ def _build_session_response(db: Session, session: InterviewSession) -> dict:
         "current_bloom_level": session.current_bloom_level,
         "questions": q_responses,
     }
+
+
+# ── Voice Layer Endpoints ────────────────────────────────────
+
+class VoiceTTSRequest(BaseModel):
+    text: str
+    question_number: int = 1
+    include_intro: bool = False
+    voice: str | None = None
+
+
+@router.post("/voice/tts")
+async def get_voice_tts(req: VoiceTTSRequest):
+    """
+    Synthesize high-quality natural speech for an interview question.
+    Generates streaming in-memory audio via Microsoft Neural TTS (edge-tts).
+    If include_intro is True and question_number == 1, prepends the professional AI greeting.
+    """
+    if not req.text or not req.text.strip():
+        raise HTTPException(status_code=400, detail="Text cannot be empty")
+
+    try:
+        audio_bytes = await generate_question_speech(
+            question_text=req.text,
+            question_number=req.question_number,
+            include_intro=req.include_intro,
+            voice=req.voice or DEFAULT_VOICE,
+        )
+        return Response(
+            content=audio_bytes,
+            media_type="audio/mpeg",
+            headers={
+                "Content-Disposition": "inline; filename=question.mp3",
+                "Cache-Control": "public, max-age=3600",
+            },
+        )
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"TTS synthesis failed: {str(e)}")
+
+
+@router.post("/voice/transcribe")
+async def transcribe_voice(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Transcribe candidate microphone audio using Groq Whisper (whisper-large-v3)
+    with technical vocabulary context prompting.
+    Zero permanent audio retention — audio is discarded immediately after transcription.
+    """
+    if not file:
+        raise HTTPException(status_code=400, detail="No audio file uploaded")
+
+    try:
+        audio_bytes = await file.read()
+        if not audio_bytes or len(audio_bytes) < 100:
+            return {"transcript": ""}
+
+        filename = file.filename or "recording.webm"
+        content_type = file.content_type or "audio/webm"
+
+        transcript = transcribe_audio_bytes(
+            audio_bytes=audio_bytes,
+            filename=filename,
+            mime_type=content_type,
+        )
+        return {"transcript": transcript}
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Voice transcription failed: {str(e)}")
+
+
+@router.get("/voice/status")
+def get_voice_status():
+    """Get status and configuration of voice STT and TTS services."""
+    return {
+        "voice_enabled": True,
+        "stt_provider": "Groq Whisper (whisper-large-v3)",
+        "tts_provider": "Microsoft Neural TTS (edge-tts)",
+        "default_voice": DEFAULT_VOICE,
+        "privacy": "Direct in-memory processing, zero permanent audio retention",
+    }
+

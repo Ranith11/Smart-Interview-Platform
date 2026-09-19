@@ -8,6 +8,7 @@ export default function ResumeUpload() {
   const [uploading, setUploading] = useState(false);
   const [jobDescription, setJobDescription] = useState(null);
   const [jdUploading, setJdUploading] = useState(false);
+  const [skillMapping, setSkillMapping] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +22,16 @@ export default function ResumeUpload() {
       api.get('/job-descriptions/current').then(res => setJobDescription(res.data)).catch(() => {}),
     ]).finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (resume && jobDescription) {
+      api.get('/job-descriptions/mapping')
+        .then(res => setSkillMapping(res.data))
+        .catch(() => setSkillMapping(null));
+    } else {
+      setSkillMapping(null);
+    }
+  }, [resume?.id, jobDescription?.id]);
 
   const handleUpload = async (e) => {
     const file = e.target?.files?.[0] || e.dataTransfer?.files?.[0];
@@ -243,6 +254,9 @@ export default function ResumeUpload() {
                     </span>
                   </div>
                   <div className="text-xs text-slate-500 space-y-1">
+                    {resume.name && (
+                      <div className="font-semibold text-slate-800">Candidate: {resume.name}</div>
+                    )}
                     <div>{resume.page_count || 1} page{resume.page_count === 1 ? '' : 's'}</div>
                     <div>Parsed {resume.uploaded_at ? new Date(resume.uploaded_at).toLocaleDateString() : new Date().toLocaleDateString()}</div>
                     <div className="text-indigo-600 font-medium">{resume.skills?.length || 0} skills detected</div>
@@ -343,6 +357,91 @@ export default function ResumeUpload() {
           )}
         </div>
       </div>
+
+      {/* Role Alignment & Skill Mapping (Shown only when both Resume and JD are uploaded) */}
+      {resume && jobDescription && skillMapping && (
+        <div className="card p-6 border border-indigo-100 bg-gradient-to-br from-white to-indigo-50/20 shadow-sm mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-slate-900 tracking-tight">Role Alignment & Skill Mapping</h2>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700">
+                  Targeted Plan
+                </span>
+              </div>
+              <p className="text-sm text-slate-500 mt-1">Comparison between your resume competencies and job requirements</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold rounded-lg">
+                {skillMapping.matched_skills?.length || 0} Matched
+              </span>
+              <span className="px-3 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold rounded-lg">
+                {skillMapping.gap_skills?.length || 0} Gap Areas
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Matched Skills */}
+            <div className="border border-emerald-100 bg-emerald-50/30 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <Check size={14} className="text-emerald-600" />
+                  Matched Skills ({skillMapping.matched_skills?.length || 0})
+                </span>
+              </div>
+              {skillMapping.matched_skills && skillMapping.matched_skills.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {skillMapping.matched_skills.map(s => (
+                    <span key={s} className="badge badge-success px-2.5 py-1 text-xs font-medium">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 italic">No direct skill overlap detected.</p>
+              )}
+            </div>
+
+            {/* Gap Skills */}
+            <div className="border border-amber-100 bg-amber-50/30 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                  Target Role Gaps ({skillMapping.gap_skills?.length || 0})
+                </span>
+              </div>
+              {skillMapping.gap_skills && skillMapping.gap_skills.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {skillMapping.gap_skills.map(s => (
+                    <span key={s} className="badge badge-warning px-2.5 py-1 text-xs font-medium">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 italic">No skill gaps found for this job description.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Additional Skills on Resume */}
+          {skillMapping.resume_only && skillMapping.resume_only.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-slate-100">
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                Additional Resume Competencies ({skillMapping.resume_only.length})
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {skillMapping.resume_only.map(s => (
+                  <span key={s} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-normal bg-slate-100 text-slate-600">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Extracted Details for Resume (Existing structure preserved intact) */}
       {resume && (

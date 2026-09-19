@@ -482,7 +482,7 @@ def get_groq_model(groq_client):
 
 def call_groq(system_prompt, user_prompt, groq_client, model_name, max_retries=3):
     """Call Groq API to generate a question with retry + exponential backoff."""
-    current_max_tokens = 512
+    current_max_tokens = 1024
 
     for attempt in range(1, max_retries + 1):
         try:
@@ -500,17 +500,18 @@ def call_groq(system_prompt, user_prompt, groq_client, model_name, max_retries=3
             text = choice.message.content
             finish_reason = getattr(choice, "finish_reason", None)
 
-            # Check for empty response
+            # Check for empty response (e.g. reasoning token exhaustion)
             if not text or not text.strip():
-                print(f"  [Attempt {attempt}/{max_retries}] Empty response (finish_reason={finish_reason}), retrying...")
+                print(f"  [Attempt {attempt}/{max_retries}] Empty response (finish_reason={finish_reason}), retrying with increased budget...")
+                current_max_tokens = min(current_max_tokens + 256, 1500)
             # Check for truncated response (hit token limit)
             elif finish_reason == "length":
                 print(f"  [Attempt {attempt}/{max_retries}] Truncated (hit {current_max_tokens} tokens), retrying with more...")
-                current_max_tokens = min(current_max_tokens * 2, 1024)
+                current_max_tokens = min(current_max_tokens + 256, 1500)
             # Check if it was cut off mid-sentence without finish_reason="length"
             elif text.strip()[-1] not in ["?", ".", "!", '"', "'", "`"]:
                 print(f"  [Attempt {attempt}/{max_retries}] Incomplete sentence detected (finish_reason={finish_reason}), retrying...")
-                current_max_tokens = min(current_max_tokens * 2, 1024)
+                current_max_tokens = min(current_max_tokens + 256, 1500)
             else:
                 return text.strip()
 

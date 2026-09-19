@@ -73,6 +73,7 @@ async def upload_resume(
         user_id=current_user.id,
         filename=file.filename,
         file_path=file_path,
+        name=profile.get("name"),
         skills=skills,
         projects=profile.get("projects", []),
         experience=profile.get("experience", []),

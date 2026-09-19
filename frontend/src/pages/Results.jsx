@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { BarChart3, Brain, Target, CheckCircle, ArrowLeft, Lightbulb, Loader2, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { BarChart3, Brain, Target, CheckCircle, ArrowLeft, Lightbulb, Loader2, AlertCircle, ChevronDown, ChevronUp, Download } from 'lucide-react';
 import api from '../services/api';
 
 export default function Results() {
@@ -10,6 +10,7 @@ export default function Results() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [expandedQ, setExpandedQ] = useState(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   useEffect(() => { loadResults(); }, [id]);
 
@@ -21,6 +22,28 @@ export default function Results() {
       setError(err.response?.data?.detail || 'Failed to load results');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    setDownloadingPdf(true);
+    try {
+      const response = await api.get(`/interviews/${id}/report/pdf`, {
+        responseType: 'blob',
+      });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `SmartInterview_Report_Session_${id}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Failed to download PDF report. Please ensure the interview is completed and try again.');
+    } finally {
+      setDownloadingPdf(false);
     }
   };
 
@@ -85,18 +108,39 @@ export default function Results() {
           </div>
         </div>
         {hasEvaluations && (
-          <div className="text-left md:text-center p-4 bg-white border border-slate-200 rounded-xl shadow-sm min-w-[140px]">
-            <div className={`text-4xl font-extrabold tracking-tight ${getScoreTextColor(overall_average_score)}`}>
-              {Math.round(overall_average_score)}<span className="text-xl">%</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={handleDownloadPdf}
+              disabled={downloadingPdf}
+              className="btn bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center gap-2 shadow-sm transition-all px-4 py-3"
+            >
+              {downloadingPdf ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <Download size={18} />
+              )}
+              <span>{downloadingPdf ? 'Generating Report...' : 'Download Interview Report'}</span>
+            </button>
+            <div className="text-left md:text-center p-4 bg-white border border-slate-200 rounded-xl shadow-sm min-w-[130px]">
+              <div className={`text-4xl font-extrabold tracking-tight ${getScoreTextColor(overall_average_score)}`}>
+                {Math.round(overall_average_score)}<span className="text-xl">%</span>
+              </div>
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1">Overall Score</div>
             </div>
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1">Overall Score</div>
           </div>
         )}
       </div>
 
       {!hasEvaluations && (
-        <div className="card p-6 text-center text-slate-500 bg-slate-50">
-          This interview does not have evaluation data. It may be a legacy session.
+        <div className="card p-8 text-center text-slate-600 bg-slate-50 border border-slate-200">
+          <AlertCircle size={36} className="text-amber-500 mx-auto mb-3" />
+          <h3 className="text-base font-bold text-slate-800 mb-1">No Evaluated Questions in Session</h3>
+          <p className="text-sm text-slate-500 max-w-md mx-auto mb-4">
+            This interview session does not contain completed question evaluations. Start a new interview to receive full technical analysis.
+          </p>
+          <Link to="/setup" className="btn btn-primary shadow-sm inline-flex items-center gap-2">
+            Start New Interview
+          </Link>
         </div>
       )}
 
@@ -169,6 +213,31 @@ export default function Results() {
                   {getBloomLabel(bp.bloom_level)}
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Lvl {bp.bloom_order}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Difficulty Progression */}
+      {questions.some(q => q.difficulty) && (
+        <div className="card p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
+            <Target size={20} className="text-emerald-600" /> Difficulty Adaptation Progression
+          </h2>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {questions.map((q, i) => (
+              <div key={q.id || i} className="flex flex-col items-center p-3 rounded-lg bg-slate-50 border border-slate-200 min-w-[85px] flex-shrink-0">
+                <span className="text-xs font-semibold text-slate-400 mb-1">Q{q.question_number}</span>
+                <span className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                  q.difficulty === 'hard' ? 'bg-red-100 text-red-700' :
+                  q.difficulty === 'medium' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'
+                }`}>
+                  {q.difficulty}
+                </span>
+                <span className="text-[10px] text-slate-500 mt-1 truncate max-w-[75px]" title={q.skill}>
+                  {q.skill}
+                </span>
               </div>
             ))}
           </div>
@@ -269,6 +338,16 @@ export default function Results() {
       </div>
 
       <div className="flex flex-wrap gap-3 justify-center pt-4 pb-8">
+        {hasEvaluations && (
+          <button
+            onClick={handleDownloadPdf}
+            disabled={downloadingPdf}
+            className="btn bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm flex items-center gap-2"
+          >
+            {downloadingPdf ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
+            <span>{downloadingPdf ? 'Generating Report...' : 'Download Interview Report'}</span>
+          </button>
+        )}
         <Link to="/dashboard" className="btn btn-secondary shadow-sm">Dashboard</Link>
         <Link to="/setup" className="btn btn-primary shadow-md">New Interview</Link>
         <Link to="/performance" className="btn btn-secondary shadow-sm">Performance Profile</Link>

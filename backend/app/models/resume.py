@@ -10,6 +10,7 @@ class Resume(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     filename = Column(String(255), nullable=False)
     file_path = Column(String(500), nullable=False)
+    name = Column(String(255), nullable=True)
     skills = Column(JSON)
     projects = Column(JSON)
     experience = Column(JSON)

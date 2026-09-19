@@ -18,8 +18,11 @@ def hash_password(password: str) -> str:
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    pw_bytes = plain.encode("utf-8")[:72]
-    return bcrypt.checkpw(pw_bytes, hashed.encode("utf-8"))
+    try:
+        pw_bytes = plain.encode("utf-8")[:72]
+        return bcrypt.checkpw(pw_bytes, hashed.encode("utf-8"))
+    except (ValueError, Exception):
+        return False
 
 
 

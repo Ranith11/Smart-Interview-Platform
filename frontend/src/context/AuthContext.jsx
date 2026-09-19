@@ -9,25 +9,27 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    if (token && savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-        // Verify token is still valid
-        api.get('/auth/me').then(res => {
-          setUser(res.data);
-          localStorage.setItem('user', JSON.stringify(res.data));
-        }).catch(() => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          setUser(null);
-        });
-      } catch {
+    if (!token) {
+      localStorage.removeItem('user');
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    // Verify token with backend before authenticating
+    api.get('/auth/me')
+      .then(res => {
+        setUser(res.data);
+        localStorage.setItem('user', JSON.stringify(res.data));
+      })
+      .catch(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-      }
-    }
-    setLoading(false);
+        setUser(null);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const login = async (email, password) => {

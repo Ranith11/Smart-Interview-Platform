@@ -1,0 +1,18 @@
+[
+    {
+        "id": "java_core",
+        "subject": "Java",
+        "title": "Core Java Syllabus",
+        "pdf_path": "data/syllabi/Java.pdf",
+        "topics": [
+            "Classes and Objects",
+            "Inheritance",
+            "Polymorphism",
+            "Interfaces",
+            "Abstract Classes",
+            "Generics",
+            "Streams",
+            "Multithreading"
+        ]
+    }
+]

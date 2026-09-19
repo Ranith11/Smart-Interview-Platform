@@ -227,7 +227,7 @@ def _llm_evaluate(
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.3,  # lower temperature for more consistent evaluation
-            max_tokens=1024,
+            max_tokens=1200,
         )
 
         text = response.choices[0].message.content

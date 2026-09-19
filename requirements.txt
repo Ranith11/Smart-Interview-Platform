@@ -5,3 +5,5 @@ chromadb==0.6.3
 groq
 python-dotenv
 pymupdf
+edge-tts
+reportlab
