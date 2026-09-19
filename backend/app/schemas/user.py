@@ -24,6 +24,7 @@ class PerformanceResponse(BaseModel):
     overall_average: Optional[float] = None
     skill_performance: Dict[str, Any] = {}
     bloom_progression: List[Dict[str, Any]] = []
+    bloom_performance: Dict[str, float] = {}
     strengths: List[str] = []
     weak_areas: List[str] = []
     recommendations: List[Dict[str, Any]] = []

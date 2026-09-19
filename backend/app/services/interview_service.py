@@ -685,6 +685,7 @@ def get_user_performance(db: Session, user_id: int) -> dict:
     all_recommendations = []
     recent_interviews = []
     bloom_progression = []
+    bloom_data = {}  # level -> {total_score, count}
 
     for sess in sessions:
         # Get evaluations for this session
@@ -703,6 +704,7 @@ def get_user_performance(db: Session, user_id: int) -> dict:
         )
 
         session_scores = []
+        session_skills_data = {}
         for ev in evaluations:
             q = db.query(InterviewQuestion).filter(InterviewQuestion.id == ev.question_id).first()
             if q:
@@ -711,8 +713,18 @@ def get_user_performance(db: Session, user_id: int) -> dict:
                     skill_data[skill] = {"total_score": 0, "count": 0, "bloom_levels": []}
                 skill_data[skill]["total_score"] += ev.overall_score
                 skill_data[skill]["count"] += 1
+                
+                if skill not in session_skills_data:
+                    session_skills_data[skill] = []
+                session_skills_data[skill].append(ev.overall_score)
+                
                 if q.bloom_level:
                     skill_data[skill]["bloom_levels"].append(q.bloom_level_number or 1)
+                    level_name = str(q.bloom_level).capitalize()
+                    if level_name not in bloom_data:
+                        bloom_data[level_name] = {"total_score": 0, "count": 0}
+                    bloom_data[level_name]["total_score"] += ev.overall_score
+                    bloom_data[level_name]["count"] += 1
                 session_scores.append(ev.overall_score)
 
         # Track bloom progression per question in session
@@ -727,12 +739,25 @@ def get_user_performance(db: Session, user_id: int) -> dict:
 
         # Session summary for recent interviews
         avg = round(sum(session_scores) / len(session_scores), 1) if session_scores else 0
+        
+        session_strong_areas = []
+        session_focus_next = []
+        for s_skill, s_scores in session_skills_data.items():
+            s_avg = sum(s_scores) / len(s_scores) if s_scores else 0
+            if s_avg >= 75:
+                session_strong_areas.append(s_skill)
+            elif s_avg < 50:
+                session_focus_next.append(s_skill)
+                
         recent_interviews.append({
             "id": sess.id,
             "date": sess.completed_at.isoformat() if sess.completed_at else None,
             "average_score": avg,
             "question_count": sess.question_count,
             "difficulty": sess.difficulty,
+            "skills": sess.selected_skills or list(session_skills_data.keys()),
+            "strong_areas": session_strong_areas,
+            "focus_next": session_focus_next,
         })
 
         # Collect recommendations
@@ -773,11 +798,16 @@ def get_user_performance(db: Session, user_id: int) -> dict:
             seen_skills.add(s)
             unique_recs.append(rec)
 
+    bloom_performance = {}
+    for level, data in bloom_data.items():
+        bloom_performance[level] = round(data["total_score"] / data["count"], 1) if data["count"] > 0 else 0
+
     return {
         "has_data": True,
         "overall_average": overall_avg,
         "skill_performance": skill_performance,
         "bloom_progression": bloom_progression[:50],  # limit for payload size
+        "bloom_performance": bloom_performance,
         "strengths": strengths,
         "weak_areas": weak_areas,
         "recommendations": unique_recs[:10],
