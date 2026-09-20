@@ -551,9 +551,12 @@ SmartInterview/
 │   │       ├── jd_analysis_service.py   # JD parsing + SBERT skill matching
 │   │       └── speech_service.py        # faster-whisper transcription
 │   ├── setup_database.sql               # Initial MySQL schema (Week 7)
-│   ├── setup_database_v2.sql            # Migration: adaptive + evaluation tables
-│   ├── setup_database_v3.sql            # Migration: completion_reason column
-│   ├── setup_database_v4.sql            # Migration: Job-Specific Mode columns
+│   ├── migrations/
+│   │   ├── setup_database_v2.sql        # Migration: adaptive + evaluation tables
+│   │   ├── setup_database_v3.sql        # Migration: completion_reason column
+│   │   ├── setup_database_v4.sql        # Migration: Job-Specific Mode columns
+│   │   ├── migrate_db.py                # Database migration runner
+│   │   └── run_migration_v4.py          # V4 migration helper script
 │   ├── requirements.txt                 # Python dependencies
 │   └── e2e_api_test.py                  # End-to-end API test script
 ├── frontend/
@@ -673,9 +676,9 @@ Create the MySQL database and apply all migrations in order:
 
 ```bash
 mysql -u root -p < backend/setup_database.sql
-mysql -u root -p < backend/setup_database_v2.sql
-mysql -u root -p < backend/setup_database_v3.sql
-mysql -u root -p < backend/setup_database_v4.sql
+mysql -u root -p < backend/migrations/setup_database_v2.sql
+mysql -u root -p < backend/migrations/setup_database_v3.sql
+mysql -u root -p < backend/migrations/setup_database_v4.sql
 ```
 
 ### 4. Backend Setup
