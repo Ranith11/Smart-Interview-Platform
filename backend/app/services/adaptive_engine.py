@@ -203,7 +203,7 @@ def initialize_state(
 
 # ── Core Adaptive Logic ──────────────────────────────────────
 
-def decide_next(state: AdaptiveState, overall_score: float) -> AdaptiveDecision:
+def decide_next(state: AdaptiveState, overall_score: float, job_relevance_data: dict | None = None) -> AdaptiveDecision:
     """
     Deterministic adaptive decision based on the latest evaluation score.
 
@@ -373,6 +373,69 @@ def _prev_difficulty(current: str) -> str:
     idx = DIFFICULTY_ORDER.get(current, 1)
     prev_idx = max(idx - 1, 0)
     return DIFFICULTIES[prev_idx]
+
+
+# ── Job-Relevance Skill Selection (Job-Specific Mode) ────
+
+def select_skill_with_relevance(
+    state: AdaptiveState,
+    job_relevance_data: dict | None,
+) -> str:
+    """
+    Select the next skill using the EXISTING weakness-biased logic
+    with an additional job-relevance tiebreaker.
+
+    This function is ONLY used for job_specific mode.
+    Normal mode continues to use the original select_skill().
+
+    Strategy:
+        1. Same as select_skill: find least-attempted skills
+        2. Among equally-attempted, prefer weakest (lowest avg score)
+        3. NEW tiebreaker: among equally-attempted AND equally-scored,
+           prefer higher job-relevance
+
+    Job relevance does NOT override weakness priority.
+    A weak skill still gets selected over a strong skill,
+    regardless of relevance.
+    """
+    skills = state.selected_skills
+    if not skills:
+        return ""
+    if len(skills) == 1:
+        return skills[0]
+
+    # If no relevance data, fall back to standard selection
+    if not job_relevance_data:
+        return select_skill(state)
+
+    skill_relevance = job_relevance_data.get("skill_relevance", {})
+    relevance_order = {"high": 0, "medium": 1, "low": 2}
+
+    # Build performance data
+    perf_data = []
+    for skill in skills:
+        perf = state.get_skill_performance(skill)
+        rel = skill_relevance.get(skill, "medium")
+        perf_data.append({
+            "skill": skill,
+            "attempts": perf.attempts,
+            "avg_score": perf.average_score,
+            "relevance_rank": relevance_order.get(rel, 1),
+        })
+
+    # Find minimum attempts
+    min_attempts = min(p["attempts"] for p in perf_data)
+
+    # Filter to least-attempted skills
+    candidates = [p for p in perf_data if p["attempts"] == min_attempts]
+
+    if len(candidates) == 1:
+        return candidates[0]["skill"]
+
+    # Among equally-attempted: sort by (avg_score ASC, relevance_rank ASC)
+    # Weakest first, then highest relevance as tiebreaker
+    candidates.sort(key=lambda p: (p["avg_score"], p["relevance_rank"]))
+    return candidates[0]["skill"]
 
 
 # ── Results Generation ────────────────────────────────────────

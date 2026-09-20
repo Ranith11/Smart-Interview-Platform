@@ -228,6 +228,7 @@ def _llm_evaluate(
             ],
             temperature=0.3,  # lower temperature for more consistent evaluation
             max_tokens=1024,
+            response_format={"type": "json_object"},
         )
 
         text = response.choices[0].message.content
@@ -246,36 +247,24 @@ def _parse_evaluation_json(text: str) -> dict:
     Parse and validate LLM evaluation JSON response.
     Handles malformed JSON gracefully with safe defaults.
     """
-    # Try to extract JSON from the response (handle markdown code blocks)
+    import re
     cleaned = text.strip()
-    if cleaned.startswith("```"):
-        lines = cleaned.split("\n")
-        # Remove first and last lines (```json and ```)
-        json_lines = []
-        inside = False
-        for line in lines:
-            if line.strip().startswith("```") and not inside:
-                inside = True
-                continue
-            elif line.strip() == "```" and inside:
-                break
-            elif inside:
-                json_lines.append(line)
-        cleaned = "\n".join(json_lines)
+    
+    # 1. Try to extract JSON from markdown code blocks
+    match = re.search(r"```(?:json)?\s*(.*?)\s*```", cleaned, re.DOTALL | re.IGNORECASE)
+    if match:
+        cleaned = match.group(1).strip()
+    else:
+        # 2. Try to find JSON object in the raw text
+        start = cleaned.find("{")
+        end = cleaned.rfind("}")
+        if start >= 0 and end > start:
+            cleaned = cleaned[start:end + 1]
 
     try:
         data = json.loads(cleaned)
     except json.JSONDecodeError:
-        # Try to find JSON object in the text
-        start = cleaned.find("{")
-        end = cleaned.rfind("}")
-        if start >= 0 and end > start:
-            try:
-                data = json.loads(cleaned[start:end + 1])
-            except json.JSONDecodeError:
-                return _safe_defaults("Could not parse LLM JSON response")
-        else:
-            return _safe_defaults("No JSON found in LLM response")
+        return _safe_defaults("Could not parse LLM JSON response")
 
     # Validate and clamp all score fields
     validated = {}

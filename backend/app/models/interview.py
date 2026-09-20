@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey, JSON, Boolean, func
+from sqlalchemy import Column, Integer, String, Text, Enum, DateTime, ForeignKey, JSON, Boolean, func
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -25,9 +25,14 @@ class InterviewSession(Base):
     completion_reason = Column(String(50), nullable=True)   # manual, assessment_complete, max_questions_safety_limit
 
     # Syllabus Mode fields
-    mode = Column(String(50), nullable=False, default="normal") # "normal" or "syllabus"
+    mode = Column(String(50), nullable=False, default="normal") # "normal", "syllabus", or "job_specific"
     syllabus_id = Column(String(100), nullable=True)
     syllabus_state = Column(JSON, nullable=True) # serialized SyllabusState
+
+    # Job-Specific Mode fields
+    job_description_text = Column(Text, nullable=True)        # Full JD text pasted by user
+    job_description_title = Column(String(500), nullable=True) # Optional role/title for display
+    job_relevance_data = Column(JSON, nullable=True)          # Structured skill-relevance mapping
 
     user = relationship("User", back_populates="sessions")
     resume = relationship("Resume", back_populates="sessions")

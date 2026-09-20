@@ -129,6 +129,8 @@ def generate_single_question(
     bloom_level=None,
     projects: list[dict] | None = None,
     previous_questions: list[str] | None = None,
+    job_context: str | None = None,
+    is_jd_only: bool = False,
 ) -> dict:
     """
     Generate ONE interview question with optional Bloom-level guidance.
@@ -143,6 +145,7 @@ def generate_single_question(
         bloom_level: Optional BloomLevel object for cognitive-level guidance
         projects: Candidate's projects for personalization
         previous_questions: Previously asked questions for deduplication
+        job_context: Optional job-role context for Job-Specific mode
 
     Returns:
         Dict with: skill, question_type, difficulty, question_text,
@@ -185,6 +188,24 @@ def generate_single_question(
             f"The question MUST target the '{bloom_level.name}' cognitive level."
         )
         user_prompt += bloom_instruction
+
+    # Add job-context guidance for Job-Specific mode
+    if job_context:
+        job_instruction = (
+            f"\n\nJob Context: The candidate is preparing for a role as: {job_context}\n"
+            f"Frame the question so it is relevant to this job role, "
+            f"but keep the question focused on the skill '{skill}'. "
+            f"Do NOT ask about skills other than '{skill}'."
+        )
+        if is_jd_only:
+            job_instruction += (
+                f"\nIMPORTANT: The candidate has NOT listed '{skill}' on their resume. "
+                f"Do NOT assume they have direct experience or projects using it. "
+                f"Instead, ask about their conceptual understanding, theoretical knowledge, "
+                f"or how they would hypothetically apply '{skill}' to a problem."
+            )
+            
+        user_prompt += job_instruction
 
     # Call Groq — uses existing function with retry/backoff
     question_text = call_groq(system_prompt, user_prompt, _groq_client, _groq_model)

@@ -193,7 +193,11 @@ export default function Interview() {
             <div className="flex items-center gap-4">
               <span className="font-bold text-lg text-slate-900 tracking-tight">Smart<span className="text-indigo-600">Interview</span></span>
               <span className="badge bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm hidden sm:inline-flex">
-                {session?.mode === 'syllabus' ? 'Syllabus Mode' : 'Open-Ended Adaptive Session'}
+                {session?.mode === 'syllabus' 
+                  ? 'Syllabus Mode' 
+                  : session?.mode === 'job_specific'
+                    ? 'Job-Specific Interview'
+                    : 'General Technical Session'}
               </span>
             </div>
             <div className="flex items-center gap-6">
@@ -240,7 +244,30 @@ export default function Interview() {
         {/* Question Card */}
         {!showEvaluation && currentQuestion && (
           <div className="flex flex-col flex-1 animate-[fadeIn_0.3s_ease-out]">
-            {/* Question metadata hidden per user request */}
+            {/* Question Metadata */}
+            {session?.mode !== 'syllabus' && currentQuestion && (
+              <div className="flex items-center gap-3 mb-3">
+                {currentQuestion.skill && (
+                  <span className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest bg-slate-100 text-slate-700 rounded-md shadow-sm border border-slate-200">
+                    {currentQuestion.skill}
+                  </span>
+                )}
+                {currentQuestion.difficulty && (
+                  <span className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-md shadow-sm border ${
+                    currentQuestion.difficulty === 'hard' ? 'bg-red-50 text-red-700 border-red-200' :
+                    currentQuestion.difficulty === 'medium' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                    'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  }`}>
+                    {currentQuestion.difficulty}
+                  </span>
+                )}
+                {currentQuestion.bloom_level && (
+                  <span className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest bg-indigo-50 text-indigo-700 rounded-md shadow-sm border border-indigo-200">
+                    {getBloomLabel(currentQuestion.bloom_level)}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Question */}
             <div className="card p-6 md:p-8 mb-6 shadow-sm border-t-4 border-t-indigo-600">

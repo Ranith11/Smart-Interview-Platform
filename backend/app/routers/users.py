@@ -75,6 +75,7 @@ def get_stats(
 
 @router.get("/performance", response_model=PerformanceResponse)
 def get_performance(
+    mode: str | None = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -83,4 +84,4 @@ def get_performance(
     Returns ONLY real data — no fake percentages or placeholders.
     If no evaluated interviews exist, returns has_data=False with empty state.
     """
-    return get_user_performance(db, current_user.id)
+    return get_user_performance(db, current_user.id, mode)

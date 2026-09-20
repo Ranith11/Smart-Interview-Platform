@@ -30,8 +30,10 @@ from app.services.adaptive_engine import (
     get_initial_decision,
     calculate_session_summary,
     generate_recommendations,
+    select_skill_with_relevance,
 )
 from app.services.evaluation_service import evaluate_answer, EvaluationResult
+from app.services.jd_analysis_service import analyze_job_description, get_skills_for_interview
 
 from app.services.syllabus_engine import (
     initialize_syllabus_state, SyllabusState, calculate_syllabus_summary as calc_syllabus_summary
@@ -157,7 +159,21 @@ def create_interview_session(
             "rag_context_full": q_data.get("rag_context_full"),
         }
         
-    # --- Normal Adaptive Mode Below ---
+    # --- Job Specific Mode ---
+    job_relevance_data = None
+    if mode == "job_specific":
+        jd_text = kwargs.get("job_description_text")
+        if not jd_text:
+            raise ValueError("Job-Specific Mode requires job_description_text")
+        
+        job_relevance_data = kwargs.get("cached_relevance_data")
+        if not job_relevance_data:
+            raise ValueError("Job-Specific Mode requires pre-computed job_relevance_data from analysis phase")
+        
+        # Use the ordered skills based on relevance (filtered strictly in get_skills_for_interview)
+        use_skills = get_skills_for_interview(job_relevance_data, skills)
+
+    # --- Normal / Job-Specific Adaptive Mode Below ---
 
     # Use defaults for open-ended interviews
     difficulty = difficulty or "medium"
@@ -188,11 +204,20 @@ def create_interview_session(
         is_adaptive=True,
         adaptive_state=adaptive_state.serialize(),
         current_bloom_level=decision.bloom_level.id,
-        mode="normal"
+        mode=mode,
+        job_description_text=kwargs.get("job_description_text") if mode == "job_specific" else None,
+        job_description_title=kwargs.get("job_description_title") if mode == "job_specific" else None,
+        job_relevance_data=job_relevance_data if mode == "job_specific" else None,
     )
     db.add(session)
     db.commit()
     db.refresh(session)
+
+    # Determine if JD-only
+    is_jd_only = False
+    if mode == "job_specific" and job_relevance_data:
+        jd_only_skills = job_relevance_data.get("jd_only_skills", [])
+        is_jd_only = decision.skill in jd_only_skills
 
     # Generate ONLY the first question
     q_data = generate_single_question(
@@ -202,6 +227,8 @@ def create_interview_session(
         bloom_level=decision.bloom_level,
         projects=projects,
         previous_questions=[],
+        job_context=kwargs.get("job_description_title") if mode == "job_specific" else None,
+        is_jd_only=is_jd_only,
     )
 
     # Store in DB
@@ -419,11 +446,16 @@ def submit_and_evaluate(
 
     if not is_complete:
         # ── Step 5: Adaptive decision ─────────────────────
-        decision = decide_next(state, eval_result.overall_score)
+        job_relevance = session.job_relevance_data if session.mode == "job_specific" else None
+        decision = decide_next(state, eval_result.overall_score, job_relevance)
 
         # ── Step 6: Generate next question ────────────────
         resume = db.query(Resume).filter(Resume.id == session.resume_id).first()
         projects = resume.projects if resume else []
+        
+        is_jd_only = False
+        if session.mode == "job_specific" and session.job_relevance_data:
+            is_jd_only = decision.skill in session.job_relevance_data.get("jd_only_skills", [])
 
         q_data = generate_single_question(
             skill=decision.skill,
@@ -432,6 +464,8 @@ def submit_and_evaluate(
             bloom_level=decision.bloom_level,
             projects=projects,
             previous_questions=state.previous_questions,
+            job_context=session.job_description_title if session.mode == "job_specific" else None,
+            is_jd_only=is_jd_only,
         )
 
         next_q_number = state.questions_generated + 1
@@ -619,22 +653,24 @@ def get_user_stats(db: Session, user_id: int) -> dict:
 
 # ── Performance Data (Week 10 Dashboard) ──────────────────
 
-def get_user_performance(db: Session, user_id: int) -> dict:
+def get_user_performance(db: Session, user_id: int, mode: str | None = None) -> dict:
     """
     Get aggregated performance data for the user across all evaluated interviews.
     Returns ONLY real data — no fake percentages or placeholders.
     """
-    # Get all completed normal mode sessions (Syllabus mode is explicitly excluded)
-    sessions = (
-        db.query(InterviewSession)
-        .filter(
-            InterviewSession.user_id == user_id,
-            InterviewSession.status == "completed",
-            InterviewSession.mode == "normal",
-        )
-        .order_by(InterviewSession.completed_at.desc())
-        .all()
+    # Get all completed normal/job_specific mode sessions (Syllabus mode is explicitly excluded for bloom stats)
+    query = db.query(InterviewSession).filter(
+        InterviewSession.user_id == user_id,
+        InterviewSession.status == "completed",
     )
+    
+    if mode and mode != "all":
+        query = query.filter(InterviewSession.mode == mode)
+    else:
+        # Default behavior: include both normal and job_specific in overall performance
+        query = query.filter(InterviewSession.mode.in_(["normal", "job_specific"]))
+        
+    sessions = query.order_by(InterviewSession.completed_at.desc()).all()
 
     if not sessions:
         return {
@@ -744,6 +780,7 @@ def get_user_performance(db: Session, user_id: int) -> dict:
             "question_count": sess.question_count,
             "difficulty": sess.difficulty,
             "mode": sess.mode,
+            "job_description_title": sess.job_description_title if hasattr(sess, "job_description_title") else None,
             "skills": actual_skills_tested if actual_skills_tested else (sess.selected_skills or []),
             "strong_areas": sess_strengths,
             "focus_next": sess_focus,
@@ -901,6 +938,8 @@ def get_session_results(db: Session, user_id: int, session_id: int) -> dict:
             "status": session.status,
             "completion_reason": session.completion_reason,
             "is_adaptive": session.is_adaptive,
+            "mode": session.mode,
+            "job_description_title": session.job_description_title,
             "started_at": session.started_at.isoformat() if session.started_at else None,
             "completed_at": session.completed_at.isoformat() if session.completed_at else None,
         },

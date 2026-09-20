@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   BarChart3, Target, Lightbulb, Award, AlertCircle, Loader2, 
-  Trophy, ClipboardList, TrendingUp, Calendar, BookOpen, CheckCircle2, FileText, ArrowRight
+  Trophy, ClipboardList, TrendingUp, Calendar, BookOpen, CheckCircle2, FileText, ArrowRight, Settings, Briefcase
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -10,12 +10,14 @@ export default function PerformanceDashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [modeFilter, setModeFilter] = useState('normal');
 
-  useEffect(() => { loadPerformance(); }, []);
+  useEffect(() => { loadPerformance(); }, [modeFilter]);
 
   const loadPerformance = async () => {
+    setLoading(true);
     try {
-      const res = await api.get('/users/performance');
+      const res = await api.get(`/users/performance?mode=${modeFilter}`);
       setData(res.data);
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to load performance data');
@@ -45,7 +47,13 @@ export default function PerformanceDashboard() {
     return 'bg-red-500';
   };
 
-  if (loading) {
+  const getModeLabel = (mode) => {
+    if (mode === 'job_specific') return 'Job-Specific';
+    if (mode === 'syllabus') return 'Syllabus-Based';
+    return 'General Technical';
+  };
+
+  if (loading && !data) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Loader2 size={36} className="animate-spin text-indigo-600" />
@@ -65,18 +73,42 @@ export default function PerformanceDashboard() {
     );
   }
 
+  const renderHeader = () => (
+    <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Performance Analytics</h1>
+        <p className="text-slate-500 mt-1 text-sm">Track your interview performance, identify trends, and get personalized recommendations.</p>
+      </div>
+      {/* Mode Filter Dropdown */}
+      <div className="relative self-start sm:self-auto">
+        <select
+          value={modeFilter}
+          onChange={(e) => setModeFilter(e.target.value)}
+          className="appearance-none bg-white border border-slate-200 text-slate-700 font-medium text-sm rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 shadow-sm cursor-pointer hover:border-slate-300 transition-colors"
+        >
+          <option value="normal">General Technical</option>
+          <option value="job_specific">Job-Specific</option>
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+          <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+
   if (!data?.has_data || !data.recent_interviews || data.recent_interviews.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Performance Analytics</h1>
-          <p className="text-slate-500 mt-1 text-base">Track your interview performance, identify trends, and get personalized recommendations.</p>
-        </div>
-        <div className="card border-slate-200 border-dashed text-center p-12 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-6 bg-slate-50/50 min-h-screen">
+        {renderHeader()}
+        <div className="card border-slate-200 border-dashed text-center p-12 bg-slate-50/80">
           <BarChart3 size={64} className="text-slate-300 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-slate-700 mb-2">No Completed Interviews Yet</h3>
+          <h3 className="text-xl font-bold text-slate-700 mb-2">
+            No Completed {modeFilter !== 'all' ? getModeLabel(modeFilter) : ''} Interviews
+          </h3>
           <p className="text-slate-500 mb-8 max-w-md mx-auto">
-            Complete an interview to see your performance analytics, skill breakdowns, and personalized AI recommendations.
+            Complete an interview in this mode to see your performance analytics, skill breakdowns, and personalized AI recommendations.
           </p>
           <Link to="/setup" className="btn btn-primary shadow-sm px-6">Start an Interview</Link>
         </div>
@@ -120,10 +152,7 @@ export default function PerformanceDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-6 bg-slate-50/50 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Performance Analytics</h1>
-        <p className="text-slate-500 mt-1 text-sm">Track your interview performance, identify trends, and get personalized recommendations.</p>
-      </div>
+      {renderHeader()}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -179,7 +208,8 @@ export default function PerformanceDashboard() {
             <h2 className="text-lg font-bold text-slate-900">Interview Performance Progress</h2>
             <p className="text-sm text-slate-500">Your overall score across all completed interviews.</p>
           </div>
-          <div className="w-full overflow-x-auto custom-scrollbar border border-slate-100 rounded-lg bg-slate-50">
+          <div className="w-full overflow-x-auto custom-scrollbar border border-slate-100 rounded-lg bg-slate-50 relative">
+            {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px] flex items-center justify-center z-10 rounded-lg"><Loader2 className="animate-spin text-indigo-500" /></div>}
             <svg width={svgWidth} height={svgHeight} className="min-w-full">
               {/* Grid Lines */}
               {[0, 20, 40, 60, 80, 100].map(val => (
@@ -272,10 +302,16 @@ export default function PerformanceDashboard() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Bloom's Taxonomy */}
-        <div className="card p-6 shadow-sm bg-white border border-slate-100 xl:col-span-1 flex flex-col">
-          <div className="mb-6">
-            <h2 className="text-lg font-bold text-slate-900">Bloom's Taxonomy Progression</h2>
-            <p className="text-sm text-slate-500">Your performance across cognitive levels.</p>
+        {modeFilter !== 'syllabus' && (
+          <div className="card p-6 shadow-sm bg-white border border-slate-100 xl:col-span-1 flex flex-col">
+          <div className="mb-6 flex justify-between items-start gap-4">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">Bloom's Taxonomy</h2>
+              <p className="text-sm text-slate-500">Your performance across cognitive levels.</p>
+            </div>
+            {modeFilter === 'syllabus' && (
+              <span className="badge bg-amber-50 text-amber-700 border-amber-200">Syllabus Mode Excluded</span>
+            )}
           </div>
           {bloom_performance && Object.keys(bloom_performance).length > 0 ? (
             <div className="flex-1 flex items-end justify-between min-h-[220px] pb-10 pt-4 relative pl-12">
@@ -317,12 +353,15 @@ export default function PerformanceDashboard() {
               <div className="absolute bottom-0 w-full text-center text-[10px] font-medium text-slate-400 ml-2">Cognitive Level</div>
             </div>
           ) : (
-            <p className="text-slate-500 text-sm">No Bloom data available yet.</p>
+            <p className="text-slate-500 text-sm mt-4">
+              {modeFilter === 'syllabus' ? "Syllabus mode uses a linear structure, not Bloom's taxonomy." : "No Bloom data available yet."}
+            </p>
           )}
         </div>
+        )}
 
         {/* Strengths and Weaknesses */}
-        <div className="card p-6 shadow-sm bg-white border border-slate-100 xl:col-span-2">
+        <div className={`card p-6 shadow-sm bg-white border border-slate-100 ${modeFilter === 'syllabus' ? 'xl:col-span-3' : 'xl:col-span-2'}`}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
             <div>
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
@@ -383,11 +422,19 @@ export default function PerformanceDashboard() {
       {/* Latest Interview Summary */}
       {latestInterview && (
         <div className="card p-6 shadow-sm bg-white border border-slate-100 border-l-4 border-l-blue-500">
-          <div className="flex items-center gap-2 mb-4">
-            <Calendar size={20} className="text-blue-500" />
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Latest Interview Summary</h2>
-              <p className="text-xs text-slate-500">Your most recent interview performance.</p>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Calendar size={20} className="text-blue-500" />
+              <div>
+                <h2 className="text-lg font-bold text-slate-900">Latest Interview Summary</h2>
+                <p className="text-xs text-slate-500">Your most recent interview performance.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full font-semibold">
+              {latestInterview.mode === 'job_specific' && <Briefcase size={16} />}
+              {latestInterview.mode === 'syllabus' && <BookOpen size={16} />}
+              {latestInterview.mode === 'normal' && <Settings size={16} />}
+              {getModeLabel(latestInterview.mode)}
             </div>
           </div>
           

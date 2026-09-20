@@ -34,6 +34,8 @@ from app.schemas.interview import (
     AdaptiveAnswerResponse,
     EvaluationResponse,
     SessionResultsResponse,
+    AnalyzeJdRequest,
+    JobMatchAnalysisResponse,
 )
 from app.services.interview_service import (
     create_interview_session,
@@ -44,6 +46,9 @@ from app.services.interview_service import (
 )
 
 router = APIRouter(prefix="/api/interviews", tags=["interviews"])
+
+_jd_analysis_cache: dict[str, dict] = {}
+
 
 
 ALLOWED_SYLLABUS_EXTENSIONS = {".pdf", ".txt", ".docx"}
@@ -162,6 +167,125 @@ async def upload_syllabus(
         "files_processed": len(saved_paths),
     }
 
+@router.post("/extract-jd", status_code=status.HTTP_200_OK)
+async def extract_jd_file(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Extract text from a Job Description file (PDF, TXT, MD).
+    Returns the raw text to the frontend so it can populate the JD text area.
+    """
+    if not file:
+        raise HTTPException(status_code=400, detail="No file provided")
+
+    _, ext = os.path.splitext(file.filename or "")
+    ext = ext.lower()
+    if ext not in {".pdf", ".txt", ".md"}:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported JD file type '{ext}'. Allowed: PDF, TXT, MD",
+        )
+
+    content = await file.read()
+    if len(content) == 0:
+        raise HTTPException(status_code=400, detail="File is empty")
+    if len(content) > 10 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File exceeds 10 MB limit")
+
+    text = ""
+    if ext == ".pdf":
+        import pymupdf
+        try:
+            doc = pymupdf.open(stream=content, filetype="pdf")
+            for page in doc:
+                text += page.get_text() + "\n"
+            doc.close()
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Failed to extract PDF: {str(e)}")
+            
+        if not text.strip():
+            raise HTTPException(
+                status_code=400, 
+                detail="This PDF appears to be scanned or contains no extractable text."
+            )
+    else:
+        # TXT or MD
+        try:
+            text = content.decode("utf-8")
+        except UnicodeDecodeError:
+            try:
+                text = content.decode("latin-1")
+            except Exception:
+                raise HTTPException(status_code=400, detail="Failed to read text file encoding.")
+
+    return {"filename": file.filename, "extracted_text": text.strip()}
+
+
+@router.post("/analyze-jd", response_model=JobMatchAnalysisResponse, status_code=status.HTTP_200_OK)
+def analyze_jd(
+    req: AnalyzeJdRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Perform Job Description relevance analysis without starting the interview.
+    Returns the authoritative JobMatchAnalysisResponse.
+    """
+    from app.services.jd_analysis_service import analyze_job_description
+    from app.services.question_service import get_groq_client, get_groq_model_name
+    from app.models.resume import Resume
+
+    resume = db.query(Resume).filter(
+        Resume.id == req.resume_id, Resume.user_id == current_user.id
+    ).first()
+    if not resume:
+        raise HTTPException(status_code=404, detail="Resume not found")
+
+    if not req.job_description_text or not req.job_description_text.strip():
+        raise HTTPException(status_code=400, detail="Job description text is empty")
+
+    candidate_skills = resume.skills or []
+
+    try:
+        relevance_data = analyze_job_description(
+            jd_text=req.job_description_text,
+            candidate_skills=candidate_skills,
+            groq_client=get_groq_client(),
+            groq_model=get_groq_model_name(),
+            job_title=req.job_description_title,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"JD Analysis failed: {str(e)}")
+
+    analysis_id = uuid.uuid4().hex
+    
+    # Securely cache the authoritative analysis
+    _jd_analysis_cache[analysis_id] = relevance_data
+
+    # Map for the frontend response
+    matching_skills = {}
+    non_matching_skills = []
+    
+    skill_rel = relevance_data.get("skill_relevance", {})
+    for skill, rel in skill_rel.items():
+        if rel in ("high", "medium"):
+            matching_skills[skill] = rel
+        else:
+            non_matching_skills.append(skill)
+            
+    jd_only_skills = relevance_data.get("jd_only_skills", [])
+    inferred_title = relevance_data.get("inferred_title")
+
+    return JobMatchAnalysisResponse(
+        analysis_id=analysis_id,
+        matching_skills=matching_skills,
+        jd_only_skills=jd_only_skills,
+        non_matching_skills=non_matching_skills,
+        inferred_title=inferred_title
+    )
+
+
 @router.post("/start", status_code=status.HTTP_201_CREATED)
 def start_interview(
     req: StartInterviewRequest,
@@ -169,6 +293,15 @@ def start_interview(
     db: Session = Depends(get_db),
 ):
     """Start a new adaptive interview. Returns session + first question only."""
+    # Check authoritative cache if Job-Specific mode
+    job_relevance_data = None
+    if req.mode == "job_specific":
+        if not req.analysis_id:
+            raise HTTPException(status_code=400, detail="analysis_id is required for Job-Specific mode")
+        job_relevance_data = _jd_analysis_cache.pop(req.analysis_id, None)
+        if not job_relevance_data:
+            raise HTTPException(status_code=400, detail="Invalid or expired analysis_id. Please re-analyze the job description.")
+
     try:
         result = create_interview_session(
             db=db,
@@ -181,6 +314,9 @@ def start_interview(
             mode=req.mode,
             syllabus_id=req.syllabus_id,
             selected_topics=req.selected_topics,
+            job_description_text=req.job_description_text,
+            job_description_title=req.job_description_title,
+            cached_relevance_data=job_relevance_data,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -256,6 +392,8 @@ def get_history(
             selected_skills=s.selected_skills,
             is_adaptive=s.is_adaptive,
             average_score=avg_score,
+            mode=s.mode,
+            job_description_title=s.job_description_title if hasattr(s, "job_description_title") else None,
         ))
     return result
 
@@ -522,6 +660,7 @@ def _build_session_response(db: Session, session: InterviewSession) -> dict:
         "completion_reason": session.completion_reason,
         "is_adaptive": session.is_adaptive,
         "mode": session.mode,
+        "job_description_title": session.job_description_title if hasattr(session, "job_description_title") else None,
         "syllabus_id": session.syllabus_id,
         "syllabus_state": session.syllabus_state,
         "current_bloom_level": session.current_bloom_level,

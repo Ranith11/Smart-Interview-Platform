@@ -1,0 +1,10 @@
+Senior Backend Developer
+
+Requirements:
+- Strong experience with Python.
+- Proven experience building REST APIs.
+- Must have experience with FastAPI.
+
+Preferred:
+- Experience with Docker and containerization.
+- AWS cloud experience.

@@ -77,7 +77,25 @@ export default function Results() {
           </button>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Interview Results</h1>
           <div className="flex flex-wrap items-center gap-2 mt-2 text-sm text-slate-500">
-            <span className="font-medium text-slate-700 capitalize">{session.difficulty}</span>
+            <span className="badge bg-indigo-50 text-indigo-700 border border-indigo-100 font-semibold">
+              {session.mode === 'syllabus' 
+                ? 'Syllabus Mode' 
+                : session.mode === 'job_specific' 
+                  ? 'Job-Specific Interview' 
+                  : 'General Technical Session'}
+            </span>
+            {session.mode === 'job_specific' && session.job_description_title && (
+              <>
+                <span className="text-slate-300">•</span>
+                <span className="font-semibold text-slate-700 truncate max-w-[200px]">{session.job_description_title}</span>
+              </>
+            )}
+            {session.mode === 'normal' && (
+              <>
+                <span className="text-slate-300">•</span>
+                <span className="font-medium text-slate-700 capitalize">{session.difficulty}</span>
+              </>
+            )}
             <span className="text-slate-300">•</span>
             <span>{questions.length} questions answered</span>
             <span className="text-slate-300">•</span>

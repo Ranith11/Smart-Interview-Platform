@@ -9,9 +9,27 @@ class StartInterviewRequest(BaseModel):
     question_type: Optional[str] = Field(default="mixed")
     question_count: Optional[int] = Field(default=None) # Ignored for adaptive, kept for legacy
     selected_skills: Optional[List[str]] = None
-    mode: Optional[str] = Field(default="normal", pattern="^(normal|syllabus)$")
+    mode: Optional[str] = Field(default="normal", pattern="^(normal|syllabus|job_specific)$")
     syllabus_id: Optional[str] = None
     selected_topics: Optional[List[str]] = None
+    # Job-Specific Mode fields
+    job_description_text: Optional[str] = None
+    job_description_title: Optional[str] = None
+    analysis_id: Optional[str] = None # Added for authoritative analysis reuse
+
+# ── Job-Specific Analysis (Week 10) ──────────────────────
+
+class AnalyzeJdRequest(BaseModel):
+    resume_id: int
+    job_description_text: str
+    job_description_title: Optional[str] = None
+
+class JobMatchAnalysisResponse(BaseModel):
+    analysis_id: str
+    matching_skills: Dict[str, str] # skill -> relevance (e.g., 'high', 'medium')
+    jd_only_skills: List[str]
+    non_matching_skills: List[str]
+    inferred_title: Optional[str] = None
 
 
 # ── Evaluation (Week 9) ──────────────────────────────────
@@ -121,6 +139,8 @@ class HistoryItem(BaseModel):
     selected_skills: Optional[List[str]] = None
     is_adaptive: Optional[bool] = None
     average_score: Optional[float] = None
+    mode: Optional[str] = None
+    job_description_title: Optional[str] = None
 
     class Config:
         from_attributes = True

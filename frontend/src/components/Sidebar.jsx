@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const mainMenuItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/setup?mode=syllabus', label: 'Syllabus Mode', icon: BookOpen },
+  { to: '/setup', label: 'Start Interview', icon: BookOpen },
   { to: '/history', label: 'Interviews', icon: Clock },
   { to: '/resume', label: 'Resume & Skills', icon: FileText },
   { to: '/performance', label: 'Analytics', icon: BarChart3 },
