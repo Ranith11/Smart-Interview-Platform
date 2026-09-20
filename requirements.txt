@@ -1,7 +1,0 @@
-beautifulsoup4==4.12.3
-requests==2.32.3
-sentence-transformers==3.4.1
-chromadb==0.6.3
-groq
-python-dotenv
-pymupdf
