@@ -18,7 +18,7 @@ if (-not (Test-Path "$FrontendDir\package.json")) {
     exit 1
 }
 
-Write-Host "Starting Vite frontend on http://localhost:5173 ..." -ForegroundColor Yellow
+Write-Host "Starting Vite frontend on http://localhost:5173" -ForegroundColor Yellow
 Write-Host ""
 
 npm run dev

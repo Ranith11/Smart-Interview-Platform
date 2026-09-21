@@ -112,9 +112,11 @@ export default function Dashboard() {
             </div>
             <div className="flex items-end gap-3">
               <span className="text-3xl font-extrabold text-slate-900">{stats?.total_interviews || 0}</span>
-              <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md mb-1.5">+1 this week</span>
+              {stats?.total_interviews > 0 && (
+                <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md mb-1.5">+{stats.total_interviews} total</span>
+              )}
             </div>
-            <p className="text-xs text-slate-400 font-medium mt-2">Mock & behavioral series</p>
+            <p className="text-xs text-slate-400 font-medium mt-2">Adaptive interview sessions</p>
           </div>
           
           <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm hover:border-emerald-200 transition-colors">
@@ -124,9 +126,13 @@ export default function Dashboard() {
             </div>
             <div className="flex items-end gap-3">
               <span className="text-3xl font-extrabold text-slate-900">{stats?.completed_interviews || 0}</span>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md mb-1.5">100% finished</span>
+              {stats?.total_interviews > 0 && (
+                <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md mb-1.5">
+                  {Math.round((stats.completed_interviews / stats.total_interviews) * 100)}% finished
+                </span>
+              )}
             </div>
-            <p className="text-xs text-slate-400 font-medium mt-2">0 abandoned sessions</p>
+            <p className="text-xs text-slate-400 font-medium mt-2">{stats?.total_interviews - stats?.completed_interviews || 0} abandoned sessions</p>
           </div>
 
           <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm hover:border-sky-200 transition-colors">
@@ -136,9 +142,11 @@ export default function Dashboard() {
             </div>
             <div className="flex items-end gap-3">
               <span className="text-3xl font-extrabold text-slate-900">{stats?.total_questions || 0}</span>
-              <span className="text-xs font-semibold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-md mb-1.5">AI Evaluated</span>
+              {stats?.total_questions > 0 && (
+                <span className="text-xs font-semibold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-md mb-1.5">AI Evaluated</span>
+              )}
             </div>
-            <p className="text-xs text-slate-400 font-medium mt-2">Algorithmic & System Design</p>
+            <p className="text-xs text-slate-400 font-medium mt-2">Across all interview sessions</p>
           </div>
 
           <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm hover:border-indigo-200 transition-colors">
@@ -148,7 +156,11 @@ export default function Dashboard() {
             </div>
             <div className="flex items-end gap-3">
               <span className="text-3xl font-extrabold text-slate-900">{stats?.total_answered || 0}</span>
-              <span className="text-xs font-semibold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-md mb-1.5">86% response</span>
+              {stats?.total_questions > 0 && (
+                <span className="text-xs font-semibold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-md mb-1.5">
+                  {Math.round((stats.total_answered / stats.total_questions) * 100)}% response
+                </span>
+              )}
             </div>
             <p className="text-xs text-slate-400 font-medium mt-2">Questions successfully completed</p>
           </div>

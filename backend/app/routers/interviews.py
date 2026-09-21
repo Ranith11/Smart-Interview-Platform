@@ -544,7 +544,7 @@ class VoiceTTSRequest(BaseModel):
 
 
 @router.post("/voice/tts")
-async def get_voice_tts(req: VoiceTTSRequest):
+async def get_voice_tts(req: VoiceTTSRequest, current_user: User = Depends(get_current_user)):
     """
     Synthesize high-quality natural speech for an interview question.
     Generates streaming in-memory audio via Microsoft Neural TTS (edge-tts).

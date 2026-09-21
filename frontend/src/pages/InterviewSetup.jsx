@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { Play, Settings, AlertCircle, ArrowRight } from 'lucide-react';
+import { Play, Settings, AlertCircle, ArrowRight, Briefcase } from 'lucide-react';
 
 export default function InterviewSetup() {
   const [resume, setResume] = useState(null);
+  const [hasJD, setHasJD] = useState(false);
   const [targetSkills, setTargetSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,10 +16,12 @@ export default function InterviewSetup() {
   useEffect(() => {
     Promise.all([
       api.get('/resumes/current'),
+      api.get('/job-descriptions/current').catch(() => null),
       api.get('/job-descriptions/mapping').catch(() => null),
     ])
-      .then(([res, mapRes]) => {
+      .then(([res, jdRes, mapRes]) => {
         setResume(res.data);
+        setHasJD(!!jdRes?.data);
         const skills = mapRes?.data?.interview_skills?.length > 0
           ? mapRes.data.interview_skills
           : (res.data.skills || []);
@@ -72,6 +75,21 @@ export default function InterviewSetup() {
           <h2 className="text-xl font-bold text-amber-900 mb-2">No Resume Uploaded</h2>
           <p className="text-amber-700 mb-6">You need to upload your resume before starting an interview so we can personalize the questions.</p>
           <button onClick={() => navigate('/resume')} className="btn bg-amber-600 text-white hover:bg-amber-700 w-full shadow-sm">Upload Resume</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!hasJD) {
+    return (
+      <div className="max-w-md mx-auto mt-16 px-4">
+        <div className="card text-center p-8 border-blue-200 bg-blue-50 shadow-sm">
+          <Briefcase size={48} className="text-blue-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-blue-900 mb-2">No Job Description Uploaded</h2>
+          <p className="text-blue-700 mb-6">
+            The adaptive interview engine targets skills from your job description. Please upload a JD so we can focus on what matters for your role.
+          </p>
+          <button onClick={() => navigate('/resume')} className="btn bg-blue-600 text-white hover:bg-blue-700 w-full shadow-sm">Upload Job Description</button>
         </div>
       </div>
     );

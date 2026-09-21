@@ -26,6 +26,7 @@ Write-Host "Backend: http://localhost:8000" -ForegroundColor Yellow
 Write-Host "API docs: http://localhost:8000/docs" -ForegroundColor Gray
 Write-Host ""
 
-python -m uvicorn backend.app.main:app --port 8000
+Set-Location "$ProjectRoot\backend"
+python -m uvicorn app.main:app --port 8000
 
 
