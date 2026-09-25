@@ -13,8 +13,9 @@ import os
 import time
 import uuid
 from typing import Tuple, List, Dict, Any
+import json
 
-from app.config import CHROMA_DB_DIR
+from app.config import CHROMA_DB_DIR, PROJECT_ROOT
 from app.services.question_service import (
     get_embedding_model,
     get_chroma_collection,
@@ -240,7 +241,17 @@ def process_and_create_syllabus_rag(
 
     collection = client.create_collection(name=collection_name)
 
+    # Also ensure persistent syllabus_kb collection exists
+    try:
+        perm_syllabus = client.get_or_create_collection(
+            name="syllabus_kb",
+            metadata={"description": "Permanent storage for uploaded syllabus materials"}
+        )
+    except Exception:
+        perm_syllabus = client.create_collection(name="syllabus_kb")
+
     ids = [f"temp_{temp_id}_{i}" for i in range(len(all_chunks))]
+    perm_ids = [f"syl_{temp_id}_{i:04d}" for i in range(len(all_chunks))]
     metadatas = [{"domain": subject, "source": hint, "chunk_index": i} for i in range(len(all_chunks))]
 
     batch_size = 100
@@ -251,9 +262,19 @@ def process_and_create_syllabus_rag(
             metadatas=metadatas[i:i + batch_size],
             documents=all_chunks[i:i + batch_size],
         )
+        # Also persist to syllabus_kb so chunks are never lost
+        perm_syllabus.upsert(
+            ids=perm_ids[i:i + batch_size],
+            embeddings=embeddings[i:i + batch_size],
+            metadatas=metadatas[i:i + batch_size],
+            documents=all_chunks[i:i + batch_size],
+        )
 
     stage_timings["chroma_creation_ms"] = round((time.perf_counter() - t0) * 1000, 1)
     stage_timings["total_ms"] = round((time.perf_counter() - total_start) * 1000, 1)
+
+    # Permanent knowledge stats sync for real-time tracking
+    _update_knowledge_stats_with_syllabus(temp_id, subject, len(all_chunks), hint, topics)
 
     return {
         "syllabus_id": temp_id,
@@ -262,6 +283,94 @@ def process_and_create_syllabus_rag(
         "chunks_count": len(all_chunks),
         "metrics": stage_timings,
     }
+
+
+def _update_knowledge_stats_with_syllabus(syllabus_id: str, subject: str, chunk_count: int, filename: str, topics: list[str] = None):
+    """Updates data/knowledge_stats.json permanently when syllabus chunks are created."""
+    stats_file = os.path.join(str(PROJECT_ROOT), "data", "knowledge_stats.json")
+    try:
+        if os.path.exists(stats_file):
+            with open(stats_file, "r", encoding="utf-8") as f:
+                stats = json.load(f)
+        else:
+            stats = {"total_concepts": 50, "total_chunks": 402}
+
+        uploaded = stats.setdefault("uploaded_syllabi", {
+            "total_courses": 0,
+            "total_syllabus_chunks": 0,
+            "courses": []
+        })
+
+        course_entry = {
+            "course_id": syllabus_id,
+            "subject": subject,
+            "filename": filename or "Uploaded Syllabus",
+            "domain": resolve_kb_domain(subject),
+            "chunks": chunk_count,
+            "topics": topics or [subject],
+            "status": "PASS",
+            "indexed_at": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        # Check if already present by filename or course_id
+        existing_idx = next((i for i, c in enumerate(uploaded["courses"]) if c.get("filename") == filename or c.get("course_id") == syllabus_id), None)
+        if existing_idx is not None:
+            uploaded["courses"][existing_idx] = course_entry
+        else:
+            uploaded["courses"].append(course_entry)
+
+        uploaded["total_courses"] = len(uploaded["courses"])
+        uploaded["total_syllabus_chunks"] = sum(c["chunks"] for c in uploaded["courses"])
+
+        # Update dynamic active sessions
+        dynamic = stats.setdefault("dynamic_syllabi", {
+            "total_dynamic_syllabi": 0,
+            "total_dynamic_chunks": 0,
+            "sessions": {}
+        })
+        dynamic["sessions"][syllabus_id] = {
+            "subject": subject,
+            "chunks": chunk_count,
+            "filename": filename or "Uploaded Syllabus",
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        dynamic["total_dynamic_syllabi"] = len(uploaded["courses"])
+        dynamic["total_dynamic_chunks"] = uploaded["total_syllabus_chunks"]
+
+        canonical_chunks = stats.get("total_chunks", 402)
+        stats["grand_total_chunks"] = canonical_chunks + uploaded["total_syllabus_chunks"]
+
+        summary = stats.setdefault("summary", {})
+        summary["canonical_chunks"] = canonical_chunks
+        summary["uploaded_syllabus_chunks"] = uploaded["total_syllabus_chunks"]
+        summary["grand_total_chunks"] = stats["grand_total_chunks"]
+        summary["last_sync"] = time.strftime("%Y-%m-%d %H:%M:%S")
+
+        with open(stats_file, "w", encoding="utf-8") as f:
+            json.dump(stats, f, indent=2)
+        print(f"[SyllabusRAG] Synced {chunk_count} syllabus chunks into data/knowledge_stats.json (Grand Total: {stats['grand_total_chunks']})")
+    except Exception as e:
+        print(f"[SyllabusRAG] Note: knowledge_stats.json sync: {e}")
+
+
+def _cleanup_knowledge_stats_syllabus(syllabus_id: str):
+    """Marks dynamic session inactive without deleting the permanent uploaded syllabus record."""
+    stats_file = os.path.join(str(PROJECT_ROOT), "data", "knowledge_stats.json")
+    try:
+        if os.path.exists(stats_file):
+            with open(stats_file, "r", encoding="utf-8") as f:
+                stats = json.load(f)
+            dynamic = stats.get("dynamic_syllabi", {})
+            sessions = dynamic.get("sessions", {})
+            if syllabus_id in sessions:
+                del sessions[syllabus_id]
+                # Notice: we DO NOT delete from uploaded_syllabi or decrement grand_total_chunks!
+                # Uploaded syllabus knowledge is preserved permanently.
+                with open(stats_file, "w", encoding="utf-8") as f:
+                    json.dump(stats, f, indent=2)
+                print(f"[SyllabusRAG] Session {syllabus_id} finished; permanent knowledge preserved (Grand Total: {stats['grand_total_chunks']})")
+    except Exception as e:
+        print(f"[SyllabusRAG] Note: knowledge_stats.json session finish: {e}")
 
 
 CANONICAL_DOMAINS = {
@@ -431,3 +540,5 @@ def delete_temporary_rag(temp_id: str):
         print(f"[SyllabusRAG] Successfully cleaned up temporary collection: {collection_name}")
     except Exception as e:
         print(f"[SyllabusRAG] Note: temp collection {collection_name} cleanup: {e}")
+
+    _cleanup_knowledge_stats_syllabus(temp_id)

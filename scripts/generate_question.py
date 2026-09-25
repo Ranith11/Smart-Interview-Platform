@@ -524,6 +524,29 @@ def call_groq(system_prompt, user_prompt, groq_client, model_name, max_retries=3
             wait = 5 * (2 ** (attempt - 1))
             time.sleep(wait)
 
+    # Automatic fallback to local Ollama if Cloud Groq is offline or unavailable
+    try:
+        import requests
+        ollama_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+        ollama_model = os.getenv("OLLAMA_MODEL", "llama3.1")
+        print(f"  [Fallback] Cloud Groq unavailable. Querying local Ollama ({ollama_model})...")
+        res = requests.post(
+            f"{ollama_url}/api/chat",
+            json={
+                "model": ollama_model,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                "stream": False
+            },
+            timeout=60
+        )
+        if res.status_code == 200:
+            return res.json()["message"]["content"].strip()
+    except Exception as e_ollama:
+        print(f"  [Fallback Error] Local Ollama failed: {e_ollama}")
+
     return None
 
 

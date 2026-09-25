@@ -45,4 +45,7 @@ frontend/dist/
 # Week 7 — Uploads
 uploads/
 dummy.pdf
-*.pdf
+*.pdf
+!SmartInterview_Deliverables/**
+!SmartInterview_Progressive_Updates/**
+

@@ -27,6 +27,11 @@ Write-Host "API docs: http://localhost:8000/docs" -ForegroundColor Gray
 Write-Host ""
 
 Set-Location "$ProjectRoot\backend"
-python -m uvicorn app.main:app --port 8000
+$PythonExe = Join-Path $ProjectRoot "venv\Scripts\python.exe"
+if (Test-Path $PythonExe) {
+    & $PythonExe -m uvicorn app.main:app --port 8000
+} else {
+    python -m uvicorn app.main:app --port 8000
+}
 
 

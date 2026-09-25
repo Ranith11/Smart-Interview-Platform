@@ -39,3 +39,33 @@ app.include_router(users.router)
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "service": "SmartInterview API"}
+
+
+@app.get("/api/knowledge-stats")
+def get_knowledge_stats():
+    import json
+    import os
+    from app.config import PROJECT_ROOT, CHROMA_DB_DIR
+    import chromadb
+
+    stats_path = os.path.join(str(PROJECT_ROOT), "data", "knowledge_stats.json")
+    stats = {}
+    if os.path.exists(stats_path):
+        try:
+            with open(stats_path, "r", encoding="utf-8") as f:
+                stats = json.load(f)
+        except Exception:
+            pass
+
+    # Inspect live collections in ChromaDB
+    try:
+        client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+        collections = client.list_collections()
+        col_stats = {}
+        for c in collections:
+            col_stats[c.name] = c.count()
+        stats["chroma_live_collections"] = col_stats
+    except Exception as e:
+        stats["chroma_live_error"] = str(e)
+
+    return stats

@@ -64,26 +64,16 @@ def _init_rag():
 
 
 def _init_groq():
-    """Initialize Groq client (once, thread-safe). Safe — no sys.exit."""
+    """Initialize Unified LLM client (Groq with local Ollama fallback, thread-safe)."""
     global _groq_client, _groq_model
     if _groq_client is not None:
         return
     with _lock:
         if _groq_client is not None:
             return
-        from groq import Groq
-        _groq_client = Groq()
-        # Safe model verification — wraps sys.exit risk
-        try:
-            _groq_model = _gen_mod.get_groq_model(_groq_client)
-        except SystemExit:
-            # get_groq_model calls sys.exit(1) on failure — catch it
-            # Fall back to configured model
-            _groq_model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
-            print(f"[QuestionService] WARNING: Model verification failed, using fallback: {_groq_model}")
-        except Exception as e:
-            _groq_model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
-            print(f"[QuestionService] WARNING: Model verification error: {e}, using fallback: {_groq_model}")
+        from app.services.llm_client import get_universal_llm_client, get_universal_model_name
+        _groq_client = get_universal_llm_client()
+        _groq_model = get_universal_model_name()
 
 
 def _get_prompts():

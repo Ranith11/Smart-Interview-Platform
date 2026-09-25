@@ -300,5 +300,238 @@
     }
   },
   "total_concepts": 50,
-  "total_chunks": 402
+  "total_chunks": 402,
+  "dynamic_syllabi": {
+    "total_dynamic_syllabi": 9,
+    "total_dynamic_chunks": 1197,
+    "sessions": {
+      "distributed-systems": {
+        "subject": "CS450: Distributed Systems & Cloud Architectures",
+        "chunks": 4,
+        "filename": "14_05da0a7d_cs450_distributed_systems_syllabus.pdf",
+        "timestamp": "2026-09-26 03:09:51"
+      },
+      "expressjs-backend": {
+        "subject": "Express.js & Node.js Backend Framework",
+        "chunks": 171,
+        "filename": "18_73e29c1a_Expressjs.pdf",
+        "timestamp": "2026-09-26 03:09:56"
+      },
+      "cn-unit1": {
+        "subject": "Computer Networks Unit 1: Foundations & Reference Models",
+        "chunks": 111,
+        "filename": "2_ce74a1ad_CN_UNIT_1_NOTES.docx",
+        "timestamp": "2026-09-26 03:10:00"
+      },
+      "cn-unit2": {
+        "subject": "Computer Networks Unit 2: Data Link Layer & Protocols",
+        "chunks": 59,
+        "filename": "7_cc2ea0de_CN UNIT-2 COMPLETE NOTES.pdf",
+        "timestamp": "2026-09-26 03:10:01"
+      },
+      "software-engineering-unit1": {
+        "subject": "Software Engineering Unit 1: Process Models & Agile",
+        "chunks": 105,
+        "filename": "34_790c75c4_Unit-1 Software Engineering.pdf",
+        "timestamp": "2026-09-26 03:10:04"
+      },
+      "nodejs-computing-unit3": {
+        "subject": "Full-Stack Computing Unit 3: Node.js Architecture",
+        "chunks": 224,
+        "filename": "34_9c621140_UNIT III.pdf",
+        "timestamp": "2026-09-26 03:10:11"
+      },
+      "mongodb-nosql-unit5": {
+        "subject": "Database Systems Unit 5: MongoDB & NoSQL",
+        "chunks": 160,
+        "filename": "34_9fa93cf6_Unit 1 (1).pdf",
+        "timestamp": "2026-09-26 03:10:16"
+      },
+      "smartinterview-architecture": {
+        "subject": "SmartInterview System Architecture & Defense Dossier",
+        "chunks": 209,
+        "filename": "34_a49cb86e_SmartInterview_Master_Encyclopedia_and_Viva_Defense.pdf",
+        "timestamp": "2026-09-26 03:10:22"
+      },
+      "smartinterview-masterclass": {
+        "subject": "SmartInterview Technical Masterclass Guide",
+        "chunks": 154,
+        "filename": "34_f220eb4a_SmartInterview_Masterclass.docx",
+        "timestamp": "2026-09-26 03:10:27"
+      }
+    }
+  },
+  "grand_total_chunks": 1599,
+  "uploaded_syllabi": {
+    "total_courses": 9,
+    "total_syllabus_chunks": 1197,
+    "courses": [
+      {
+        "course_id": "distributed-systems",
+        "subject": "CS450: Distributed Systems & Cloud Architectures",
+        "filename": "14_05da0a7d_cs450_distributed_systems_syllabus.pdf",
+        "domain": "system-design",
+        "file_size_bytes": 3795,
+        "chunks": 4,
+        "topics": [
+          "Distributed Systems Foundations",
+          "Cloud Computing Models",
+          "Consistency & Replication",
+          "Fault Tolerance & Consensus"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:09:51"
+      },
+      {
+        "course_id": "expressjs-backend",
+        "subject": "Express.js & Node.js Backend Framework",
+        "filename": "18_73e29c1a_Expressjs.pdf",
+        "domain": "system-design",
+        "file_size_bytes": 719648,
+        "chunks": 171,
+        "topics": [
+          "Express Routing & Request Handling",
+          "Middleware Architecture",
+          "RESTful API Design",
+          "Authentication & Security",
+          "Database ORM Integration"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:09:56"
+      },
+      {
+        "course_id": "cn-unit1",
+        "subject": "Computer Networks Unit 1: Foundations & Reference Models",
+        "filename": "2_ce74a1ad_CN_UNIT_1_NOTES.docx",
+        "domain": "cn",
+        "file_size_bytes": 6475782,
+        "chunks": 111,
+        "topics": [
+          "Data Communications Basics",
+          "Network Topologies",
+          "OSI 7-Layer Reference Model",
+          "TCP/IP Protocol Suite",
+          "Transmission Media & Physical Layer"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:00"
+      },
+      {
+        "course_id": "cn-unit2",
+        "subject": "Computer Networks Unit 2: Data Link Layer & Protocols",
+        "filename": "7_cc2ea0de_CN UNIT-2 COMPLETE NOTES.pdf",
+        "domain": "cn",
+        "file_size_bytes": 1733242,
+        "chunks": 59,
+        "topics": [
+          "Data Link Layer Design Issues",
+          "Error Detection & Correction Codes",
+          "Flow Control & Stop-and-Wait",
+          "Sliding Window Protocols (Go-Back-N, Selective Repeat)",
+          "Medium Access Control (MAC) Sublayer"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:01"
+      },
+      {
+        "course_id": "software-engineering-unit1",
+        "subject": "Software Engineering Unit 1: Process Models & Agile",
+        "filename": "34_790c75c4_Unit-1 Software Engineering.pdf",
+        "domain": "system-design",
+        "file_size_bytes": 2417575,
+        "chunks": 105,
+        "topics": [
+          "Software Process Lifecycle",
+          "Traditional Models (Waterfall, Spiral, V-Model)",
+          "Agile Methodologies & Scrum",
+          "Requirements Engineering & Analysis",
+          "Software Quality Metrics"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:04"
+      },
+      {
+        "course_id": "nodejs-computing-unit3",
+        "subject": "Full-Stack Computing Unit 3: Node.js Architecture",
+        "filename": "34_9c621140_UNIT III.pdf",
+        "domain": "system-design",
+        "file_size_bytes": 1861605,
+        "chunks": 224,
+        "topics": [
+          "Node.js Architecture & V8 Engine",
+          "Single-Threaded Event Loop",
+          "Asynchronous Non-Blocking I/O",
+          "File System & Streams API",
+          "HTTP Server & NPM Ecosystem"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:11"
+      },
+      {
+        "course_id": "mongodb-nosql-unit5",
+        "subject": "Database Systems Unit 5: MongoDB & NoSQL",
+        "filename": "34_9fa93cf6_Unit 1 (1).pdf",
+        "domain": "dbms",
+        "file_size_bytes": 4994711,
+        "chunks": 160,
+        "topics": [
+          "NoSQL Data Paradigms",
+          "MongoDB Document Model & BSON",
+          "CRUD Operations & Query Operators",
+          "Aggregation Pipeline",
+          "Replication & Sharding Architecture"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:16"
+      },
+      {
+        "course_id": "smartinterview-architecture",
+        "subject": "SmartInterview System Architecture & Defense Dossier",
+        "filename": "34_a49cb86e_SmartInterview_Master_Encyclopedia_and_Viva_Defense.pdf",
+        "domain": "system-design",
+        "file_size_bytes": 2452790,
+        "chunks": 209,
+        "topics": [
+          "Deterministic RAG Pipeline",
+          "Bloom's Taxonomy State Machine",
+          "Multi-Factor Scoring Equation",
+          "Dual-Engine Cloud/Local LLM Cascade",
+          "System Architecture & UML"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:22"
+      },
+      {
+        "course_id": "smartinterview-masterclass",
+        "subject": "SmartInterview Technical Masterclass Guide",
+        "filename": "34_f220eb4a_SmartInterview_Masterclass.docx",
+        "domain": "system-design",
+        "file_size_bytes": 73607,
+        "chunks": 154,
+        "topics": [
+          "End-to-End Interview Execution",
+          "Cognitive Prompt Engineering",
+          "Vector Database Benchmarking",
+          "Evaluation Metrics & Rubrics",
+          "Deployment & Hardening"
+        ],
+        "status": "PASS",
+        "indexed_at": "2026-09-26 03:10:27"
+      }
+    ]
+  },
+  "canonical_knowledge_base": {
+    "concepts": 50,
+    "chunks": 402,
+    "status": "PASS (Audited Baseline)"
+  },
+  "summary": {
+    "canonical_chunks": 402,
+    "uploaded_syllabus_chunks": 1197,
+    "grand_total_chunks": 1599,
+    "canonical_concepts": 50,
+    "syllabus_course_modules": 44,
+    "grand_total_knowledge_topics": 94,
+    "last_sync": "2026-09-26 03:10:27"
+  }
 }
