@@ -42,10 +42,15 @@ backend/get_samples.py
 frontend/node_modules/
 frontend/dist/
 
+# Agent & Internal IDE rules
+.agents/
+AGENTS.md
+
 # Week 7 — Uploads
 uploads/
 dummy.pdf
 *.pdf
+*.pptx
 !SmartInterview_Deliverables/**
 !SmartInterview_Progressive_Updates/**
 

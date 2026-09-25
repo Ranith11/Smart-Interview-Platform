@@ -286,14 +286,6 @@ SmartInterview-main/
 
 ---
 
-## 👥 Contributors & Academic Defense
-
-* **Lead Developer:** Abhiram Konduri ([@konduriabhiram29-ai](https://github.com/konduriabhiram29-ai))
-* **Project Review & Readiness:** Verified for Project Readiness Review (PRR) and Final Academic Defense.
-* **Synchronized Documentation:** All academic deliverables (SRS, Research Paper, Master Encyclopedia, and Presentation Slides) are maintained under `SmartInterview_Progressive_Updates/`.
-
----
-
 <div align="center">
   <sub>Built with ❤️ using FastAPI, React, ChromaDB, Groq, and Ollama.</sub>
 </div>
